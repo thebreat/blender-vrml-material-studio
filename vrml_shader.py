@@ -10,10 +10,9 @@ from typing import Any, Iterable
 import bpy
 
 
-GROUP_NAME = "VRML97 Live Preview Shader v2"
+GROUP_NAME = "VRML97 Live Preview Shader v3"
 GROUP_VERSION_KEY = "vrml2_preview_group_version"
-GROUP_VERSION = 2
-REFERENCE_AMBIENT_INTENSITY = 0.25
+GROUP_VERSION = 3
 
 SOCKET_DIFFUSE = "Diffuse Color"
 SOCKET_SPECULAR = "Specular Color"
@@ -345,24 +344,11 @@ def _build_group(tree: bpy.types.NodeTree) -> None:
     direct_sum = _add_vectors(tree, light_terms[0], light_terms[1], "Lights 1 + 2", (800, 300))
     direct_sum = _add_vectors(tree, direct_sum, light_terms[2], "All Direct Lights", (1020, 250))
 
-    ambient_material = _scale_vector(
-        tree,
-        _output(group_input, SOCKET_DIFFUSE),
-        _output(group_input, SOCKET_AMBIENT_INTENSITY),
-        "VRML97 Material Ambient",
-        (520, -700),
-    )
-    ambient_scale = _vector_math(tree, "SCALE", "VRML97 Reference Ambient", (760, -700))
-    _link(tree, ambient_material, _input(ambient_scale, "Vector", 0))
-    _input(ambient_scale, "Scale", 3).default_value = REFERENCE_AMBIENT_INTENSITY
-    ambient = _output(ambient_scale, "Vector")
-
-    with_ambient = _add_vectors(tree, direct_sum, ambient, "Direct + Ambient", (1220, 150))
     final_color = _add_vectors(
         tree,
-        with_ambient,
+        direct_sum,
         _output(group_input, SOCKET_EMISSIVE),
-        "VRML97 Lit + Emissive",
+        "VRML97 Direct + Emissive",
         (1400, 100),
     )
 

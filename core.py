@@ -73,11 +73,8 @@ def linear_channel_to_srgb(value: float) -> float:
     return 1.055 * (value ** (1.0 / 2.4)) - 0.055
 
 
-def preview_color(value: Iterable[float], color_space: str) -> tuple[float, float, float]:
-    color = clamp_color(value)
-    if color_space == "DIRECT":
-        return color
-    return tuple(srgb_channel_to_linear(component) for component in color)
+def preview_color(value: Iterable[float]) -> tuple[float, float, float]:
+    return tuple(srgb_channel_to_linear(component) for component in clamp_color(value))
 
 
 def stored_color_from_linear(value: Iterable[float]) -> tuple[float, float, float]:
@@ -354,12 +351,12 @@ def update_preview(material: bpy.types.Material) -> None:
         return
 
     nodes = ensure_preview_graph(material)
-    # VRML RGB fields are lighting intensities, not Blender colour-picker
-    # values. Feed them directly into the VRML equation; Blender's display
-    # transform is applied only after the complete lighting result is computed.
-    diffuse_color = preview_color(properties.diffuse_color, "DIRECT")
-    specular_color = preview_color(properties.specular_color, "DIRECT")
-    emissive_color = preview_color(properties.emissive_color, "DIRECT")
+    # X_ITE writes VRML RGB values as display-channel values. Blender shader
+    # inputs are scene-linear and its display transform encodes them again, so
+    # decode the VRML values before evaluating the same lighting equation.
+    diffuse_color = preview_color(properties.diffuse_color)
+    specular_color = preview_color(properties.specular_color)
+    emissive_color = preview_color(properties.emissive_color)
     transparency = clamp01(properties.transparency)
 
     vrml_shader.configure_preview_node(

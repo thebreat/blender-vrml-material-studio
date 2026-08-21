@@ -12,7 +12,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
   - `shininess`
   - `specularColor`
   - `transparency`
-- Calculates the VRML97 diffuse, colored specular, ambient, emissive, and transparency terms directly instead of translating them into Blender BSDF properties.
+- Calculates the VRML97 diffuse, colored specular, emissive, and transparency terms directly instead of translating them into Blender BSDF properties.
 - Includes Studio, Overhead, and Showroom VRML reference-lighting rigs that ignore Blender lights and HDRIs.
 - Provides one-click VRML97 default resets for `emissiveColor` and `specularColor`.
 - Preserves the material's original node-use state, Surface shader connection, viewport color, and transparency render mode, then restores them when Live Preview is disabled or VRML2 data is removed.
@@ -72,11 +72,11 @@ ambient color = diffuseColor × ambientIntensity
 
 The `emissiveColor` and `specularColor` controls each have a **Set Default** button that restores the VRML97 value `0 0 0`.
 
-`shininess` changes only the shape of a nonblack `specularColor`. With the default black specular color there is no highlight to reshape. X_ITE follows the VRML97 equation exactly: `shininess 0` with a nonblack specular color spreads that contribution across the lit surface. The editor shows the corresponding VRML highlight exponent (`shininess × 128`) because the upper end of the slider is intentionally subtle. Geometry matters too: a curved surface supplies many normals that can catch a highlight, while a flat face may miss a narrow highlight entirely at its current light and camera angle.
+`shininess` changes only the shape of a nonblack `specularColor`. With the default black specular color there is no highlight to reshape. X_ITE follows the VRML97 equation exactly: `shininess 0` with a nonblack specular color spreads that contribution across the lit surface. Geometry matters too: a curved surface supplies many normals that can catch a highlight, while a flat face may miss a narrow highlight entirely at its current light and camera angle.
 
 The preview includes a **VRML Preview Lighting** selector with Studio, Overhead, and Showroom reference rigs. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
 
-The reference rigs include a fixed ambient-light contribution so `ambientIntensity` remains visible and comparable without adding a preview-only ambient control to the material editor.
+The CTR reference lights leave their VRML `ambientIntensity` at its default `0`, so the material's `ambientIntensity` field is preserved for export but does not change this particular live preview. This matches the CTR Mall viewer rather than inventing ambient light that is absent from its scene.
 
 VRML transparency uses the opposite direction from Blender alpha:
 

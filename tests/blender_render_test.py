@@ -171,11 +171,14 @@ def main() -> None:
         settings.ambient_intensity = 1.0
         extension.core.sync_material(material)
         ambient_full = render_metrics(scene, Path("/tmp/vrml97-ambient-100.png"))
-        assert ambient_full["mean"] > ambient_zero["mean"], (ambient_zero, ambient_full)
-        assert ambient_full["peak"] > ambient_zero["peak"], (ambient_zero, ambient_full)
-        assert not math.isclose(
-            ambient_zero["mean"], ambient_full["mean"], rel_tol=0.05
-        ), (ambient_zero, ambient_full)
+        assert math.isclose(ambient_zero["mean"], ambient_full["mean"], abs_tol=1e-6), (
+            ambient_zero,
+            ambient_full,
+        )
+        assert math.isclose(ambient_zero["peak"], ambient_full["peak"], abs_tol=1e-6), (
+            ambient_zero,
+            ambient_full,
+        )
 
         extension.core.apply_values(
             material,

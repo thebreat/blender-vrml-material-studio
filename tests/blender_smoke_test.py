@@ -83,10 +83,10 @@ def main() -> None:
         assert settings.preview_lighting == "STUDIO"
         assert not hasattr(settings, "preview_ambient_light")
         assert "Ambient Light" not in shader.inputs
-        assert math.isclose(
-            shader.node_tree.nodes["VRML97 Reference Ambient"].inputs["Scale"].default_value,
-            extension.vrml_shader.REFERENCE_AMBIENT_INTENSITY,
-            abs_tol=1e-6,
+        assert "VRML97 Reference Ambient" not in shader.node_tree.nodes
+        assert all(
+            math.isclose(actual, extension.core.srgb_channel_to_linear(0.8), abs_tol=1e-6)
+            for actual in shader.inputs[extension.vrml_shader.SOCKET_DIFFUSE].default_value[:3]
         )
         assert math.isclose(
             shader.inputs[extension.vrml_shader.SOCKET_SHININESS].default_value,
@@ -131,7 +131,10 @@ def main() -> None:
             math.isclose(component, expected, abs_tol=1e-6)
             for component, expected in zip(
                 shader.inputs[extension.vrml_shader.SOCKET_SPECULAR].default_value[:3],
-                (0.8, 0.7, 0.6),
+                tuple(
+                    extension.core.srgb_channel_to_linear(value)
+                    for value in (0.8, 0.7, 0.6)
+                ),
                 strict=True,
             )
         )

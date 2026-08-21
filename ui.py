@@ -90,10 +90,6 @@ def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context)
     )
     fields.prop(properties, "ambient_intensity")
     fields.prop(properties, "shininess")
-    fields.label(
-        text=f"VRML Highlight Exponent: {round(float(properties.shininess) * 128)}",
-        icon="LIGHT",
-    )
     fields.prop(properties, "transparency")
 
     tools = layout.row(align=True)
