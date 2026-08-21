@@ -9,16 +9,32 @@ from . import core
 from .constants import MATERIAL_POINTER_NAME
 
 
-def _draw_color(layout, properties, property_name: str, label: str) -> None:
+def _draw_color(
+    layout,
+    properties,
+    property_name: str,
+    label: str,
+    include_property_name: str | None = None,
+) -> None:
     box = layout.box()
     row = box.row(align=True)
     row.label(text=label)
-    row.prop(properties, property_name, text="")
+    if include_property_name is not None:
+        row.prop(properties, include_property_name, text="Include in VRML", toggle=True)
+    else:
+        row.prop(properties, property_name, text="")
 
-    values = box.row(align=True)
+    values = box.column(align=True)
+    if include_property_name is not None:
+        values.active = bool(getattr(properties, include_property_name))
+        values.prop(properties, property_name, text="")
+    values = values.row(align=True)
     values.prop(properties, property_name, index=0, text="R")
     values.prop(properties, property_name, index=1, text="G")
     values.prop(properties, property_name, index=2, text="B")
+
+    if include_property_name is not None and not getattr(properties, include_property_name):
+        box.label(text="Omitted; VRML97 uses the default 0 0 0", icon="INFO")
 
 
 def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context) -> None:
@@ -71,9 +87,32 @@ def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context)
     fields.label(text="VRML2 Material Fields", icon="NODE_MATERIAL")
     fields.prop(properties, "ambient_intensity")
     _draw_color(fields, properties, "diffuse_color", "Diffuse Color")
-    _draw_color(fields, properties, "emissive_color", "Emissive Color")
+    _draw_color(
+        fields,
+        properties,
+        "emissive_color",
+        "Emissive Color",
+        "include_emissive_color",
+    )
     fields.prop(properties, "shininess")
-    _draw_color(fields, properties, "specular_color", "Specular Color")
+    _draw_color(
+        fields,
+        properties,
+        "specular_color",
+        "Specular Color",
+        "include_specular_color",
+    )
+    if (
+        properties.include_specular_color
+        and properties.shininess <= 1e-6
+        and max(properties.specular_color) > 1e-6
+    ):
+        warning = fields.row()
+        warning.alert = True
+        warning.label(
+            text="X_ITE: shininess 0 spreads specular color across the lit surface",
+            icon="ERROR",
+        )
     fields.prop(properties, "transparency")
 
     tools = layout.row(align=True)

@@ -5,7 +5,7 @@ import bpy
 from bpy.props import BoolProperty, EnumProperty, FloatProperty, FloatVectorProperty, StringProperty
 
 from . import core
-from .constants import VRML_DEFAULTS
+from .constants import VRML_DEFAULTS, VRML_FIELD_INCLUSION_DEFAULTS
 from .vrml_shader import LIGHTING_ITEMS
 
 
@@ -64,6 +64,12 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         precision=4,
         update=_update_material,
     )
+    include_emissive_color: BoolProperty(
+        name="Include Emissive Color",
+        description="Write emissiveColor to VRML; when omitted VRML uses 0 0 0",
+        default=VRML_FIELD_INCLUSION_DEFAULTS["include_emissive_color"],
+        update=_update_material,
+    )
     emissive_color: FloatVectorProperty(
         name="Emissive Color",
         description="VRML2 emissiveColor RGB values",
@@ -82,6 +88,12 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         max=1.0,
         default=VRML_DEFAULTS["shininess"],
         precision=4,
+        update=_update_material,
+    )
+    include_specular_color: BoolProperty(
+        name="Include Specular Color",
+        description="Write specularColor to VRML; when omitted VRML uses 0 0 0",
+        default=VRML_FIELD_INCLUSION_DEFAULTS["include_specular_color"],
         update=_update_material,
     )
     specular_color: FloatVectorProperty(

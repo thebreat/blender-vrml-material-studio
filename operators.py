@@ -7,7 +7,7 @@ from bpy.props import EnumProperty
 from . import core
 from .constants import MATERIAL_POINTER_NAME, VRML_DEFAULTS
 from .presets import PRESETS, PRESET_ITEMS
-from .vrml_text import format_material_block, parse_material_block
+from .vrml_text import format_material_block, has_material_block, parse_material_block
 
 
 def _editable_material(material: bpy.types.Material | None) -> bool:
@@ -110,7 +110,9 @@ class VRML2_OT_paste_material_block(bpy.types.Operator):
 
     def execute(self, context):
         material = core.active_material(context)
-        parsed = parse_material_block(context.window_manager.clipboard)
+        clipboard = context.window_manager.clipboard
+        parsed = parse_material_block(clipboard)
+        complete_block = has_material_block(clipboard)
         recognized_fields = set(parsed).intersection(
             {
                 "ambient_intensity",
@@ -122,16 +124,32 @@ class VRML2_OT_paste_material_block(bpy.types.Operator):
                 "def_name",
             }
         )
-        if not recognized_fields:
+        if not recognized_fields and not complete_block:
             self.report({"ERROR"}, "The clipboard does not contain recognizable VRML2 Material values")
             return {"CANCELLED"}
+
+        if complete_block:
+            values = dict(VRML_DEFAULTS)
+            values.update(parsed)
+            values["include_emissive_color"] = "emissive_color" in parsed
+            values["include_specular_color"] = "specular_color" in parsed
+        else:
+            values = dict(parsed)
+            if "emissive_color" in parsed:
+                values["include_emissive_color"] = True
+            if "specular_color" in parsed:
+                values["include_specular_color"] = True
 
         properties = getattr(material, MATERIAL_POINTER_NAME)
         if not properties.initialized:
             core.initialize_material(material, dict(VRML_DEFAULTS), def_name=material.name, enable_export=True)
 
-        was_clamped = core.apply_values(material, parsed)
-        message = f"Pasted {len(recognized_fields)} VRML2 field(s)"
+        was_clamped = core.apply_values(material, values)
+        message = (
+            f"Pasted Material block with {len(recognized_fields)} explicit field(s)"
+            if complete_block
+            else f"Pasted {len(recognized_fields)} VRML2 field(s)"
+        )
         if was_clamped:
             message += "; out-of-range values were clamped to 0–1"
         self.report({"WARNING"} if was_clamped else {"INFO"}, message)

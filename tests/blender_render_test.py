@@ -120,6 +120,13 @@ def main() -> None:
         assert high["peak"] > 0.1, high
         assert not math.isclose(low["mean"], high["mean"], rel_tol=0.05), (low, high)
 
+        settings.shininess = 0.0
+        settings.include_specular_color = False
+        extension.core.sync_material(material)
+        omitted_specular = render_metrics(scene, Path("/tmp/vrml97-specular-omitted.png"))
+        assert omitted_specular["mean"] < low["mean"], (omitted_specular, low)
+        assert omitted_specular["peak"] < low["peak"], (omitted_specular, low)
+
         extension.core.apply_values(
             material,
             {
@@ -134,7 +141,10 @@ def main() -> None:
         graphite = render_metrics(scene, Path("/tmp/vrml97-graphite-reference.png"))
         assert graphite["mean"] > 0.01, graphite
         assert graphite["peak"] > graphite["mean"], graphite
-        print(f"VRML97 render test passed: low={low}, high={high}, graphite={graphite}")
+        print(
+            "VRML97 render test passed: "
+            f"low={low}, high={high}, omitted={omitted_specular}, graphite={graphite}"
+        )
     finally:
         extension.unregister()
         sys.modules.pop(PACKAGE_NAME, None)

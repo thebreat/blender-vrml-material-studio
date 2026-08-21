@@ -6,7 +6,7 @@ EXTENSION_NAME = "VRML2 Material Studio"
 EXTENSION_VERSION = (0, 2, 0)
 
 MATERIAL_POINTER_NAME = "vrml2_material"
-DATA_SCHEMA_VERSION = 1
+DATA_SCHEMA_VERSION = 2
 
 PREVIEW_NODE_TAG = "vrml2_preview_node"
 PREVIEW_ROLE_TAG = "vrml2_preview_role"
@@ -21,8 +21,10 @@ EXPORT_KEYS = {
     "def_name": "vrml2_defName",
     "ambient_intensity": "vrml2_ambientIntensity",
     "diffuse_color": "vrml2_diffuseColor",
+    "include_emissive_color": "vrml2_includeEmissiveColor",
     "emissive_color": "vrml2_emissiveColor",
     "shininess": "vrml2_shininess",
+    "include_specular_color": "vrml2_includeSpecularColor",
     "specular_color": "vrml2_specularColor",
     "transparency": "vrml2_transparency",
 }
@@ -47,4 +49,9 @@ VRML_DEFAULTS = {
     "shininess": 0.2,
     "specular_color": (0.0, 0.0, 0.0),
     "transparency": 0.0,
+}
+
+VRML_FIELD_INCLUSION_DEFAULTS = {
+    "include_emissive_color": False,
+    "include_specular_color": False,
 }

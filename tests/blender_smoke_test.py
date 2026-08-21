@@ -55,6 +55,7 @@ def main() -> None:
     extension = load_extension()
     active_extension = extension
     material = None
+    legacy_material = None
     extension.register()
 
     try:
@@ -75,7 +76,11 @@ def main() -> None:
         settings = getattr(material, extension.constants.MATERIAL_POINTER_NAME)
         assert settings.initialized
         assert settings.def_name == "Smoke_Material"
+        assert not settings.include_emissive_color
+        assert not settings.include_specular_color
         assert material[extension.constants.EXPORT_KEYS["initialized"]] is True
+        assert material[extension.constants.EXPORT_KEYS["include_emissive_color"]] is False
+        assert material[extension.constants.EXPORT_KEYS["include_specular_color"]] is False
         stored_diffuse = material[extension.constants.EXPORT_KEYS["diffuse_color"]]
         assert all(math.isclose(value, 0.8, abs_tol=1e-6) for value in stored_diffuse)
         shader = assert_preview_graph(extension, material)
@@ -115,6 +120,21 @@ def main() -> None:
             abs_tol=1e-6,
         )
 
+        extension.core.apply_values(
+            material,
+            {"shininess": 0.0, "specular_color": (0.8, 0.7, 0.6)},
+        )
+        assert settings.include_specular_color
+        settings.include_specular_color = False
+        extension.core.sync_material(material)
+        assert all(
+            math.isclose(component, 0.0, abs_tol=1e-6)
+            for component in shader.inputs[extension.vrml_shader.SOCKET_SPECULAR].default_value[:3]
+        )
+        copied = extension.vrml_text.format_material_block(extension.core.property_values(settings))
+        assert "specularColor" not in copied
+        assert "emissiveColor" not in copied
+
         settings.preview_lighting = "OVERHEAD"
         extension.core.sync_material(material)
         assert math.isclose(shader.inputs["Light 1 Intensity"].default_value, 1.15, abs_tol=1e-6)
@@ -129,6 +149,15 @@ def main() -> None:
         surface = output.inputs.get("Surface")
         assert surface is not None and surface.links
         assert surface.links[0].from_node.bl_idname == "ShaderNodeBsdfPrincipled"
+
+        legacy_material = bpy.data.materials.new("VRML2 Legacy Inclusion Test")
+        legacy_material[extension.constants.EXPORT_KEYS["initialized"]] = True
+        legacy_material[extension.constants.EXPORT_KEYS["emissive_color"]] = (0.0, 0.0, 0.0)
+        legacy_material[extension.constants.EXPORT_KEYS["specular_color"]] = (0.0, 0.0, 0.0)
+        extension.core.migrate_material(legacy_material)
+        legacy_settings = getattr(legacy_material, extension.constants.MATERIAL_POINTER_NAME)
+        assert legacy_settings.include_emissive_color
+        assert legacy_settings.include_specular_color
 
         # Simulate Blender loading updated Python modules while the earlier copy
         # is still registered. The replacement must evict the stale RNA classes.
@@ -150,6 +179,8 @@ def main() -> None:
     finally:
         if material is not None:
             bpy.data.materials.remove(material)
+        if legacy_material is not None:
+            bpy.data.materials.remove(legacy_material)
         active_extension.unregister()
         assert not bpy.app.timers.is_registered(active_extension._vrml2_deferred_sync)
         sys.modules.pop(PACKAGE_NAME, None)
