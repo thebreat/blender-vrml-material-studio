@@ -22,22 +22,12 @@ SOCKET_SHININESS = "Shininess"
 SOCKET_TRANSPARENCY = "Transparency"
 SOCKET_SHADER = "Shader"
 
-LIGHTING_ITEMS = (
-    (
-        "STUDIO",
-        "Item Viewer",
-        "Official 3DGrove item-viewer lighting used for CTR/X_ITE material checks",
-    ),
-    ("OVERHEAD", "Worldcheck Overhead", "Worldcheck top-down diagnostic lighting"),
-    ("SHOWROOM", "Worldcheck Showroom", "Worldcheck even catalog lighting"),
-)
-
 # The Item Viewer rig reproduces the four unattenuated PointLights in 3DGrove's
 # official defaultWorld3.x3d inspection scene. The lights are 200-ish scene
 # units from the origin, so their normalized origin-to-light vectors are a
-# stable far-field approximation across normal item-sized geometry. Unlike the
-# earlier Worldcheck rig, these lights also supply the ambientIntensity values
-# needed by the VRML97 material equation.
+# stable far-field approximation across normal item-sized geometry. These
+# lights also supply the ambientIntensity values needed by the VRML97 material
+# equation.
 #
 # VRML DirectionalLight.direction points along the emitted rays, while the
 # lighting equation uses L from the surface toward the light. VRML/X_ITE view
@@ -46,68 +36,32 @@ LIGHTING_ITEMS = (
 # vector is therefore (location.x, location.y, -location.z), normalized. The
 # shader keeps this camera-space reference rig stable while the user orbits the
 # Blender viewport.
-LIGHT_RIGS = {
-    "STUDIO": (
-        {
-            "vector": (0.615457, -0.492366, -0.615457),
-            "intensity": 0.6,
-            "ambient_intensity": 0.255,
-            "color": (0.1, 0.1, 0.2),
-        },
-        {
-            "vector": (0.615457, 0.492366, 0.615457),
-            "intensity": 0.6,
-            "ambient_intensity": 0.9,
-            "color": (1.0, 1.0, 1.0),
-        },
-        {
-            "vector": (-0.615457, 0.492366, -0.615457),
-            "intensity": 0.6,
-            "ambient_intensity": 0.9,
-            "color": (1.0, 1.0, 1.0),
-        },
-        {
-            "vector": (-0.615457, -0.492366, 0.615457),
-            "intensity": 0.6,
-            "ambient_intensity": 0.255,
-            "color": (0.1, 0.1, 0.2),
-        },
-    ),
-    "OVERHEAD": (
-        {
-            "vector": (0.1, 0.95, -0.2),
-            "intensity": 1.15,
-            "ambient_intensity": 0.0,
-            "color": (1.0, 1.0, 1.0),
-        },
-        {
-            "vector": (-0.5, -0.3, 0.6),
-            "intensity": 0.16,
-            "ambient_intensity": 0.0,
-            "color": (0.8, 0.85, 1.0),
-        },
-    ),
-    "SHOWROOM": (
-        {
-            "vector": (0.5, 0.4, -0.6),
-            "intensity": 0.75,
-            "ambient_intensity": 0.0,
-            "color": (1.0, 1.0, 1.0),
-        },
-        {
-            "vector": (-0.6, -0.35, 0.5),
-            "intensity": 0.55,
-            "ambient_intensity": 0.0,
-            "color": (0.92, 0.94, 1.0),
-        },
-        {
-            "vector": (0.0, -0.3, -0.9),
-            "intensity": 0.15,
-            "ambient_intensity": 0.0,
-            "color": (1.0, 1.0, 1.0),
-        },
-    ),
-}
+ITEM_VIEWER_LIGHTS = (
+    {
+        "vector": (0.615457, -0.492366, -0.615457),
+        "intensity": 0.6,
+        "ambient_intensity": 0.255,
+        "color": (0.1, 0.1, 0.2),
+    },
+    {
+        "vector": (0.615457, 0.492366, 0.615457),
+        "intensity": 0.6,
+        "ambient_intensity": 0.9,
+        "color": (1.0, 1.0, 1.0),
+    },
+    {
+        "vector": (-0.615457, 0.492366, -0.615457),
+        "intensity": 0.6,
+        "ambient_intensity": 0.9,
+        "color": (1.0, 1.0, 1.0),
+    },
+    {
+        "vector": (-0.615457, -0.492366, 0.615457),
+        "intensity": 0.6,
+        "ambient_intensity": 0.255,
+        "color": (0.1, 0.1, 0.2),
+    },
+)
 
 
 def _first_socket(sockets: Any, index: int = 0):
@@ -577,7 +531,6 @@ def configure_preview_node(
     ambient_intensity: float,
     shininess: float,
     transparency: float,
-    lighting: str,
 ) -> None:
     node.node_tree = ensure_shader_group()
     _set_color(node, SOCKET_DIFFUSE, diffuse_color)
@@ -587,13 +540,12 @@ def configure_preview_node(
     node.inputs[SOCKET_SHININESS].default_value = float(shininess)
     node.inputs[SOCKET_TRANSPARENCY].default_value = float(transparency)
 
-    rig = LIGHT_RIGS.get(lighting, LIGHT_RIGS["STUDIO"])
     for index in range(1, 5):
-        light = rig[index - 1] if index <= len(rig) else None
-        vector = light["vector"] if light else (0.0, 0.0, 1.0)
-        color = light["color"] if light else (1.0, 1.0, 1.0)
-        intensity = light["intensity"] if light else 0.0
-        ambient_intensity = light["ambient_intensity"] if light else 0.0
+        light = ITEM_VIEWER_LIGHTS[index - 1]
+        vector = light["vector"]
+        color = light["color"]
+        intensity = light["intensity"]
+        ambient_intensity = light["ambient_intensity"]
         node.inputs[f"Light {index} Vector"].default_value = vector
         node.inputs[f"Light {index} Color"].default_value = (*color, 1.0)
         node.inputs[f"Light {index} Intensity"].default_value = intensity

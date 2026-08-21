@@ -56,6 +56,8 @@ def main() -> None:
     active_extension = extension
     material = None
     legacy_material = None
+    test_object = None
+    test_mesh = None
     extension.register()
 
     try:
@@ -80,7 +82,7 @@ def main() -> None:
         stored_diffuse = material[extension.constants.EXPORT_KEYS["diffuse_color"]]
         assert all(math.isclose(value, 0.8, abs_tol=1e-6) for value in stored_diffuse)
         shader = assert_preview_graph(extension, material)
-        assert settings.preview_lighting == "STUDIO"
+        assert not hasattr(settings, "preview_lighting")
         assert all(
             math.isclose(actual, expected, abs_tol=1e-6)
             for actual, expected in zip(
@@ -166,11 +168,20 @@ def main() -> None:
         assert "specularColor 0 0 0" in copied
         assert "emissiveColor 0 0 0" in copied
 
-        settings.preview_lighting = "OVERHEAD"
-        extension.core.sync_material(material)
-        assert math.isclose(shader.inputs["Light 1 Intensity"].default_value, 1.15, abs_tol=1e-6)
-        assert math.isclose(shader.inputs["Light 3 Intensity"].default_value, 0.0, abs_tol=1e-6)
-        assert math.isclose(shader.inputs["Light 4 Intensity"].default_value, 0.0, abs_tol=1e-6)
+        test_mesh = bpy.data.meshes.new("VRML2 Default Button Test Mesh")
+        test_object = bpy.data.objects.new("VRML2 Default Button Test Object", test_mesh)
+        bpy.context.scene.collection.objects.link(test_object)
+        test_mesh.materials.append(material)
+        bpy.context.view_layer.objects.active = test_object
+        test_object.select_set(True)
+        settings.ambient_intensity = 0.91
+        result = bpy.ops.vrml2.set_field_default(field="ambient_intensity")
+        assert result == {"FINISHED"}
+        assert math.isclose(
+            settings.ambient_intensity,
+            extension.constants.VRML_DEFAULTS["ambient_intensity"],
+            abs_tol=1e-6,
+        )
 
         extension.core.remove_vrml2_data(material)
         assert not settings.initialized
@@ -210,6 +221,10 @@ def main() -> None:
         ]
         assert tagged_handlers == [reloaded_extension._vrml2_load_post]
     finally:
+        if test_object is not None:
+            bpy.data.objects.remove(test_object, do_unlink=True)
+        if test_mesh is not None:
+            bpy.data.meshes.remove(test_mesh)
         if material is not None:
             bpy.data.materials.remove(material)
         if legacy_material is not None:

@@ -2,11 +2,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.props import EnumProperty, StringProperty
+from bpy.props import StringProperty
 
 from . import core
 from .constants import MATERIAL_POINTER_NAME, VRML_DEFAULTS
-from .presets import PRESETS, PRESET_ITEMS
 from .vrml_text import format_material_block, has_material_block, parse_material_block
 
 
@@ -163,61 +162,24 @@ class VRML2_OT_set_field_default(bpy.types.Operator):
         return _editable_material(_active_initialized_material(context))
 
     def execute(self, context):
-        if self.field not in {"emissive_color", "specular_color"}:
+        labels = {
+            "ambient_intensity": "Ambient Intensity",
+            "emissive_color": "Emissive Color",
+            "specular_color": "Specular Color",
+        }
+        if self.field not in labels:
             self.report({"ERROR"}, "This field does not have a supported default action")
             return {"CANCELLED"}
 
         material = _active_initialized_material(context)
         core.apply_values(material, {self.field: VRML_DEFAULTS[self.field]})
-        label = "Emissive Color" if self.field == "emissive_color" else "Specular Color"
-        self.report({"INFO"}, f"{label} reset to VRML97 default 0 0 0")
-        return {"FINISHED"}
-
-
-class VRML2_OT_apply_preset(bpy.types.Operator):
-    bl_idname = "vrml2.apply_preset"
-    bl_label = "Apply VRML2 Preset"
-    bl_description = "Apply a starting-point preset to the active VRML2 material"
-    bl_options = {"REGISTER", "UNDO"}
-
-    preset: EnumProperty(name="Preset", items=PRESET_ITEMS)
-
-    @classmethod
-    def poll(cls, context):
-        return _editable_material(core.active_material(context))
-
-    def execute(self, context):
-        material = core.active_material(context)
-        preset = PRESETS.get(self.preset)
-        if preset is None:
-            self.report({"ERROR"}, "Unknown preset")
-            return {"CANCELLED"}
-
-        values = {key: value for key, value in preset.items() if key != "label"}
-        properties = getattr(material, MATERIAL_POINTER_NAME)
-        if not properties.initialized:
-            core.initialize_material(material, values, def_name=material.name, enable_export=True)
-        else:
-            core.apply_values(material, values)
-
-        self.report({"INFO"}, f"Applied {preset['label']} preset")
-        return {"FINISHED"}
-
-
-class VRML2_OT_refresh_preview(bpy.types.Operator):
-    bl_idname = "vrml2.refresh_preview"
-    bl_label = "Rebuild Preview"
-    bl_description = "Rebuild and reconnect the generated VRML2 preview shader nodes"
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        return _active_initialized_material(context) is not None
-
-    def execute(self, context):
-        material = _active_initialized_material(context)
-        core.sync_material(material)
-        self.report({"INFO"}, "VRML2 preview rebuilt")
+        value = VRML_DEFAULTS[self.field]
+        formatted = (
+            " ".join(str(component) for component in value)
+            if isinstance(value, tuple)
+            else str(value)
+        )
+        self.report({"INFO"}, f"{labels[self.field]} reset to VRML97 default {formatted}")
         return {"FINISHED"}
 
 
@@ -298,27 +260,13 @@ class VRML2_OT_remove_material_data(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class VRML2_MT_presets(bpy.types.Menu):
-    bl_idname = "VRML2_MT_presets"
-    bl_label = "VRML2 Presets"
-
-    def draw(self, _context):
-        layout = self.layout
-        for key, preset in PRESETS.items():
-            operator = layout.operator(VRML2_OT_apply_preset.bl_idname, text=preset["label"])
-            operator.preset = key
-
-
 CLASSES = (
     VRML2_OT_create_material,
     VRML2_OT_initialize_material,
     VRML2_OT_copy_material_block,
     VRML2_OT_paste_material_block,
     VRML2_OT_set_field_default,
-    VRML2_OT_apply_preset,
-    VRML2_OT_refresh_preview,
     VRML2_OT_make_single_user,
     VRML2_OT_assign_to_selected,
     VRML2_OT_remove_material_data,
-    VRML2_MT_presets,
 )

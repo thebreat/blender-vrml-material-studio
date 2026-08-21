@@ -13,12 +13,11 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
   - `specularColor`
   - `transparency`
 - Calculates the VRML97 diffuse, colored specular, emissive, and transparency terms directly instead of translating them into Blender BSDF properties.
-- Defaults to the four-light 3DGrove Item Viewer scene used for official CTR/X_ITE checks, while retaining two Worldcheck diagnostic rigs.
-- Provides one-click VRML97 default resets for `emissiveColor` and `specularColor`.
+- Uses the four-light 3DGrove Item Viewer scene used for official CTR/X_ITE checks.
+- Provides one-click VRML97 default resets for `ambientIntensity`, `emissiveColor`, and `specularColor`.
 - Preserves the material's original node-use state, Surface shader connection, viewport color, and transparency render mode, then restores them when Live Preview is disabled or VRML2 data is removed.
 - Copies a complete `Material { ... }` block to the clipboard.
 - Pastes complete or partial VRML2 Material blocks from the clipboard.
-- Includes starting presets for default VRML, matte, glossy plastic, polished metal, clear glass, and emissive materials.
 - Mirrors every export field into simple Material custom properties so a separate exporter can read the values without importing this extension's Python package.
 - Supports an optional `DEF Name` for future `DEF`/`USE` exporter integration.
 
@@ -64,17 +63,19 @@ VRML2 data belongs to the Blender Material, not to the Object. When a material h
 
 `ambientIntensity`, `shininess`, and `transparency` are single values from 0 to 1. The three color fields are RGB triplets from 0 to 1.
 
+These six fields are the complete VRML97 `Material` node. Texture images, animated textures, and texture transforms belong to the surrounding `Appearance` node rather than to `Material`. Per-face and per-vertex colours belong to the geometry's `Color` node and replace the material's diffuse component where used.
+
 `ambientIntensity` is not an RGB color. VRML computes the material ambient color from:
 
 ```text
 ambient color = diffuseColor × ambientIntensity
 ```
 
-The `emissiveColor` and `specularColor` controls each have a **Set Default** button that restores the VRML97 value `0 0 0`.
+The `ambientIntensity`, `emissiveColor`, and `specularColor` controls each have a **Set Default** button. They restore the VRML97 values `0.2`, `0 0 0`, and `0 0 0`, respectively.
 
 `shininess` changes only the shape of a nonblack `specularColor`. With the default black specular color there is no highlight to reshape. X_ITE follows the VRML97 equation exactly: `shininess 0` with a nonblack specular color spreads that contribution across the lit surface. Geometry matters too: a curved surface supplies many normals that can catch a highlight, while a flat face may miss a narrow highlight entirely at its current light and camera angle.
 
-The preview includes a **VRML Preview Lighting** selector. **Item Viewer** is the default and reproduces the four unattenuated point lights in 3DGrove's official item-inspection scene: two white upper lights and two dim blue lower lights. **Worldcheck Overhead** and **Worldcheck Showroom** remain available as diagnostic alternatives. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
+The preview reproduces the four unattenuated point lights in 3DGrove's official Item Viewer scene: two white upper lights and two dim blue lower lights. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
 
 The official Item Viewer lights have nonzero VRML `ambientIntensity` values. The material's `ambientIntensity` therefore changes the live preview through the standard VRML97 equation instead of through an invented Blender ambient term.
 

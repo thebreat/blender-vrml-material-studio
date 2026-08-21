@@ -13,6 +13,11 @@ from .constants import MATERIAL_POINTER_NAME
 
 _LOAD_HANDLER_TAG = "_vrml2_material_studio_load_post"
 _SYNC_TIMER_NAMESPACE_KEY = "vrml2_material_studio.sync_timer"
+_REMOVED_CLASS_NAMES = (
+    (bpy.types.Operator, "VRML2_OT_apply_preset"),
+    (bpy.types.Operator, "VRML2_OT_refresh_preview"),
+    (bpy.types.Menu, "VRML2_MT_presets"),
+)
 
 
 @persistent
@@ -80,6 +85,10 @@ def _clear_existing_registration() -> None:
 
     _unregister_classes(ui.CLASSES)
     _unregister_classes(operators.CLASSES)
+    for base_type, class_name in _REMOVED_CLASS_NAMES:
+        registered_cls = base_type.bl_rna_get_subclass_py(class_name)
+        if registered_cls is not None:
+            bpy.utils.unregister_class(registered_cls)
 
     if hasattr(bpy.types.Material, MATERIAL_POINTER_NAME):
         delattr(bpy.types.Material, MATERIAL_POINTER_NAME)

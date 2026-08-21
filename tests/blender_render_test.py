@@ -118,9 +118,6 @@ def main() -> None:
         create_test_shape("smooth", material)
 
         settings = getattr(material, extension.constants.MATERIAL_POINTER_NAME)
-        settings.preview_lighting = "STUDIO"
-        extension.core.sync_material(material)
-
         low_path = Path("/tmp/vrml97-shininess-005.png")
         low = render_metrics(scene, low_path)
 

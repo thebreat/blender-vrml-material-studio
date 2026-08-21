@@ -2,11 +2,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.props import BoolProperty, EnumProperty, FloatProperty, FloatVectorProperty, StringProperty
+from bpy.props import BoolProperty, FloatProperty, FloatVectorProperty, StringProperty
 
 from . import core
 from .constants import VRML_DEFAULTS
-from .vrml_shader import LIGHTING_ITEMS
 
 
 def _update_material(properties, _context) -> None:
@@ -109,13 +108,6 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         max=1.0,
         default=VRML_DEFAULTS["transparency"],
         precision=4,
-        update=_update_material,
-    )
-    preview_lighting: EnumProperty(
-        name="VRML Preview Lighting",
-        description="Controlled VRML97 reference-lighting rig used by the live preview",
-        items=LIGHTING_ITEMS,
-        default="STUDIO",
         update=_update_material,
     )
 CLASSES = (VRML2MaterialProperties,)

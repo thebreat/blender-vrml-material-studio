@@ -88,22 +88,23 @@ def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context)
         "Specular Color",
         show_default_button=True,
     )
-    fields.prop(properties, "ambient_intensity")
+    ambient_row = fields.row(align=True)
+    ambient_row.prop(properties, "ambient_intensity")
+    ambient_default = ambient_row.operator("vrml2.set_field_default", text="Set Default")
+    ambient_default.field = "ambient_intensity"
     fields.prop(properties, "shininess")
     fields.prop(properties, "transparency")
 
     tools = layout.row(align=True)
-    tools.menu("VRML2_MT_presets", text="Presets", icon="PRESET")
     tools.operator("vrml2.copy_material_block", text="Copy", icon="COPYDOWN")
     tools.operator("vrml2.paste_material_block", text="Paste", icon="PASTEDOWN")
 
     preview = layout.box()
     preview.label(text="VRML97 Live Preview", icon="SHADING_RENDERED")
-    preview.prop(properties, "preview_lighting")
-    preview.label(text="Ignores Blender lights and material shading.")
+    preview.label(text="Uses official Item Viewer lighting.")
+    preview.label(text="Ignores Blender lights and HDRIs.")
     preview.label(text="Use Standard View Transform for official viewer color.")
     preview.label(text="Use Material Preview or Rendered viewport shading.")
-    preview.operator("vrml2.refresh_preview", icon="FILE_REFRESH")
 
     selected = getattr(context, "selected_objects", ())
     if len(selected) > 1:
