@@ -12,6 +12,7 @@ from .constants import MATERIAL_POINTER_NAME
 
 
 _LOAD_HANDLER_TAG = "_vrml2_material_studio_load_post"
+_SYNC_TIMER_NAMESPACE_KEY = "vrml2_material_studio.sync_timer"
 
 
 @persistent
@@ -20,6 +21,33 @@ def _vrml2_load_post(_filepath) -> None:
 
 
 setattr(_vrml2_load_post, _LOAD_HANDLER_TAG, True)
+
+
+def _vrml2_deferred_sync() -> float | None:
+    """Sync after Blender releases the restricted registration context."""
+    try:
+        core.sync_all_materials()
+    except AttributeError as exc:
+        if "_RestrictData" in str(exc) and "materials" in str(exc):
+            return 0.1
+        raise
+
+    namespace = bpy.app.driver_namespace
+    if namespace.get(_SYNC_TIMER_NAMESPACE_KEY) is _vrml2_deferred_sync:
+        namespace.pop(_SYNC_TIMER_NAMESPACE_KEY, None)
+    return None
+
+
+def _cancel_deferred_sync() -> None:
+    callback = bpy.app.driver_namespace.pop(_SYNC_TIMER_NAMESPACE_KEY, None)
+    if callback is not None and bpy.app.timers.is_registered(callback):
+        bpy.app.timers.unregister(callback)
+
+
+def _schedule_material_sync() -> None:
+    _cancel_deferred_sync()
+    bpy.app.driver_namespace[_SYNC_TIMER_NAMESPACE_KEY] = _vrml2_deferred_sync
+    bpy.app.timers.register(_vrml2_deferred_sync, first_interval=0.0)
 
 
 def _unregister_classes(classes) -> None:
@@ -44,6 +72,8 @@ def _unregister_classes(classes) -> None:
 
 def _clear_existing_registration() -> None:
     """Remove an earlier enabled copy before registering the current module."""
+    _cancel_deferred_sync()
+
     for handler in tuple(bpy.app.handlers.load_post):
         if getattr(handler, _LOAD_HANDLER_TAG, False):
             bpy.app.handlers.load_post.remove(handler)
@@ -76,7 +106,7 @@ def register() -> None:
             bpy.utils.register_class(cls)
 
         bpy.app.handlers.load_post.append(_vrml2_load_post)
-        core.sync_all_materials()
+        _schedule_material_sync()
     except Exception:
         _clear_existing_registration()
         raise

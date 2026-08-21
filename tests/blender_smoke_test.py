@@ -58,8 +58,11 @@ def main() -> None:
     extension.register()
 
     try:
+        assert bpy.app.timers.is_registered(extension._vrml2_deferred_sync)
+
         # Calling register twice must replace the existing registration cleanly.
         extension.register()
+        assert bpy.app.timers.is_registered(extension._vrml2_deferred_sync)
 
         material = bpy.data.materials.new("VRML2 Smoke Test")
         extension.core.prepare_new_material(material)
@@ -132,6 +135,8 @@ def main() -> None:
         reloaded_extension = load_extension(RELOAD_PACKAGE_NAME)
         reloaded_extension.register()
         active_extension = reloaded_extension
+        assert not bpy.app.timers.is_registered(extension._vrml2_deferred_sync)
+        assert bpy.app.timers.is_registered(reloaded_extension._vrml2_deferred_sync)
         assert (
             bpy.types.PropertyGroup.bl_rna_get_subclass_py("VRML2MaterialProperties")
             is reloaded_extension.properties.VRML2MaterialProperties
@@ -146,6 +151,7 @@ def main() -> None:
         if material is not None:
             bpy.data.materials.remove(material)
         active_extension.unregister()
+        assert not bpy.app.timers.is_registered(active_extension._vrml2_deferred_sync)
         sys.modules.pop(PACKAGE_NAME, None)
         sys.modules.pop(RELOAD_PACKAGE_NAME, None)
 
