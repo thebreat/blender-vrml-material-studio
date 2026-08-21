@@ -10,17 +10,18 @@ import bpy
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_NAME = "vrml2_material_studio_smoke"
+RELOAD_PACKAGE_NAME = f"{PACKAGE_NAME}_reload"
 
 
-def load_extension():
+def load_extension(package_name=PACKAGE_NAME):
     spec = importlib.util.spec_from_file_location(
-        PACKAGE_NAME,
+        package_name,
         REPOSITORY_ROOT / "__init__.py",
         submodule_search_locations=[str(REPOSITORY_ROOT)],
     )
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
-    sys.modules[PACKAGE_NAME] = module
+    sys.modules[package_name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -52,10 +53,14 @@ def assert_preview_graph(extension, material):
 
 def main() -> None:
     extension = load_extension()
+    active_extension = extension
     material = None
     extension.register()
 
     try:
+        # Calling register twice must replace the existing registration cleanly.
+        extension.register()
+
         material = bpy.data.materials.new("VRML2 Smoke Test")
         extension.core.prepare_new_material(material)
         extension.core.initialize_material(
@@ -121,11 +126,28 @@ def main() -> None:
         surface = output.inputs.get("Surface")
         assert surface is not None and surface.links
         assert surface.links[0].from_node.bl_idname == "ShaderNodeBsdfPrincipled"
+
+        # Simulate Blender loading updated Python modules while the earlier copy
+        # is still registered. The replacement must evict the stale RNA classes.
+        reloaded_extension = load_extension(RELOAD_PACKAGE_NAME)
+        reloaded_extension.register()
+        active_extension = reloaded_extension
+        assert (
+            bpy.types.PropertyGroup.bl_rna_get_subclass_py("VRML2MaterialProperties")
+            is reloaded_extension.properties.VRML2MaterialProperties
+        )
+        tagged_handlers = [
+            handler
+            for handler in bpy.app.handlers.load_post
+            if getattr(handler, reloaded_extension._LOAD_HANDLER_TAG, False)
+        ]
+        assert tagged_handlers == [reloaded_extension._vrml2_load_post]
     finally:
         if material is not None:
             bpy.data.materials.remove(material)
-        extension.unregister()
+        active_extension.unregister()
         sys.modules.pop(PACKAGE_NAME, None)
+        sys.modules.pop(RELOAD_PACKAGE_NAME, None)
 
     print("VRML2 Material Studio Blender smoke test passed")
 

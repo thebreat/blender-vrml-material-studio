@@ -6,6 +6,7 @@
 - Added Studio, Overhead, and Showroom reference-lighting rigs based on the Worldcheck material previewer.
 - Made VRML preview lighting independent of Blender lights, HDRIs, metallic, Fresnel, and roughness.
 - Added Blender runtime coverage for the shared VRML97 shader group.
+- Made extension registration reload-safe when installing an update over an enabled copy.
 
 ## 0.1.0 - 2026-07-27
 
