@@ -10,9 +10,10 @@ from typing import Any, Iterable
 import bpy
 
 
-GROUP_NAME = "VRML97 Live Preview Shader v1"
+GROUP_NAME = "VRML97 Live Preview Shader v2"
 GROUP_VERSION_KEY = "vrml2_preview_group_version"
-GROUP_VERSION = 1
+GROUP_VERSION = 2
+REFERENCE_AMBIENT_INTENSITY = 0.25
 
 SOCKET_DIFFUSE = "Diffuse Color"
 SOCKET_SPECULAR = "Specular Color"
@@ -20,7 +21,6 @@ SOCKET_EMISSIVE = "Emissive Color"
 SOCKET_AMBIENT_INTENSITY = "Ambient Intensity"
 SOCKET_SHININESS = "Shininess"
 SOCKET_TRANSPARENCY = "Transparency"
-SOCKET_AMBIENT_LIGHT = "Ambient Light"
 SOCKET_SHADER = "Shader"
 
 LIGHTING_ITEMS = (
@@ -287,8 +287,6 @@ def _build_group(tree: bpy.types.NodeTree) -> None:
     ):
         _interface_socket(tree, name, "INPUT", "NodeSocketFloat", default, 0.0, 1.0)
 
-    _interface_socket(tree, SOCKET_AMBIENT_LIGHT, "INPUT", "NodeSocketFloat", 0.25, 0.0, 2.0)
-
     for index in range(1, 4):
         _interface_socket(
             tree,
@@ -354,13 +352,10 @@ def _build_group(tree: bpy.types.NodeTree) -> None:
         "VRML97 Material Ambient",
         (520, -700),
     )
-    ambient = _scale_vector(
-        tree,
-        ambient_material,
-        _output(group_input, SOCKET_AMBIENT_LIGHT),
-        "VRML97 Scene Ambient",
-        (760, -700),
-    )
+    ambient_scale = _vector_math(tree, "SCALE", "VRML97 Reference Ambient", (760, -700))
+    _link(tree, ambient_material, _input(ambient_scale, "Vector", 0))
+    _input(ambient_scale, "Scale", 3).default_value = REFERENCE_AMBIENT_INTENSITY
+    ambient = _output(ambient_scale, "Vector")
 
     with_ambient = _add_vectors(tree, direct_sum, ambient, "Direct + Ambient", (1220, 150))
     final_color = _add_vectors(
@@ -420,7 +415,6 @@ def configure_preview_node(
     ambient_intensity: float,
     shininess: float,
     transparency: float,
-    ambient_light: float,
     lighting: str,
 ) -> None:
     node.node_tree = ensure_shader_group()
@@ -430,7 +424,6 @@ def configure_preview_node(
     node.inputs[SOCKET_AMBIENT_INTENSITY].default_value = float(ambient_intensity)
     node.inputs[SOCKET_SHININESS].default_value = float(shininess)
     node.inputs[SOCKET_TRANSPARENCY].default_value = float(transparency)
-    node.inputs[SOCKET_AMBIENT_LIGHT].default_value = max(0.0, float(ambient_light))
 
     rig = LIGHT_RIGS.get(lighting, LIGHT_RIGS["STUDIO"])
     for index in range(1, 4):

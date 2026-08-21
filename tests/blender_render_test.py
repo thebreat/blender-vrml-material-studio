@@ -118,7 +118,6 @@ def main() -> None:
         create_test_shape("smooth", material)
 
         settings = getattr(material, extension.constants.MATERIAL_POINTER_NAME)
-        settings.preview_ambient_light = 0.0
         settings.preview_lighting = "STUDIO"
         extension.core.sync_material(material)
 
@@ -166,7 +165,6 @@ def main() -> None:
                 "transparency": 0.0,
             },
         )
-        settings.preview_ambient_light = 0.25
         extension.core.sync_material(material)
         ambient_zero = render_metrics(scene, Path("/tmp/vrml97-ambient-000.png"))
 

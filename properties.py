@@ -80,8 +80,8 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
     ambient_intensity: FloatProperty(
         name="Ambient Intensity",
         description=(
-            "VRML2 ambientIntensity multiplied by Diffuse Color and the preview's "
-            "Assumed Ambient Light"
+            "VRML2 ambientIntensity multiplied by Diffuse Color and the reference "
+            "lighting rig's fixed ambient contribution"
         ),
         min=0.0,
         max=1.0,
@@ -118,18 +118,4 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         default="STUDIO",
         update=_update_material,
     )
-    preview_ambient_light: FloatProperty(
-        name="Assumed Ambient Light",
-        description=(
-            "Preview VRML scene ambient-light level; the displayed ambient term is "
-            "diffuseColor x ambientIntensity x this value"
-        ),
-        min=0.0,
-        soft_max=2.0,
-        default=0.25,
-        precision=3,
-        update=_update_material,
-    )
-
-
 CLASSES = (VRML2MaterialProperties,)

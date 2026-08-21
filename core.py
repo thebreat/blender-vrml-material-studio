@@ -370,7 +370,6 @@ def update_preview(material: bpy.types.Material) -> None:
         ambient_intensity=clamp01(properties.ambient_intensity),
         shininess=clamp01(properties.shininess),
         transparency=transparency,
-        ambient_light=properties.preview_ambient_light,
         lighting=properties.preview_lighting,
     )
 

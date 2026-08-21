@@ -76,7 +76,7 @@ The `emissiveColor` and `specularColor` controls each have a **Set Default** but
 
 The preview includes a **VRML Preview Lighting** selector with Studio, Overhead, and Showroom reference rigs. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
 
-The preview also includes an **Assumed Ambient Light** value. This is preview-only and is not exported. It represents the ambient-light contribution of the eventual VRML scene, which is not known from a Material node alone.
+The reference rigs include a fixed ambient-light contribution so `ambientIntensity` remains visible and comparable without adding a preview-only ambient control to the material editor.
 
 VRML transparency uses the opposite direction from Blender alpha:
 

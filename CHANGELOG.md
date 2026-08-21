@@ -12,6 +12,7 @@
 - Reordered the editor and copied VRML fields to diffuse, emissive, specular, ambient, shininess, transparency.
 - Added the VRML highlight exponent beside Shininess and clarified that visible highlights depend on surface angle.
 - Expanded render regression coverage to include both smooth and faceted geometry.
+- Removed the Assumed Ambient Light control and made its stable reference value part of the preview rig.
 - Replaced the shared-material warning box with a compact user count and neutral single-user action.
 - Stopped deriving VRML specular and emissive colors from Blender's Principled shader.
 
