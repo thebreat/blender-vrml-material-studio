@@ -35,7 +35,7 @@ def configure_scene():
     scene.render.film_transparent = True
     scene.render.image_settings.file_format = "PNG"
     scene.render.image_settings.color_mode = "RGBA"
-    scene.view_settings.view_transform = "Standard"
+    scene.view_settings.view_transform = "Raw"
 
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
@@ -89,7 +89,7 @@ def render_metrics(scene, output_path: Path) -> dict[str, float]:
         return {
             "mean": sum(luminances) / len(luminances),
             "peak": max(luminances),
-            "bright_area": sum(value >= 0.05 for value in luminances) / len(luminances),
+            "highlight_area": sum(value >= 0.5 for value in luminances) / len(luminances),
         }
     finally:
         bpy.data.images.remove(image)
@@ -130,7 +130,7 @@ def main() -> None:
         high = render_metrics(scene, high_path)
 
         assert low["mean"] > high["mean"], (low, high)
-        assert low["bright_area"] > high["bright_area"], (low, high)
+        assert low["highlight_area"] > high["highlight_area"], (low, high)
         assert high["peak"] > 0.1, high
         assert not math.isclose(low["mean"], high["mean"], rel_tol=0.05), (low, high)
 
@@ -144,7 +144,7 @@ def main() -> None:
         faceted_high = render_metrics(scene, Path("/tmp/vrml97-faceted-shininess-100.png"))
 
         assert faceted_low["mean"] > faceted_high["mean"], (faceted_low, faceted_high)
-        assert faceted_low["bright_area"] > faceted_high["bright_area"], (
+        assert faceted_low["highlight_area"] > faceted_high["highlight_area"], (
             faceted_low,
             faceted_high,
         )

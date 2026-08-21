@@ -78,6 +78,8 @@ The preview includes a **VRML Preview Lighting** selector with Studio, Overhead,
 
 The CTR reference lights leave their VRML `ambientIntensity` at its default `0`, so the material's `ambientIntensity` field is preserved for export but does not change this particular live preview. This matches the CTR Mall viewer rather than inventing ambient light that is absent from its scene.
 
+For a direct on-screen comparison with the CTR/X_ITE canvas, use Blender's **Raw** View Transform. Standard and AgX remap the completed shader colour and therefore change the apparent brightness and contrast. The extension does not alter this scene-wide setting automatically.
+
 VRML transparency uses the opposite direction from Blender alpha:
 
 ```text

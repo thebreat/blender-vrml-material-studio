@@ -30,23 +30,25 @@ LIGHTING_ITEMS = (
 
 # These are the three reference rigs used by the Worldcheck material previewer.
 # VRML DirectionalLight.direction points along the emitted rays, while the
-# lighting equation uses L from the surface toward the light, so every vector is
-# negated here. Vectors are interpreted in camera space by the shader, keeping
-# the reference rig stable while the user orbits the Blender viewport.
+# lighting equation uses L from the surface toward the light. VRML/X_ITE view
+# space and Blender shader camera space agree on X and Y, but their Z axes point
+# in opposite directions. Each stored vector is therefore (-direction.x,
+# -direction.y, direction.z). The shader keeps this camera-space rig stable
+# while the user orbits the Blender viewport.
 LIGHT_RIGS = {
     "STUDIO": (
-        {"vector": (0.55, 0.55, 0.63), "intensity": 1.0, "color": (1.0, 1.0, 1.0)},
-        {"vector": (-0.7, -0.25, -0.4), "intensity": 0.28, "color": (0.82, 0.87, 1.0)},
-        {"vector": (-0.1, -0.6, 0.9), "intensity": 0.22, "color": (1.0, 0.96, 0.9)},
+        {"vector": (0.55, 0.55, -0.63), "intensity": 1.0, "color": (1.0, 1.0, 1.0)},
+        {"vector": (-0.7, -0.25, 0.4), "intensity": 0.28, "color": (0.82, 0.87, 1.0)},
+        {"vector": (-0.1, -0.6, -0.9), "intensity": 0.22, "color": (1.0, 0.96, 0.9)},
     ),
     "OVERHEAD": (
-        {"vector": (0.1, 0.95, 0.2), "intensity": 1.15, "color": (1.0, 1.0, 1.0)},
-        {"vector": (-0.5, -0.3, -0.6), "intensity": 0.16, "color": (0.8, 0.85, 1.0)},
+        {"vector": (0.1, 0.95, -0.2), "intensity": 1.15, "color": (1.0, 1.0, 1.0)},
+        {"vector": (-0.5, -0.3, 0.6), "intensity": 0.16, "color": (0.8, 0.85, 1.0)},
     ),
     "SHOWROOM": (
-        {"vector": (0.5, 0.4, 0.6), "intensity": 0.75, "color": (1.0, 1.0, 1.0)},
-        {"vector": (-0.6, -0.35, -0.5), "intensity": 0.55, "color": (0.92, 0.94, 1.0)},
-        {"vector": (0.0, -0.3, 0.9), "intensity": 0.15, "color": (1.0, 1.0, 1.0)},
+        {"vector": (0.5, 0.4, -0.6), "intensity": 0.75, "color": (1.0, 1.0, 1.0)},
+        {"vector": (-0.6, -0.35, 0.5), "intensity": 0.55, "color": (0.92, 0.94, 1.0)},
+        {"vector": (0.0, -0.3, -0.9), "intensity": 0.15, "color": (1.0, 1.0, 1.0)},
     ),
 }
 

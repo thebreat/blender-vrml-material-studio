@@ -81,6 +81,14 @@ def main() -> None:
         assert all(math.isclose(value, 0.8, abs_tol=1e-6) for value in stored_diffuse)
         shader = assert_preview_graph(extension, material)
         assert settings.preview_lighting == "STUDIO"
+        assert all(
+            math.isclose(actual, expected, abs_tol=1e-6)
+            for actual, expected in zip(
+                shader.inputs["Light 1 Vector"].default_value,
+                (0.55, 0.55, -0.63),
+                strict=True,
+            )
+        )
         assert not hasattr(settings, "preview_ambient_light")
         assert "Ambient Light" not in shader.inputs
         assert "VRML97 Reference Ambient" not in shader.node_tree.nodes

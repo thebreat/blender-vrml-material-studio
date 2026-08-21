@@ -13,6 +13,7 @@
 - Clarified that visible shininess changes depend on surface angle.
 - Expanded render regression coverage to include both smooth and faceted geometry.
 - Removed the Assumed Ambient Light control and matched the CTR reference lights' zero ambient contribution.
+- Corrected the opposite camera-space Z axis so all CTR reference lights illuminate the intended side of the object.
 - Replaced the shared-material warning box with a compact user count and neutral single-user action.
 - Stopped deriving VRML specular and emissive colors from Blender's Principled shader.
 
