@@ -101,7 +101,6 @@ def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context)
 
     preview = layout.box()
     preview.label(text="VRML97 Live Preview", icon="SHADING_RENDERED")
-    preview.label(text="Uses official Item Viewer lighting.")
     preview.label(text="Ignores Blender lights and HDRIs.")
     preview.label(text="Use Standard View Transform for official viewer color.")
     preview.label(text="Use Material Preview or Rendered viewport shading.")
