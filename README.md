@@ -13,7 +13,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
   - `specularColor`
   - `transparency`
 - Calculates the VRML97 diffuse, colored specular, emissive, and transparency terms directly instead of translating them into Blender BSDF properties.
-- Includes Studio, Overhead, and Showroom VRML reference-lighting rigs that ignore Blender lights and HDRIs.
+- Defaults to the four-light 3DGrove Item Viewer scene used for official CTR/X_ITE checks, while retaining two Worldcheck diagnostic rigs.
 - Provides one-click VRML97 default resets for `emissiveColor` and `specularColor`.
 - Preserves the material's original node-use state, Surface shader connection, viewport color, and transparency render mode, then restores them when Live Preview is disabled or VRML2 data is removed.
 - Copies a complete `Material { ... }` block to the clipboard.
@@ -74,11 +74,11 @@ The `emissiveColor` and `specularColor` controls each have a **Set Default** but
 
 `shininess` changes only the shape of a nonblack `specularColor`. With the default black specular color there is no highlight to reshape. X_ITE follows the VRML97 equation exactly: `shininess 0` with a nonblack specular color spreads that contribution across the lit surface. Geometry matters too: a curved surface supplies many normals that can catch a highlight, while a flat face may miss a narrow highlight entirely at its current light and camera angle.
 
-The preview includes a **VRML Preview Lighting** selector with Studio, Overhead, and Showroom reference rigs. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
+The preview includes a **VRML Preview Lighting** selector. **Item Viewer** is the default and reproduces the four unattenuated point lights in 3DGrove's official item-inspection scene: two white upper lights and two dim blue lower lights. **Worldcheck Overhead** and **Worldcheck Showroom** remain available as diagnostic alternatives. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
 
-The CTR reference lights leave their VRML `ambientIntensity` at its default `0`, so the material's `ambientIntensity` field is preserved for export but does not change this particular live preview. This matches the CTR Mall viewer rather than inventing ambient light that is absent from its scene.
+The official Item Viewer lights have nonzero VRML `ambientIntensity` values. The material's `ambientIntensity` therefore changes the live preview through the standard VRML97 equation instead of through an invented Blender ambient term.
 
-For a direct on-screen comparison with the CTR/X_ITE canvas, use Blender's **Raw** View Transform. Standard and AgX remap the completed shader colour and therefore change the apparent brightness and contrast. The extension does not alter this scene-wide setting automatically.
+For a direct on-screen comparison with the 3DGrove/X_ITE canvas, use Blender's **Standard** View Transform. The shader converts only the completed VRML lighting result into Blender's scene-linear space, so Standard displays the original VRML RGB channels without requiring Raw. The VRML material inputs and lighting equation remain untouched. AgX still applies its own contrast and gamut mapping and is not the exact reference view. The extension does not alter this scene-wide setting automatically.
 
 VRML transparency uses the opposite direction from Blender alpha:
 
@@ -159,7 +159,7 @@ The flat custom properties are the recommended integration point because they ke
 
 ## Preview behavior and limitations
 
-The generated shader evaluates the VRML97 lighting terms directly, including the `shininess × 128` specular exponent. It does not use Blender roughness, metallic, Fresnel, or scene lighting. The reference rigs are based on the Worldcheck material previewer so highlights remain consistent while materials are edited.
+The generated shader evaluates the VRML97 lighting terms directly, including the `shininess × 128` specular exponent. It does not use Blender roughness, metallic, Fresnel, or scene lighting. Its default reference rig is based on the official 3DGrove Item Viewer; the far-away point lights are represented by their normalized surface-to-light directions so the rig remains stable while the Blender viewport orbits an item.
 
 A Material node does not have one appearance independent of its scene: the final result still depends on light direction, light colour and intensity, ambient contribution, geometry normals, camera angle, transparency sorting, and display colour management. Historical VRML browsers can also differ from one another in those details.
 

@@ -85,10 +85,21 @@ def main() -> None:
             math.isclose(actual, expected, abs_tol=1e-6)
             for actual, expected in zip(
                 shader.inputs["Light 1 Vector"].default_value,
-                (0.55, 0.55, -0.63),
+                (0.615457, -0.492366, -0.615457),
                 strict=True,
             )
         )
+        assert math.isclose(
+            shader.inputs["Light 1 Ambient Intensity"].default_value,
+            0.255,
+            abs_tol=1e-6,
+        )
+        assert math.isclose(
+            shader.inputs["Light 4 Ambient Intensity"].default_value,
+            0.255,
+            abs_tol=1e-6,
+        )
+        assert math.isclose(shader.inputs["Light 4 Intensity"].default_value, 0.6, abs_tol=1e-6)
         assert not hasattr(settings, "preview_ambient_light")
         assert "Ambient Light" not in shader.inputs
         assert "VRML97 Reference Ambient" not in shader.node_tree.nodes
@@ -159,6 +170,7 @@ def main() -> None:
         extension.core.sync_material(material)
         assert math.isclose(shader.inputs["Light 1 Intensity"].default_value, 1.15, abs_tol=1e-6)
         assert math.isclose(shader.inputs["Light 3 Intensity"].default_value, 0.0, abs_tol=1e-6)
+        assert math.isclose(shader.inputs["Light 4 Intensity"].default_value, 0.0, abs_tol=1e-6)
 
         extension.core.remove_vrml2_data(material)
         assert not settings.initialized

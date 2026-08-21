@@ -14,6 +14,9 @@
 - Expanded render regression coverage to include both smooth and faceted geometry.
 - Removed the Assumed Ambient Light control and matched the CTR reference lights' zero ambient contribution.
 - Corrected the opposite camera-space Z axis so all CTR reference lights illuminate the intended side of the object.
+- Replaced the default Worldcheck studio approximation with the official 3DGrove Item Viewer four-light rig.
+- Added each official light's VRML ambient contribution, making material `ambientIntensity` visible again.
+- Moved display compensation after the completed VRML lighting equation so Blender Standard matches X_ITE channel values without requiring Raw.
 - Replaced the shared-material warning box with a compact user count and neutral single-user action.
 - Stopped deriving VRML specular and emissive colors from Blender's Principled shader.
 

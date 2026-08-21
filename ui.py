@@ -101,6 +101,7 @@ def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context)
     preview.label(text="VRML97 Live Preview", icon="SHADING_RENDERED")
     preview.prop(properties, "preview_lighting")
     preview.label(text="Ignores Blender lights and material shading.")
+    preview.label(text="Use Standard View Transform for official viewer color.")
     preview.label(text="Use Material Preview or Rendered viewport shading.")
     preview.operator("vrml2.refresh_preview", icon="FILE_REFRESH")
 

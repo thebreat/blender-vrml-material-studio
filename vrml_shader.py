@@ -10,9 +10,9 @@ from typing import Any, Iterable
 import bpy
 
 
-GROUP_NAME = "VRML97 Live Preview Shader v3"
+GROUP_NAME = "VRML97 Live Preview Shader v4"
 GROUP_VERSION_KEY = "vrml2_preview_group_version"
-GROUP_VERSION = 3
+GROUP_VERSION = 4
 
 SOCKET_DIFFUSE = "Diffuse Color"
 SOCKET_SPECULAR = "Specular Color"
@@ -23,32 +23,89 @@ SOCKET_TRANSPARENCY = "Transparency"
 SOCKET_SHADER = "Shader"
 
 LIGHTING_ITEMS = (
-    ("STUDIO", "Studio", "45-degree key, dim cool fill, and faint warm rim"),
-    ("OVERHEAD", "Overhead", "Strong top-down key with a dim cool fill"),
-    ("SHOWROOM", "Showroom", "Even catalog lighting with lower contrast"),
+    (
+        "STUDIO",
+        "Item Viewer",
+        "Official 3DGrove item-viewer lighting used for CTR/X_ITE material checks",
+    ),
+    ("OVERHEAD", "Worldcheck Overhead", "Worldcheck top-down diagnostic lighting"),
+    ("SHOWROOM", "Worldcheck Showroom", "Worldcheck even catalog lighting"),
 )
 
-# These are the three reference rigs used by the Worldcheck material previewer.
+# The Item Viewer rig reproduces the four unattenuated PointLights in 3DGrove's
+# official defaultWorld3.x3d inspection scene. The lights are 200-ish scene
+# units from the origin, so their normalized origin-to-light vectors are a
+# stable far-field approximation across normal item-sized geometry. Unlike the
+# earlier Worldcheck rig, these lights also supply the ambientIntensity values
+# needed by the VRML97 material equation.
+#
 # VRML DirectionalLight.direction points along the emitted rays, while the
 # lighting equation uses L from the surface toward the light. VRML/X_ITE view
 # space and Blender shader camera space agree on X and Y, but their Z axes point
-# in opposite directions. Each stored vector is therefore (-direction.x,
-# -direction.y, direction.z). The shader keeps this camera-space rig stable
-# while the user orbits the Blender viewport.
+# in opposite directions. For the official PointLight positions, each stored
+# vector is therefore (location.x, location.y, -location.z), normalized. The
+# shader keeps this camera-space reference rig stable while the user orbits the
+# Blender viewport.
 LIGHT_RIGS = {
     "STUDIO": (
-        {"vector": (0.55, 0.55, -0.63), "intensity": 1.0, "color": (1.0, 1.0, 1.0)},
-        {"vector": (-0.7, -0.25, 0.4), "intensity": 0.28, "color": (0.82, 0.87, 1.0)},
-        {"vector": (-0.1, -0.6, -0.9), "intensity": 0.22, "color": (1.0, 0.96, 0.9)},
+        {
+            "vector": (0.615457, -0.492366, -0.615457),
+            "intensity": 0.6,
+            "ambient_intensity": 0.255,
+            "color": (0.1, 0.1, 0.2),
+        },
+        {
+            "vector": (0.615457, 0.492366, 0.615457),
+            "intensity": 0.6,
+            "ambient_intensity": 0.9,
+            "color": (1.0, 1.0, 1.0),
+        },
+        {
+            "vector": (-0.615457, 0.492366, -0.615457),
+            "intensity": 0.6,
+            "ambient_intensity": 0.9,
+            "color": (1.0, 1.0, 1.0),
+        },
+        {
+            "vector": (-0.615457, -0.492366, 0.615457),
+            "intensity": 0.6,
+            "ambient_intensity": 0.255,
+            "color": (0.1, 0.1, 0.2),
+        },
     ),
     "OVERHEAD": (
-        {"vector": (0.1, 0.95, -0.2), "intensity": 1.15, "color": (1.0, 1.0, 1.0)},
-        {"vector": (-0.5, -0.3, 0.6), "intensity": 0.16, "color": (0.8, 0.85, 1.0)},
+        {
+            "vector": (0.1, 0.95, -0.2),
+            "intensity": 1.15,
+            "ambient_intensity": 0.0,
+            "color": (1.0, 1.0, 1.0),
+        },
+        {
+            "vector": (-0.5, -0.3, 0.6),
+            "intensity": 0.16,
+            "ambient_intensity": 0.0,
+            "color": (0.8, 0.85, 1.0),
+        },
     ),
     "SHOWROOM": (
-        {"vector": (0.5, 0.4, -0.6), "intensity": 0.75, "color": (1.0, 1.0, 1.0)},
-        {"vector": (-0.6, -0.35, 0.5), "intensity": 0.55, "color": (0.92, 0.94, 1.0)},
-        {"vector": (0.0, -0.3, -0.9), "intensity": 0.15, "color": (1.0, 1.0, 1.0)},
+        {
+            "vector": (0.5, 0.4, -0.6),
+            "intensity": 0.75,
+            "ambient_intensity": 0.0,
+            "color": (1.0, 1.0, 1.0),
+        },
+        {
+            "vector": (-0.6, -0.35, 0.5),
+            "intensity": 0.55,
+            "ambient_intensity": 0.0,
+            "color": (0.92, 0.94, 1.0),
+        },
+        {
+            "vector": (0.0, -0.3, -0.9),
+            "intensity": 0.15,
+            "ambient_intensity": 0.0,
+            "color": (1.0, 1.0, 1.0),
+        },
     ),
 }
 
@@ -167,6 +224,81 @@ def _add_vectors(
     return _output(node, "Vector")
 
 
+def _srgb_channel_to_linear(
+    tree: bpy.types.NodeTree,
+    channel_socket: Any,
+    channel_name: str,
+    y: float,
+) -> Any:
+    """Decode one completed X_ITE display channel for Blender Standard output."""
+
+    low = _math(tree, "DIVIDE", f"{channel_name} sRGB Low", (1840, y + 120))
+    _link(tree, channel_socket, _input(low, index=0))
+    _input(low, index=1).default_value = 12.92
+
+    high_offset = _math(tree, "ADD", f"{channel_name} sRGB Offset", (1840, y))
+    _link(tree, channel_socket, _input(high_offset, index=0))
+    _input(high_offset, index=1).default_value = 0.055
+
+    high_scale = _math(tree, "DIVIDE", f"{channel_name} sRGB Scale", (2040, y))
+    _link(tree, _output(high_offset, "Value"), _input(high_scale, index=0))
+    _input(high_scale, index=1).default_value = 1.055
+
+    high = _math(tree, "POWER", f"{channel_name} sRGB Power", (2240, y))
+    _link(tree, _output(high_scale, "Value"), _input(high, index=0))
+    _input(high, index=1).default_value = 2.4
+
+    use_high = _math(tree, "GREATER_THAN", f"{channel_name} sRGB Branch", (2040, y - 140))
+    _link(tree, channel_socket, _input(use_high, index=0))
+    _input(use_high, index=1).default_value = 0.04045
+
+    delta = _math(tree, "SUBTRACT", f"{channel_name} sRGB Delta", (2440, y))
+    _link(tree, _output(high, "Value"), _input(delta, index=0))
+    _link(tree, _output(low, "Value"), _input(delta, index=1))
+
+    selected_delta = _math(tree, "MULTIPLY", f"{channel_name} sRGB Select", (2640, y))
+    _link(tree, _output(delta, "Value"), _input(selected_delta, index=0))
+    _link(tree, _output(use_high, "Value"), _input(selected_delta, index=1))
+
+    decoded = _math(tree, "ADD", f"{channel_name} sRGB Decoded", (2840, y))
+    _link(tree, _output(low, "Value"), _input(decoded, index=0))
+    _link(tree, _output(selected_delta, "Value"), _input(decoded, index=1))
+    return _output(decoded, "Value")
+
+
+def _decode_xite_display_color(tree: bpy.types.NodeTree, color_socket: Any) -> Any:
+    """Make Blender Standard display the completed VRML RGB values unchanged."""
+
+    clamp_low = _vector_math(tree, "MAXIMUM", "VRML97 Display Clamp Low", (1680, 100))
+    _link(tree, color_socket, _input(clamp_low, index=0))
+    _input(clamp_low, index=1).default_value = (0.0, 0.0, 0.0)
+
+    clamp_high = _vector_math(tree, "MINIMUM", "VRML97 Display Clamp High", (1880, 100))
+    _link(tree, _output(clamp_low, "Vector"), _input(clamp_high, index=0))
+    _input(clamp_high, index=1).default_value = (1.0, 1.0, 1.0)
+
+    separate = tree.nodes.new("ShaderNodeSeparateColor")
+    separate.mode = "RGB"
+    separate.name = "VRML97 Display RGB"
+    separate.label = separate.name
+    separate.location = (2080, 180)
+    _link(tree, _output(clamp_high, "Vector"), _input(separate, "Color"))
+
+    red = _srgb_channel_to_linear(tree, _output(separate, "Red"), "Red", 450.0)
+    green = _srgb_channel_to_linear(tree, _output(separate, "Green"), "Green", 100.0)
+    blue = _srgb_channel_to_linear(tree, _output(separate, "Blue"), "Blue", -250.0)
+
+    combine = tree.nodes.new("ShaderNodeCombineColor")
+    combine.mode = "RGB"
+    combine.name = "VRML97 Standard Display Compensation"
+    combine.label = combine.name
+    combine.location = (3060, 100)
+    _link(tree, red, _input(combine, "Red"))
+    _link(tree, green, _input(combine, "Green"))
+    _link(tree, blue, _input(combine, "Blue"))
+    return _output(combine, "Color")
+
+
 def _build_light_term(
     tree: bpy.types.NodeTree,
     group_input: bpy.types.Node,
@@ -179,6 +311,7 @@ def _build_light_term(
     direction_name = f"Light {light_index} Vector"
     color_name = f"Light {light_index} Color"
     intensity_name = f"Light {light_index} Intensity"
+    ambient_name = f"Light {light_index} Ambient Intensity"
 
     transform = tree.nodes.new("ShaderNodeVectorTransform")
     transform.vector_type = "VECTOR"
@@ -264,12 +397,42 @@ def _build_light_term(
         (340, y - 80),
     )
 
-    return _add_vectors(
+    direct = _add_vectors(
         tree,
         diffuse_color,
         specular_color,
-        f"Light {light_index} Total",
+        f"Light {light_index} Direct",
         (560, y + 80),
+    )
+
+    material_ambient = _scale_vector(
+        tree,
+        _output(group_input, SOCKET_DIFFUSE),
+        _output(group_input, SOCKET_AMBIENT_INTENSITY),
+        f"Light {light_index} Material Ambient",
+        (-60, y + 340),
+    )
+    light_ambient = _scale_vector(
+        tree,
+        material_ambient,
+        _output(group_input, ambient_name),
+        f"Light {light_index} Ambient Intensity",
+        (160, y + 340),
+    )
+    ambient_color = _multiply_vectors(
+        tree,
+        light_ambient,
+        _output(group_input, color_name),
+        f"Light {light_index} Ambient Color",
+        (380, y + 340),
+    )
+
+    return _add_vectors(
+        tree,
+        direct,
+        ambient_color,
+        f"Light {light_index} Total",
+        (780, y + 160),
     )
 
 
@@ -288,7 +451,7 @@ def _build_group(tree: bpy.types.NodeTree) -> None:
     ):
         _interface_socket(tree, name, "INPUT", "NodeSocketFloat", default, 0.0, 1.0)
 
-    for index in range(1, 4):
+    for index in range(1, 5):
         _interface_socket(
             tree,
             f"Light {index} Vector",
@@ -304,6 +467,15 @@ def _build_group(tree: bpy.types.NodeTree) -> None:
             (1.0, 1.0, 1.0, 1.0),
         )
         _interface_socket(tree, f"Light {index} Intensity", "INPUT", "NodeSocketFloat", 0.0, 0.0, 2.0)
+        _interface_socket(
+            tree,
+            f"Light {index} Ambient Intensity",
+            "INPUT",
+            "NodeSocketFloat",
+            0.0,
+            0.0,
+            1.0,
+        )
 
     _interface_socket(tree, SOCKET_SHADER, "OUTPUT", "NodeSocketShader")
 
@@ -338,36 +510,38 @@ def _build_group(tree: bpy.types.NodeTree) -> None:
             _output(view_normalize, "Vector"),
             _output(exponent, "Value"),
             index,
-            650.0 - (index - 1) * 550.0,
+            900.0 - (index - 1) * 650.0,
         )
-        for index in range(1, 4)
+        for index in range(1, 5)
     ]
 
-    direct_sum = _add_vectors(tree, light_terms[0], light_terms[1], "Lights 1 + 2", (800, 300))
-    direct_sum = _add_vectors(tree, direct_sum, light_terms[2], "All Direct Lights", (1020, 250))
+    light_sum = _add_vectors(tree, light_terms[0], light_terms[1], "Lights 1 + 2", (1020, 450))
+    light_sum = _add_vectors(tree, light_sum, light_terms[2], "Lights 1 + 2 + 3", (1240, 350))
+    light_sum = _add_vectors(tree, light_sum, light_terms[3], "All Reference Lights", (1460, 250))
 
     final_color = _add_vectors(
         tree,
-        direct_sum,
+        light_sum,
         _output(group_input, SOCKET_EMISSIVE),
-        "VRML97 Direct + Emissive",
-        (1400, 100),
+        "VRML97 Lit + Emissive",
+        (1680, 100),
     )
+    display_color = _decode_xite_display_color(tree, final_color)
 
     emission = tree.nodes.new("ShaderNodeEmission")
     emission.name = "VRML97 Color Output"
-    emission.location = (1600, 0)
-    _link(tree, final_color, _input(emission, "Color", 0))
+    emission.location = (3280, 0)
+    _link(tree, display_color, _input(emission, "Color", 0))
     _input(emission, "Strength", 1).default_value = 1.0
 
     transparent = tree.nodes.new("ShaderNodeBsdfTransparent")
     transparent.name = "VRML97 Transparent"
-    transparent.location = (1600, -180)
+    transparent.location = (3280, -180)
     _input(transparent, "Color", 0).default_value = (1.0, 1.0, 1.0, 1.0)
 
     mix = tree.nodes.new("ShaderNodeMixShader")
     mix.name = "VRML97 Transparency"
-    mix.location = (1820, 0)
+    mix.location = (3500, 0)
     _link(tree, _output(group_input, SOCKET_TRANSPARENCY), _input(mix, "Fac", 0))
     _link(tree, _output(emission), _input(mix, index=1))
     _link(tree, _output(transparent), _input(mix, index=2))
@@ -414,11 +588,13 @@ def configure_preview_node(
     node.inputs[SOCKET_TRANSPARENCY].default_value = float(transparency)
 
     rig = LIGHT_RIGS.get(lighting, LIGHT_RIGS["STUDIO"])
-    for index in range(1, 4):
+    for index in range(1, 5):
         light = rig[index - 1] if index <= len(rig) else None
         vector = light["vector"] if light else (0.0, 0.0, 1.0)
         color = light["color"] if light else (1.0, 1.0, 1.0)
         intensity = light["intensity"] if light else 0.0
+        ambient_intensity = light["ambient_intensity"] if light else 0.0
         node.inputs[f"Light {index} Vector"].default_value = vector
         node.inputs[f"Light {index} Color"].default_value = (*color, 1.0)
         node.inputs[f"Light {index} Intensity"].default_value = intensity
+        node.inputs[f"Light {index} Ambient Intensity"].default_value = ambient_intensity

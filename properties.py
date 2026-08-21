@@ -80,8 +80,8 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
     ambient_intensity: FloatProperty(
         name="Ambient Intensity",
         description=(
-            "VRML2 ambientIntensity; the CTR reference lights use their default zero "
-            "ambient contribution, so this field does not change the live preview"
+            "VRML2 ambientIntensity; controls how strongly the material reflects the "
+            "official item viewer's ambient light"
         ),
         min=0.0,
         max=1.0,

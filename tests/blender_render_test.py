@@ -35,7 +35,7 @@ def configure_scene():
     scene.render.film_transparent = True
     scene.render.image_settings.file_format = "PNG"
     scene.render.image_settings.color_mode = "RGBA"
-    scene.view_settings.view_transform = "Raw"
+    scene.view_settings.view_transform = "Standard"
 
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
@@ -171,14 +171,8 @@ def main() -> None:
         settings.ambient_intensity = 1.0
         extension.core.sync_material(material)
         ambient_full = render_metrics(scene, Path("/tmp/vrml97-ambient-100.png"))
-        assert math.isclose(ambient_zero["mean"], ambient_full["mean"], abs_tol=1e-6), (
-            ambient_zero,
-            ambient_full,
-        )
-        assert math.isclose(ambient_zero["peak"], ambient_full["peak"], abs_tol=1e-6), (
-            ambient_zero,
-            ambient_full,
-        )
+        assert ambient_full["mean"] > ambient_zero["mean"], (ambient_zero, ambient_full)
+        assert ambient_full["peak"] > ambient_zero["peak"], (ambient_zero, ambient_full)
 
         extension.core.apply_values(
             material,
