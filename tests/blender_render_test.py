@@ -40,12 +40,6 @@ def configure_scene():
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
 
-    bpy.ops.mesh.primitive_uv_sphere_add(segments=96, ring_count=64, radius=1.0)
-    sphere = bpy.context.object
-    sphere.name = "VRML97 Preview Test Sphere"
-    for polygon in sphere.data.polygons:
-        polygon.use_smooth = True
-
     camera_data = bpy.data.cameras.new("VRML97 Preview Test Camera")
     camera = bpy.data.objects.new("VRML97 Preview Test Camera", camera_data)
     scene.collection.objects.link(camera)
@@ -54,7 +48,28 @@ def configure_scene():
     camera.rotation_euler = (Vector((0.0, 0.0, 0.0)) - camera.location).to_track_quat("-Z", "Y").to_euler()
     camera_data.lens = 52.0
 
-    return scene, sphere
+    return scene
+
+
+def create_test_shape(kind: str, material):
+    for obj in tuple(bpy.context.scene.objects):
+        if obj.type == "MESH":
+            bpy.data.objects.remove(obj, do_unlink=True)
+
+    if kind == "smooth":
+        bpy.ops.mesh.primitive_uv_sphere_add(segments=96, ring_count=64, radius=1.0)
+        obj = bpy.context.object
+        for polygon in obj.data.polygons:
+            polygon.use_smooth = True
+    elif kind == "faceted":
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=1.0)
+        obj = bpy.context.object
+    else:
+        raise ValueError(f"Unknown test shape: {kind}")
+
+    obj.name = f"VRML97 Preview Test {kind.title()} Shape"
+    obj.data.materials.append(material)
+    return obj
 
 
 def render_metrics(scene, output_path: Path) -> dict[str, float]:
@@ -74,7 +89,7 @@ def render_metrics(scene, output_path: Path) -> dict[str, float]:
         return {
             "mean": sum(luminances) / len(luminances),
             "peak": max(luminances),
-        "bright_area": sum(value >= 0.05 for value in luminances) / len(luminances),
+            "bright_area": sum(value >= 0.05 for value in luminances) / len(luminances),
         }
     finally:
         bpy.data.images.remove(image)
@@ -85,7 +100,7 @@ def main() -> None:
     extension.register()
 
     try:
-        scene, sphere = configure_scene()
+        scene = configure_scene()
         material = bpy.data.materials.new("VRML97 Preview Render Test")
         extension.core.prepare_new_material(material)
         extension.core.initialize_material(
@@ -100,7 +115,7 @@ def main() -> None:
             },
             def_name="VRML97 Render Test",
         )
-        sphere.data.materials.append(material)
+        create_test_shape("smooth", material)
 
         settings = getattr(material, extension.constants.MATERIAL_POINTER_NAME)
         settings.preview_ambient_light = 0.0
@@ -119,6 +134,26 @@ def main() -> None:
         assert low["bright_area"] > high["bright_area"], (low, high)
         assert high["peak"] > 0.1, high
         assert not math.isclose(low["mean"], high["mean"], rel_tol=0.05), (low, high)
+
+        create_test_shape("faceted", material)
+        settings.shininess = 0.05
+        extension.core.sync_material(material)
+        faceted_low = render_metrics(scene, Path("/tmp/vrml97-faceted-shininess-005.png"))
+
+        settings.shininess = 1.0
+        extension.core.sync_material(material)
+        faceted_high = render_metrics(scene, Path("/tmp/vrml97-faceted-shininess-100.png"))
+
+        assert faceted_low["mean"] > faceted_high["mean"], (faceted_low, faceted_high)
+        assert faceted_low["bright_area"] > faceted_high["bright_area"], (
+            faceted_low,
+            faceted_high,
+        )
+        assert not math.isclose(
+            faceted_low["mean"], faceted_high["mean"], rel_tol=0.05
+        ), (faceted_low, faceted_high)
+
+        create_test_shape("smooth", material)
 
         extension.core.apply_values(
             material,
@@ -160,7 +195,9 @@ def main() -> None:
         assert graphite["peak"] > graphite["mean"], graphite
         print(
             "VRML97 render test passed: "
-            f"low={low}, high={high}, ambient0={ambient_zero}, "
+            f"smooth_low={low}, smooth_high={high}, "
+            f"faceted_low={faceted_low}, faceted_high={faceted_high}, "
+            f"ambient0={ambient_zero}, "
             f"ambient1={ambient_full}, graphite={graphite}"
         )
     finally:

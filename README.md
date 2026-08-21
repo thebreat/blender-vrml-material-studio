@@ -72,7 +72,7 @@ ambient color = diffuseColor × ambientIntensity
 
 The `emissiveColor` and `specularColor` controls each have a **Set Default** button that restores the VRML97 value `0 0 0`.
 
-`shininess` changes only the shape of a nonblack `specularColor`. With the default black specular color there is no highlight to reshape. X_ITE follows the VRML97 equation exactly: `shininess 0` with a nonblack specular color spreads that contribution across the lit surface.
+`shininess` changes only the shape of a nonblack `specularColor`. With the default black specular color there is no highlight to reshape. X_ITE follows the VRML97 equation exactly: `shininess 0` with a nonblack specular color spreads that contribution across the lit surface. The editor shows the corresponding VRML highlight exponent (`shininess × 128`) because the upper end of the slider is intentionally subtle. Geometry matters too: a curved surface supplies many normals that can catch a highlight, while a flat face may miss a narrow highlight entirely at its current light and camera angle.
 
 The preview includes a **VRML Preview Lighting** selector with Studio, Overhead, and Showroom reference rigs. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
 

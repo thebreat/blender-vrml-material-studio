@@ -34,7 +34,7 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
     )
     live_preview: BoolProperty(
         name="Live Preview",
-        description="Route the Blender material output through the VRML2 approximation shader",
+        description="Route the Blender material output through the generated VRML97 preview shader",
         default=True,
         update=_update_material,
     )
@@ -93,7 +93,8 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         name="Shininess",
         description=(
             "VRML2 shininess from 0 (broad highlight) to 1 (tight highlight); "
-            "it affects appearance only when Specular Color is nonblack"
+            "it affects appearance only when Specular Color is nonblack and the "
+            "surface angle catches a light"
         ),
         min=0.0,
         max=1.0,
