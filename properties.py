@@ -6,6 +6,7 @@ from bpy.props import BoolProperty, EnumProperty, FloatProperty, FloatVectorProp
 
 from . import core
 from .constants import VRML_DEFAULTS
+from .vrml_shader import LIGHTING_ITEMS
 
 
 def _update_material(properties, _context) -> None:
@@ -103,20 +104,17 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         precision=4,
         update=_update_material,
     )
-    preview_color_space: EnumProperty(
-        name="Color Interpretation",
-        description="How raw VRML RGB values are interpreted by the Blender preview only",
-        items=(
-            ("SRGB", "sRGB", "Treat VRML values as display RGB and convert them to Blender scene-linear color"),
-            ("DIRECT", "Direct / Scene Linear", "Pass the VRML values directly to Blender shader sockets"),
-        ),
-        default="SRGB",
+    preview_lighting: EnumProperty(
+        name="VRML Preview Lighting",
+        description="Controlled VRML97 reference-lighting rig used by the live preview",
+        items=LIGHTING_ITEMS,
+        default="STUDIO",
         update=_update_material,
     )
     preview_ambient_light: FloatProperty(
         name="Assumed Ambient Light",
         description=(
-            "Preview-only VRML scene ambient-light level; the displayed ambient term is "
+            "Preview VRML scene ambient-light level; the displayed ambient term is "
             "diffuseColor x ambientIntensity x this value"
         ),
         min=0.0,

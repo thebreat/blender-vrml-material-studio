@@ -82,9 +82,10 @@ def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context)
     tools.operator("vrml2.paste_material_block", text="Paste", icon="PASTEDOWN")
 
     preview = layout.box()
-    preview.label(text="Blender Preview Approximation", icon="SHADING_RENDERED")
-    preview.prop(properties, "preview_color_space")
+    preview.label(text="VRML97 Live Preview", icon="SHADING_RENDERED")
+    preview.prop(properties, "preview_lighting")
     preview.prop(properties, "preview_ambient_light")
+    preview.label(text="Ignores Blender lights and material shading.")
     preview.label(text="Use Material Preview or Rendered viewport shading.")
     preview.operator("vrml2.refresh_preview", icon="FILE_REFRESH")
 

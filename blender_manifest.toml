@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "vrml2_material_studio"
-version = "0.1.0"
+version = "0.2.0"
 name = "VRML2 Material Studio"
 tagline = "Edit and preview native VRML2 material fields"
 maintainer = "Brianna O'Leary"

@@ -25,23 +25,29 @@ def load_extension():
     return module
 
 
-def assert_preview_graph(extension, material) -> None:
+def assert_preview_graph(extension, material):
     tagged_nodes = [
         node
         for node in material.node_tree.nodes
         if node.get(extension.constants.PREVIEW_NODE_TAG)
     ]
-    roles = {node.get(extension.constants.PREVIEW_ROLE_TAG) for node in tagged_nodes}
-    expected_roles = {
-        extension.constants.ROLE_DIFFUSE,
-        extension.constants.ROLE_SPECULAR,
-        extension.constants.ROLE_EMISSION,
-        extension.constants.ROLE_ADD_LIT,
-        extension.constants.ROLE_ADD_EMISSION,
-        extension.constants.ROLE_TRANSPARENT,
-        extension.constants.ROLE_MIX_TRANSPARENCY,
+    shader = next(
+        node
+        for node in tagged_nodes
+        if node.get(extension.constants.PREVIEW_ROLE_TAG) == extension.constants.ROLE_VRML_SHADER
+    )
+    assert shader.bl_idname == "ShaderNodeGroup"
+    assert shader.node_tree.name == extension.vrml_shader.GROUP_NAME
+    assert shader.node_tree.get(extension.vrml_shader.GROUP_VERSION_KEY) == extension.vrml_shader.GROUP_VERSION
+    assert shader.outputs.get(extension.vrml_shader.SOCKET_SHADER) is not None
+    forbidden_bsdfs = {
+        "ShaderNodeBsdfAnisotropic",
+        "ShaderNodeBsdfDiffuse",
+        "ShaderNodeBsdfGlossy",
+        "ShaderNodeBsdfPrincipled",
     }
-    assert expected_roles.issubset(roles), (expected_roles, roles)
+    assert not any(node.bl_idname in forbidden_bsdfs for node in shader.node_tree.nodes)
+    return shader
 
 
 def main() -> None:
@@ -64,7 +70,13 @@ def main() -> None:
         assert material[extension.constants.EXPORT_KEYS["initialized"]] is True
         stored_diffuse = material[extension.constants.EXPORT_KEYS["diffuse_color"]]
         assert all(math.isclose(value, 0.8, abs_tol=1e-6) for value in stored_diffuse)
-        assert_preview_graph(extension, material)
+        shader = assert_preview_graph(extension, material)
+        assert settings.preview_lighting == "STUDIO"
+        assert math.isclose(
+            shader.inputs[extension.vrml_shader.SOCKET_SHININESS].default_value,
+            settings.shininess,
+            abs_tol=1e-6,
+        )
 
         was_clamped = extension.core.apply_values(
             material,
@@ -84,6 +96,21 @@ def main() -> None:
             0.4,
             abs_tol=1e-6,
         )
+        assert math.isclose(
+            shader.inputs[extension.vrml_shader.SOCKET_SHININESS].default_value,
+            0.75,
+            abs_tol=1e-6,
+        )
+        assert math.isclose(
+            shader.inputs[extension.vrml_shader.SOCKET_TRANSPARENCY].default_value,
+            0.4,
+            abs_tol=1e-6,
+        )
+
+        settings.preview_lighting = "OVERHEAD"
+        extension.core.sync_material(material)
+        assert math.isclose(shader.inputs["Light 1 Intensity"].default_value, 1.15, abs_tol=1e-6)
+        assert math.isclose(shader.inputs["Light 3 Intensity"].default_value, 0.0, abs_tol=1e-6)
 
         extension.core.remove_vrml2_data(material)
         assert not settings.initialized

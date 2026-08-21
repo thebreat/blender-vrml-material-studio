@@ -9,6 +9,7 @@ from typing import Any, Iterable
 
 import bpy
 
+from . import vrml_shader
 from .constants import (
     DATA_SCHEMA_VERSION,
     EXPORT_KEYS,
@@ -17,13 +18,7 @@ from .constants import (
     PREVIEW_NODE_PREFIX,
     PREVIEW_NODE_TAG,
     PREVIEW_ROLE_TAG,
-    ROLE_ADD_EMISSION,
-    ROLE_ADD_LIT,
-    ROLE_DIFFUSE,
-    ROLE_EMISSION,
-    ROLE_MIX_TRANSPARENCY,
-    ROLE_SPECULAR,
-    ROLE_TRANSPARENT,
+    ROLE_VRML_SHADER,
     VRML_DEFAULTS,
 )
 from .vrml_text import sanitize_def_name
@@ -87,13 +82,6 @@ def preview_color(value: Iterable[float], color_space: str) -> tuple[float, floa
 def stored_color_from_linear(value: Iterable[float]) -> tuple[float, float, float]:
     components = tuple(float(component) for component in value)
     return tuple(clamp01(linear_channel_to_srgb(component)) for component in components[:3])
-
-
-def shininess_to_roughness(shininess: float) -> float:
-    """Approximate VRML's normalized Phong exponent as microfacet roughness."""
-    exponent = clamp01(shininess) * 128.0
-    roughness = math.sqrt(2.0 / (exponent + 2.0))
-    return max(0.02, min(1.0, roughness))
 
 
 def roughness_to_shininess(roughness: float) -> float:
@@ -240,37 +228,6 @@ def _preview_node(node_tree: bpy.types.NodeTree, role: str):
     return None
 
 
-def _ensure_preview_node(
-    node_tree: bpy.types.NodeTree,
-    role: str,
-    node_types: tuple[str, ...],
-    location: tuple[float, float],
-    label: str,
-) -> bpy.types.Node:
-    node = _preview_node(node_tree, role)
-    if node is not None and node.bl_idname not in node_types:
-        node_tree.nodes.remove(node)
-        node = None
-
-    if node is None:
-        last_error: Exception | None = None
-        for node_type in node_types:
-            try:
-                node = node_tree.nodes.new(node_type)
-                break
-            except (RuntimeError, TypeError) as exc:
-                last_error = exc
-        if node is None:
-            raise RuntimeError(f"Unable to create preview node for {role}") from last_error
-
-    node[PREVIEW_NODE_TAG] = True
-    node[PREVIEW_ROLE_TAG] = role
-    node.name = f"{PREVIEW_NODE_PREFIX} - {label}"
-    node.label = label
-    node.location = location
-    return node
-
-
 def _ensure_link(node_tree: bpy.types.NodeTree, from_socket: Any, to_socket: Any) -> None:
     if from_socket is None or to_socket is None:
         return
@@ -314,84 +271,39 @@ def _record_original_state(material: bpy.types.Material) -> None:
 
 
 def ensure_preview_graph(material: bpy.types.Material) -> dict[str, bpy.types.Node]:
-    # Record this before enabling nodes. Setting use_nodes can create Blender's
-    # default node tree, which is not the pre-preview state for a legacy material.
+    """Create the material-level wrapper around the shared VRML97 shader."""
     _record_original_state(material)
     material.use_nodes = True
     node_tree = material.node_tree
     output = _material_output(material)
 
-    nodes = {
-        ROLE_DIFFUSE: _ensure_preview_node(
-            node_tree,
-            ROLE_DIFFUSE,
-            ("ShaderNodeBsdfDiffuse",),
-            (-620, 180),
-            "VRML2 Diffuse",
-        ),
-        ROLE_SPECULAR: _ensure_preview_node(
-            node_tree,
-            ROLE_SPECULAR,
-            ("ShaderNodeBsdfAnisotropic", "ShaderNodeBsdfGlossy", "ShaderNodeBsdfPrincipled"),
-            (-620, -40),
-            "VRML2 Specular",
-        ),
-        ROLE_EMISSION: _ensure_preview_node(
-            node_tree,
-            ROLE_EMISSION,
-            ("ShaderNodeEmission",),
-            (-380, -260),
-            "VRML2 Ambient + Emissive",
-        ),
-        ROLE_ADD_LIT: _ensure_preview_node(
-            node_tree,
-            ROLE_ADD_LIT,
-            ("ShaderNodeAddShader",),
-            (-320, 100),
-            "Add Diffuse + Specular",
-        ),
-        ROLE_ADD_EMISSION: _ensure_preview_node(
-            node_tree,
-            ROLE_ADD_EMISSION,
-            ("ShaderNodeAddShader",),
-            (-80, 40),
-            "Add Ambient + Emissive",
-        ),
-        ROLE_TRANSPARENT: _ensure_preview_node(
-            node_tree,
-            ROLE_TRANSPARENT,
-            ("ShaderNodeBsdfTransparent",),
-            (-80, -180),
-            "VRML2 Transparent",
-        ),
-        ROLE_MIX_TRANSPARENCY: _ensure_preview_node(
-            node_tree,
-            ROLE_MIX_TRANSPARENCY,
-            ("ShaderNodeMixShader",),
-            (240, 40),
-            "VRML2 Transparency",
-        ),
-    }
+    # Remove preview nodes from the old Blender-BSDF implementation during the
+    # first sync after upgrading, while retaining our output and current group.
+    for candidate in list(node_tree.nodes):
+        if not candidate.get(PREVIEW_NODE_TAG):
+            continue
+        role = candidate.get(PREVIEW_ROLE_TAG)
+        if role not in {"OUTPUT", ROLE_VRML_SHADER}:
+            node_tree.nodes.remove(candidate)
 
-    diffuse = nodes[ROLE_DIFFUSE]
-    specular = nodes[ROLE_SPECULAR]
-    emission = nodes[ROLE_EMISSION]
-    add_lit = nodes[ROLE_ADD_LIT]
-    add_emission = nodes[ROLE_ADD_EMISSION]
-    transparent = nodes[ROLE_TRANSPARENT]
-    mix = nodes[ROLE_MIX_TRANSPARENCY]
+    shader = _preview_node(node_tree, ROLE_VRML_SHADER)
+    if shader is not None and shader.bl_idname != "ShaderNodeGroup":
+        node_tree.nodes.remove(shader)
+        shader = None
 
-    _ensure_link(node_tree, _node_output(diffuse), _first_socket(add_lit.inputs, 0))
-    _ensure_link(node_tree, _node_output(specular), _first_socket(add_lit.inputs, 1))
-    _ensure_link(node_tree, _node_output(add_lit), _first_socket(add_emission.inputs, 0))
-    _ensure_link(node_tree, _node_output(emission), _first_socket(add_emission.inputs, 1))
-    _ensure_link(node_tree, _node_output(add_emission), _first_socket(mix.inputs, 1))
-    _ensure_link(node_tree, _node_output(transparent), _first_socket(mix.inputs, 2))
+    if shader is None:
+        shader = node_tree.nodes.new("ShaderNodeGroup")
+        shader[PREVIEW_NODE_TAG] = True
+        shader[PREVIEW_ROLE_TAG] = ROLE_VRML_SHADER
+        shader.name = f"{PREVIEW_NODE_PREFIX} - VRML97 Live Preview"
+        shader.label = "VRML97 Live Preview"
+        shader.location = (300, 40)
+
+    shader.node_tree = vrml_shader.ensure_shader_group()
 
     surface = _socket_by_names(output.inputs, ("Surface",)) or _first_socket(output.inputs, 0)
-    _ensure_link(node_tree, _node_output(mix), surface)
-    nodes["OUTPUT"] = output
-    return nodes
+    _ensure_link(node_tree, _node_output(shader, (vrml_shader.SOCKET_SHADER, "Shader")), surface)
+    return {ROLE_VRML_SHADER: shader, "OUTPUT": output}
 
 
 def _restore_render_mode(material: bpy.types.Material) -> None:
@@ -438,43 +350,25 @@ def update_preview(material: bpy.types.Material) -> None:
         return
 
     nodes = ensure_preview_graph(material)
-    color_space = properties.preview_color_space
-    diffuse_color = preview_color(properties.diffuse_color, color_space)
-    specular_color = preview_color(properties.specular_color, color_space)
-    emissive_color = preview_color(properties.emissive_color, color_space)
+    # VRML RGB fields are lighting intensities, not Blender colour-picker
+    # values. Feed them directly into the VRML equation; Blender's display
+    # transform is applied only after the complete lighting result is computed.
+    diffuse_color = preview_color(properties.diffuse_color, "DIRECT")
+    specular_color = preview_color(properties.specular_color, "DIRECT")
+    emissive_color = preview_color(properties.emissive_color, "DIRECT")
     transparency = clamp01(properties.transparency)
-    roughness = shininess_to_roughness(properties.shininess)
 
-    ambient_scale = clamp01(properties.ambient_intensity) * max(0.0, float(properties.preview_ambient_light))
-    ambient_color = tuple(component * ambient_scale for component in diffuse_color)
-    emission_total = tuple(ambient_color[i] + emissive_color[i] for i in range(3))
-    emission_peak = max(1.0, max(emission_total))
-    emission_color = tuple(component / emission_peak for component in emission_total)
-
-    diffuse = nodes[ROLE_DIFFUSE]
-    _set_color_input(diffuse, ("Color", "Base Color"), diffuse_color, 0)
-    _set_float_input(diffuse, ("Roughness",), 0.0, 1)
-
-    specular = nodes[ROLE_SPECULAR]
-    if specular.bl_idname == "ShaderNodeBsdfPrincipled":
-        _set_color_input(specular, ("Base Color",), specular_color, 0)
-        _set_float_input(specular, ("Metallic",), 1.0, 1)
-        _set_float_input(specular, ("Roughness",), roughness, 2)
-    else:
-        _set_color_input(specular, ("Color",), specular_color, 0)
-        _set_float_input(specular, ("Roughness",), roughness, 1)
-        _set_float_input(specular, ("IOR",), 1.5)
-        _set_float_input(specular, ("Anisotropy",), 0.0)
-
-    emission = nodes[ROLE_EMISSION]
-    _set_color_input(emission, ("Color", "Emission Color"), emission_color, 0)
-    _set_float_input(emission, ("Strength", "Emission Strength"), emission_peak, 1)
-
-    transparent = nodes[ROLE_TRANSPARENT]
-    _set_color_input(transparent, ("Color",), (1.0, 1.0, 1.0), 0)
-
-    mix = nodes[ROLE_MIX_TRANSPARENCY]
-    _set_float_input(mix, ("Fac", "Factor"), transparency, 0)
+    vrml_shader.configure_preview_node(
+        nodes[ROLE_VRML_SHADER],
+        diffuse_color=diffuse_color,
+        specular_color=specular_color,
+        emissive_color=emissive_color,
+        ambient_intensity=clamp01(properties.ambient_intensity),
+        shininess=clamp01(properties.shininess),
+        transparency=transparency,
+        ambient_light=properties.preview_ambient_light,
+        lighting=properties.preview_lighting,
+    )
 
     alpha = 1.0 - transparency
     try:

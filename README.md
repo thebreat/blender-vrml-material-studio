@@ -1,6 +1,6 @@
 # VRML2 Material Studio
 
-VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six fields in a VRML97/VRML2 `Material` node and seeing a live approximation in Blender before export.
+VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six fields in a VRML97/VRML2 `Material` node and seeing them through a live VRML97 lighting preview before export.
 
 ## Features
 
@@ -12,7 +12,8 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
   - `shininess`
   - `specularColor`
   - `transparency`
-- Creates an additive Blender preview shader with separate diffuse, colored specular, ambient/emissive, and transparency components.
+- Calculates the VRML97 diffuse, colored specular, ambient, emissive, and transparency terms directly instead of translating them into Blender BSDF properties.
+- Includes Studio, Overhead, and Showroom VRML reference-lighting rigs that ignore Blender lights and HDRIs.
 - Preserves the material's original node-use state, Surface shader connection, viewport color, and transparency render mode, then restores them when Live Preview is disabled or VRML2 data is removed.
 - Copies a complete `Material { ... }` block to the clipboard.
 - Pastes complete or partial VRML2 Material blocks from the clipboard.
@@ -22,7 +23,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
 
 ## Installation
 
-1. Keep `vrml2_material_studio-0.1.0.zip` compressed.
+1. Keep `vrml2_material_studio-0.2.0.zip` compressed.
 2. Open Blender 5.2 LTS.
 3. Go to **Edit > Preferences > Get Extensions**.
 4. Open the menu in the upper-right and choose **Install from Disk**.
@@ -43,7 +44,7 @@ The interface appears in both locations:
 2. Open the VRML2 panel.
 3. Click **Create VRML2 Material**.
 4. Edit the six VRML fields.
-5. Use Material Preview or Rendered viewport shading to see the generated preview shader.
+5. Use Material Preview or Rendered viewport shading to see the VRML97 live preview.
 
 ### Add VRML2 data to an existing Blender material
 
@@ -67,6 +68,8 @@ VRML2 data belongs to the Blender Material, not to the Object. When a material h
 ```text
 ambient color = diffuseColor × ambientIntensity
 ```
+
+The preview includes a **VRML Preview Lighting** selector with Studio, Overhead, and Showroom reference rigs. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
 
 The preview also includes an **Assumed Ambient Light** value. This is preview-only and is not exported. It represents the ambient-light contribution of the eventual VRML scene, which is not known from a Material node alone.
 
@@ -147,9 +150,11 @@ print(settings.ambient_intensity)
 
 The flat custom properties are the recommended integration point because they keep the exporter independent.
 
-## Preview limitations
+## Preview behavior and limitations
 
-The preview is intentionally an approximation. VRML97 uses a fixed-function lighting equation, while Blender uses modern shader nodes, color management, environment lighting, and different render engines. The appearance can also vary between VRML browsers because their lights, ambient contribution, transparency sorting, and historical rendering implementations differ.
+The generated shader evaluates the VRML97 lighting terms directly, including the `shininess × 128` specular exponent. It does not use Blender roughness, metallic, Fresnel, or scene lighting. The reference rigs are based on the Worldcheck material previewer so highlights remain consistent while materials are edited.
+
+A Material node does not have one appearance independent of its scene: the final result still depends on light direction, light colour and intensity, ambient contribution, geometry normals, camera angle, transparency sorting, and display colour management. Historical VRML browsers can also differ from one another in those details.
 
 Use the preview to tune materials interactively, then validate important assets in the final target browser. The preview controls do not alter the six exported values.
 
@@ -160,6 +165,10 @@ Use the preview to tune materials interactively, then validate important assets 
 - For a material created entirely by this extension, removing VRML2 data creates a basic Principled fallback so the material does not become blank.
 
 ## Version
+
+### 0.2.0
+
+Replaced the Blender-BSDF approximation with a direct VRML97 live-preview shader and controlled reference-lighting rigs.
 
 ### 0.1.0
 
