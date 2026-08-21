@@ -13,6 +13,7 @@ from . import vrml_shader
 from .constants import (
     DATA_SCHEMA_VERSION,
     EXPORT_KEYS,
+    LEGACY_EXPORT_KEYS,
     MATERIAL_POINTER_NAME,
     META_KEYS,
     PREVIEW_NODE_PREFIX,
@@ -20,7 +21,6 @@ from .constants import (
     PREVIEW_ROLE_TAG,
     ROLE_VRML_SHADER,
     VRML_DEFAULTS,
-    VRML_FIELD_INCLUSION_DEFAULTS,
 )
 from .vrml_text import sanitize_def_name
 
@@ -102,13 +102,11 @@ def active_material(context: bpy.types.Context) -> bpy.types.Material | None:
 
 def property_values(properties: Any) -> dict[str, Any]:
     return {
-        "ambient_intensity": float(properties.ambient_intensity),
         "diffuse_color": tuple(float(v) for v in properties.diffuse_color),
-        "include_emissive_color": bool(properties.include_emissive_color),
         "emissive_color": tuple(float(v) for v in properties.emissive_color),
-        "shininess": float(properties.shininess),
-        "include_specular_color": bool(properties.include_specular_color),
         "specular_color": tuple(float(v) for v in properties.specular_color),
+        "ambient_intensity": float(properties.ambient_intensity),
+        "shininess": float(properties.shininess),
         "transparency": float(properties.transparency),
     }
 
@@ -122,14 +120,15 @@ def sync_custom_properties(material: bpy.types.Material) -> None:
     material[EXPORT_KEYS["initialized"]] = bool(properties.initialized)
     material[EXPORT_KEYS["enabled"]] = bool(properties.enabled)
     material[EXPORT_KEYS["def_name"]] = str(properties.def_name)
-    material[EXPORT_KEYS["ambient_intensity"]] = float(properties.ambient_intensity)
     material[EXPORT_KEYS["diffuse_color"]] = list(clamp_color(properties.diffuse_color))
-    material[EXPORT_KEYS["include_emissive_color"]] = bool(properties.include_emissive_color)
     material[EXPORT_KEYS["emissive_color"]] = list(clamp_color(properties.emissive_color))
-    material[EXPORT_KEYS["shininess"]] = float(properties.shininess)
-    material[EXPORT_KEYS["include_specular_color"]] = bool(properties.include_specular_color)
     material[EXPORT_KEYS["specular_color"]] = list(clamp_color(properties.specular_color))
+    material[EXPORT_KEYS["ambient_intensity"]] = float(properties.ambient_intensity)
+    material[EXPORT_KEYS["shininess"]] = float(properties.shininess)
     material[EXPORT_KEYS["transparency"]] = float(properties.transparency)
+    for key in LEGACY_EXPORT_KEYS:
+        if key in material:
+            del material[key]
 
 
 def _socket_by_names(sockets: Any, names: Iterable[str]):
@@ -359,18 +358,8 @@ def update_preview(material: bpy.types.Material) -> None:
     # values. Feed them directly into the VRML equation; Blender's display
     # transform is applied only after the complete lighting result is computed.
     diffuse_color = preview_color(properties.diffuse_color, "DIRECT")
-    specular_value = (
-        properties.specular_color
-        if properties.include_specular_color
-        else VRML_DEFAULTS["specular_color"]
-    )
-    emissive_value = (
-        properties.emissive_color
-        if properties.include_emissive_color
-        else VRML_DEFAULTS["emissive_color"]
-    )
-    specular_color = preview_color(specular_value, "DIRECT")
-    emissive_color = preview_color(emissive_value, "DIRECT")
+    specular_color = preview_color(properties.specular_color, "DIRECT")
+    emissive_color = preview_color(properties.emissive_color, "DIRECT")
     transparency = clamp01(properties.transparency)
 
     vrml_shader.configure_preview_node(
@@ -510,10 +499,6 @@ def apply_values(material: bpy.types.Material, values: dict[str, Any]) -> bool:
     clamped = False
 
     with suspend_updates(material):
-        for key in ("include_emissive_color", "include_specular_color"):
-            if key in values:
-                setattr(properties, key, bool(values[key]))
-
         for key in ("ambient_intensity", "shininess", "transparency"):
             if key in values:
                 raw = float(values[key])
@@ -527,9 +512,6 @@ def apply_values(material: bpy.types.Material, values: dict[str, Any]) -> bool:
                 value = clamp_color(raw)
                 clamped = clamped or tuple(raw) != tuple(value)
                 setattr(properties, key, value)
-                inclusion_key = f"include_{key}"
-                if inclusion_key in VRML_FIELD_INCLUSION_DEFAULTS and inclusion_key not in values:
-                    setattr(properties, inclusion_key, True)
 
         if "def_name" in values and values["def_name"]:
             properties.def_name = sanitize_def_name(str(values["def_name"]))
@@ -560,7 +542,6 @@ def _principled_from_original(material: bpy.types.Material):
 
 def read_existing_blender_values(material: bpy.types.Material) -> dict[str, Any]:
     values = dict(VRML_DEFAULTS)
-    values.update(VRML_FIELD_INCLUSION_DEFAULTS)
     node = _principled_from_original(material)
 
     if node is None:
@@ -583,25 +564,6 @@ def read_existing_blender_values(material: bpy.types.Material) -> dict[str, Any]
         values["transparency"] = clamp01(1.0 - float(alpha))
     elif base is not None and hasattr(base, "__len__") and len(base) > 3:
         values["transparency"] = clamp01(1.0 - float(base[3]))
-
-    specular_strength = _get_input_value(node, ("Specular IOR Level", "Specular"))
-    if not isinstance(specular_strength, (int, float)):
-        specular_strength = 0.5
-    specular_strength = clamp01(float(specular_strength))
-
-    specular_tint = _get_input_value(node, ("Specular Tint",))
-    if specular_tint is not None and hasattr(specular_tint, "__len__"):
-        linear_specular = tuple(float(component) * specular_strength for component in specular_tint[:3])
-        values["specular_color"] = stored_color_from_linear(linear_specular)
-    else:
-        values["specular_color"] = (specular_strength, specular_strength, specular_strength)
-
-    emission = _get_input_value(node, ("Emission Color", "Emission"))
-    emission_strength = _get_input_value(node, ("Emission Strength",))
-    if emission is not None and hasattr(emission, "__len__"):
-        strength = float(emission_strength) if isinstance(emission_strength, (int, float)) else 1.0
-        linear_emission = tuple(float(component) * max(0.0, strength) for component in emission[:3])
-        values["emissive_color"] = stored_color_from_linear(linear_emission)
 
     return values
 
@@ -629,25 +591,11 @@ def initialize_material(
         properties.enabled = bool(enable_export)
         properties.live_preview = True
         properties.def_name = sanitize_def_name(def_name or material.name)
-        properties.ambient_intensity = clamp01(values.get("ambient_intensity", VRML_DEFAULTS["ambient_intensity"]))
         properties.diffuse_color = clamp_color(values.get("diffuse_color", VRML_DEFAULTS["diffuse_color"]))
-        properties.include_emissive_color = bool(
-            values.get(
-                "include_emissive_color",
-                clamp_color(values.get("emissive_color", VRML_DEFAULTS["emissive_color"]))
-                != VRML_DEFAULTS["emissive_color"],
-            )
-        )
         properties.emissive_color = clamp_color(values.get("emissive_color", VRML_DEFAULTS["emissive_color"]))
-        properties.shininess = clamp01(values.get("shininess", VRML_DEFAULTS["shininess"]))
-        properties.include_specular_color = bool(
-            values.get(
-                "include_specular_color",
-                clamp_color(values.get("specular_color", VRML_DEFAULTS["specular_color"]))
-                != VRML_DEFAULTS["specular_color"],
-            )
-        )
         properties.specular_color = clamp_color(values.get("specular_color", VRML_DEFAULTS["specular_color"]))
+        properties.ambient_intensity = clamp01(values.get("ambient_intensity", VRML_DEFAULTS["ambient_intensity"]))
+        properties.shininess = clamp01(values.get("shininess", VRML_DEFAULTS["shininess"]))
         properties.transparency = clamp01(values.get("transparency", VRML_DEFAULTS["transparency"]))
 
     sync_material(material)
@@ -663,16 +611,14 @@ def remove_vrml2_data(material: bpy.types.Material) -> None:
         properties.enabled = False
         properties.live_preview = True
         properties.def_name = ""
-        properties.ambient_intensity = VRML_DEFAULTS["ambient_intensity"]
         properties.diffuse_color = VRML_DEFAULTS["diffuse_color"]
-        properties.include_emissive_color = VRML_FIELD_INCLUSION_DEFAULTS["include_emissive_color"]
         properties.emissive_color = VRML_DEFAULTS["emissive_color"]
-        properties.shininess = VRML_DEFAULTS["shininess"]
-        properties.include_specular_color = VRML_FIELD_INCLUSION_DEFAULTS["include_specular_color"]
         properties.specular_color = VRML_DEFAULTS["specular_color"]
+        properties.ambient_intensity = VRML_DEFAULTS["ambient_intensity"]
+        properties.shininess = VRML_DEFAULTS["shininess"]
         properties.transparency = VRML_DEFAULTS["transparency"]
 
-    for key in tuple(EXPORT_KEYS.values()) + tuple(META_KEYS.values()):
+    for key in tuple(EXPORT_KEYS.values()) + LEGACY_EXPORT_KEYS + tuple(META_KEYS.values()):
         if key in material:
             del material[key]
 
@@ -685,28 +631,24 @@ def migrate_material(material: bpy.types.Material) -> None:
     stored_initialized = bool(material.get(EXPORT_KEYS["initialized"], False))
     if stored_initialized and not properties.initialized:
         values = {
+            "diffuse_color": material.get(EXPORT_KEYS["diffuse_color"], VRML_DEFAULTS["diffuse_color"]),
+            "emissive_color": material.get(EXPORT_KEYS["emissive_color"], VRML_DEFAULTS["emissive_color"]),
+            "specular_color": material.get(EXPORT_KEYS["specular_color"], VRML_DEFAULTS["specular_color"]),
             "ambient_intensity": material.get(
                 EXPORT_KEYS["ambient_intensity"], VRML_DEFAULTS["ambient_intensity"]
             ),
-            "diffuse_color": material.get(EXPORT_KEYS["diffuse_color"], VRML_DEFAULTS["diffuse_color"]),
-            "include_emissive_color": material.get(EXPORT_KEYS["include_emissive_color"], True),
-            "emissive_color": material.get(EXPORT_KEYS["emissive_color"], VRML_DEFAULTS["emissive_color"]),
             "shininess": material.get(EXPORT_KEYS["shininess"], VRML_DEFAULTS["shininess"]),
-            "include_specular_color": material.get(EXPORT_KEYS["include_specular_color"], True),
-            "specular_color": material.get(EXPORT_KEYS["specular_color"], VRML_DEFAULTS["specular_color"]),
             "transparency": material.get(EXPORT_KEYS["transparency"], VRML_DEFAULTS["transparency"]),
         }
         with suspend_updates(material):
             properties.initialized = True
             properties.enabled = bool(material.get(EXPORT_KEYS["enabled"], True))
             properties.def_name = str(material.get(EXPORT_KEYS["def_name"], ""))
-            properties.ambient_intensity = clamp01(values["ambient_intensity"])
             properties.diffuse_color = clamp_color(values["diffuse_color"])
-            properties.include_emissive_color = bool(values["include_emissive_color"])
             properties.emissive_color = clamp_color(values["emissive_color"])
-            properties.shininess = clamp01(values["shininess"])
-            properties.include_specular_color = bool(values["include_specular_color"])
             properties.specular_color = clamp_color(values["specular_color"])
+            properties.ambient_intensity = clamp01(values["ambient_intensity"])
+            properties.shininess = clamp01(values["shininess"])
             properties.transparency = clamp01(values["transparency"])
 
     if properties.initialized:

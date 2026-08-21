@@ -76,11 +76,7 @@ def main() -> None:
         settings = getattr(material, extension.constants.MATERIAL_POINTER_NAME)
         assert settings.initialized
         assert settings.def_name == "Smoke_Material"
-        assert not settings.include_emissive_color
-        assert not settings.include_specular_color
         assert material[extension.constants.EXPORT_KEYS["initialized"]] is True
-        assert material[extension.constants.EXPORT_KEYS["include_emissive_color"]] is False
-        assert material[extension.constants.EXPORT_KEYS["include_specular_color"]] is False
         stored_diffuse = material[extension.constants.EXPORT_KEYS["diffuse_color"]]
         assert all(math.isclose(value, 0.8, abs_tol=1e-6) for value in stored_diffuse)
         shader = assert_preview_graph(extension, material)
@@ -124,16 +120,25 @@ def main() -> None:
             material,
             {"shininess": 0.0, "specular_color": (0.8, 0.7, 0.6)},
         )
-        assert settings.include_specular_color
-        settings.include_specular_color = False
-        extension.core.sync_material(material)
+        assert all(
+            math.isclose(component, expected, abs_tol=1e-6)
+            for component, expected in zip(
+                shader.inputs[extension.vrml_shader.SOCKET_SPECULAR].default_value[:3],
+                (0.8, 0.7, 0.6),
+                strict=True,
+            )
+        )
+        extension.core.apply_values(
+            material,
+            {"specular_color": extension.constants.VRML_DEFAULTS["specular_color"]},
+        )
         assert all(
             math.isclose(component, 0.0, abs_tol=1e-6)
             for component in shader.inputs[extension.vrml_shader.SOCKET_SPECULAR].default_value[:3]
         )
         copied = extension.vrml_text.format_material_block(extension.core.property_values(settings))
-        assert "specularColor" not in copied
-        assert "emissiveColor" not in copied
+        assert "specularColor 0 0 0" in copied
+        assert "emissiveColor 0 0 0" in copied
 
         settings.preview_lighting = "OVERHEAD"
         extension.core.sync_material(material)
@@ -150,14 +155,15 @@ def main() -> None:
         assert surface is not None and surface.links
         assert surface.links[0].from_node.bl_idname == "ShaderNodeBsdfPrincipled"
 
-        legacy_material = bpy.data.materials.new("VRML2 Legacy Inclusion Test")
+        legacy_material = bpy.data.materials.new("VRML2 Legacy Field Test")
         legacy_material[extension.constants.EXPORT_KEYS["initialized"]] = True
         legacy_material[extension.constants.EXPORT_KEYS["emissive_color"]] = (0.0, 0.0, 0.0)
         legacy_material[extension.constants.EXPORT_KEYS["specular_color"]] = (0.0, 0.0, 0.0)
+        for legacy_key in extension.constants.LEGACY_EXPORT_KEYS:
+            legacy_material[legacy_key] = False
         extension.core.migrate_material(legacy_material)
-        legacy_settings = getattr(legacy_material, extension.constants.MATERIAL_POINTER_NAME)
-        assert legacy_settings.include_emissive_color
-        assert legacy_settings.include_specular_color
+        for legacy_key in extension.constants.LEGACY_EXPORT_KEYS:
+            assert legacy_key not in legacy_material
 
         # Simulate Blender loading updated Python modules while the earlier copy
         # is still registered. The replacement must evict the stale RNA classes.

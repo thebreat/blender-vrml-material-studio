@@ -14,7 +14,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
   - `transparency`
 - Calculates the VRML97 diffuse, colored specular, ambient, emissive, and transparency terms directly instead of translating them into Blender BSDF properties.
 - Includes Studio, Overhead, and Showroom VRML reference-lighting rigs that ignore Blender lights and HDRIs.
-- Lets `emissiveColor` and `specularColor` be omitted while previewing their VRML97 default of black.
+- Provides one-click VRML97 default resets for `emissiveColor` and `specularColor`.
 - Preserves the material's original node-use state, Surface shader connection, viewport color, and transparency render mode, then restores them when Live Preview is disabled or VRML2 data is removed.
 - Copies a complete `Material { ... }` block to the clipboard.
 - Pastes complete or partial VRML2 Material blocks from the clipboard.
@@ -51,7 +51,7 @@ The interface appears in both locations:
 
 1. Make the existing material active.
 2. Click **Initialize Existing Material**.
-3. The extension reads a best-effort starting point from a Principled BSDF. Inferred specular and emissive colors remain omitted until explicitly included.
+3. The extension reads diffuse, transparency, and shininess starting points from a Principled BSDF. Specular and emissive colors start at their VRML97 defaults.
 4. The original node-use state, Surface link, viewport color, and transparency mode are restored when Live Preview is disabled.
 
 Initializing does not delete the original nodes. The extension adds its generated nodes alongside them and temporarily routes the Material Output Surface through the VRML2 preview.
@@ -70,9 +70,9 @@ VRML2 data belongs to the Blender Material, not to the Object. When a material h
 ambient color = diffuseColor × ambientIntensity
 ```
 
-The `emissiveColor` and `specularColor` controls each have an **Include in VRML** toggle. When it is off, copied VRML omits that field and the live preview uses VRML97's default `0 0 0`. The stored color is retained so it returns if the field is enabled again.
+The `emissiveColor` and `specularColor` controls each have a **Set Default** button that restores the VRML97 value `0 0 0`.
 
-With a nonblack `specularColor`, X_ITE follows the VRML97 equation exactly: `shininess 0` makes the specular term uniform across a lit surface and can saturate bright materials. Omit `specularColor` when no specular contribution is intended.
+`shininess` changes only the shape of a nonblack `specularColor`. With the default black specular color there is no highlight to reshape. X_ITE follows the VRML97 equation exactly: `shininess 0` with a nonblack specular color spreads that contribution across the lit surface.
 
 The preview includes a **VRML Preview Lighting** selector with Studio, Overhead, and Showroom reference rigs. These controlled lights are evaluated by the generated VRML97 shader; Blender scene lights and HDRIs are ignored.
 
@@ -90,8 +90,10 @@ Copy produces a block like this:
 
 ```vrml
 DEF VRML2_Material Material {
-  ambientIntensity 0.2
   diffuseColor 0.8 0.8 0.8
+  emissiveColor 0 0 0
+  specularColor 0 0 0
+  ambientIntensity 0.2
   shininess 0.2
   transparency 0
 }
@@ -115,13 +117,11 @@ The extension stores flat custom properties directly on each Blender Material. T
 | `vrml2_initialized` | Boolean | This material contains VRML2 data |
 | `vrml2_enabled` | Boolean | Include the material in VRML2 export |
 | `vrml2_defName` | String | Optional DEF identifier |
-| `vrml2_ambientIntensity` | Float | `ambientIntensity` |
 | `vrml2_diffuseColor` | 3-float array | `diffuseColor` |
-| `vrml2_includeEmissiveColor` | Boolean | Write `emissiveColor`; otherwise use its VRML default |
-| `vrml2_emissiveColor` | 3-float array | Stored `emissiveColor` value |
+| `vrml2_emissiveColor` | 3-float array | `emissiveColor` |
+| `vrml2_specularColor` | 3-float array | `specularColor` |
+| `vrml2_ambientIntensity` | Float | `ambientIntensity` |
 | `vrml2_shininess` | Float | `shininess` |
-| `vrml2_includeSpecularColor` | Boolean | Write `specularColor`; otherwise use its VRML default |
-| `vrml2_specularColor` | 3-float array | Stored `specularColor` value |
 | `vrml2_transparency` | Float | `transparency` |
 | `vrml2_schemaVersion` | Integer | Stored-data schema version |
 
@@ -136,13 +136,11 @@ def get_vrml2_material_values(material):
 
     return {
         "def_name": material.get("vrml2_defName", ""),
-        "ambientIntensity": float(material.get("vrml2_ambientIntensity", 0.2)),
         "diffuseColor": tuple(material.get("vrml2_diffuseColor", (0.8, 0.8, 0.8))),
-        "includeEmissiveColor": bool(material.get("vrml2_includeEmissiveColor", True)),
         "emissiveColor": tuple(material.get("vrml2_emissiveColor", (0.0, 0.0, 0.0))),
-        "shininess": float(material.get("vrml2_shininess", 0.2)),
-        "includeSpecularColor": bool(material.get("vrml2_includeSpecularColor", True)),
         "specularColor": tuple(material.get("vrml2_specularColor", (0.0, 0.0, 0.0))),
+        "ambientIntensity": float(material.get("vrml2_ambientIntensity", 0.2)),
+        "shininess": float(material.get("vrml2_shininess", 0.2)),
         "transparency": float(material.get("vrml2_transparency", 0.0)),
     }
 ```

@@ -8,9 +8,10 @@
 - Added Blender runtime coverage for the shared VRML97 shader group.
 - Made extension registration reload-safe when installing an update over an enabled copy.
 - Deferred the initial material scan until Blender releases its restricted registration context.
-- Added independent `Include in VRML` controls for `emissiveColor` and `specularColor`.
-- Made omitted color fields use their VRML97 default of black in the preview and clipboard output.
-- Added an X_ITE zero-shininess warning when a nonblack specular color is active.
+- Added neutral `Set Default` actions for `emissiveColor` and `specularColor`.
+- Reordered the editor and copied VRML fields to diffuse, emissive, specular, ambient, shininess, transparency.
+- Replaced the shared-material warning box with a compact user count and neutral single-user action.
+- Stopped deriving VRML specular and emissive colors from Blender's Principled shader.
 
 ## 0.1.0 - 2026-07-27
 

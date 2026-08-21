@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.props import EnumProperty
+from bpy.props import EnumProperty, StringProperty
 
 from . import core
 from .constants import MATERIAL_POINTER_NAME, VRML_DEFAULTS
@@ -131,14 +131,8 @@ class VRML2_OT_paste_material_block(bpy.types.Operator):
         if complete_block:
             values = dict(VRML_DEFAULTS)
             values.update(parsed)
-            values["include_emissive_color"] = "emissive_color" in parsed
-            values["include_specular_color"] = "specular_color" in parsed
         else:
             values = dict(parsed)
-            if "emissive_color" in parsed:
-                values["include_emissive_color"] = True
-            if "specular_color" in parsed:
-                values["include_specular_color"] = True
 
         properties = getattr(material, MATERIAL_POINTER_NAME)
         if not properties.initialized:
@@ -153,6 +147,30 @@ class VRML2_OT_paste_material_block(bpy.types.Operator):
         if was_clamped:
             message += "; out-of-range values were clamped to 0–1"
         self.report({"WARNING"} if was_clamped else {"INFO"}, message)
+        return {"FINISHED"}
+
+
+class VRML2_OT_set_field_default(bpy.types.Operator):
+    bl_idname = "vrml2.set_field_default"
+    bl_label = "Set VRML97 Default"
+    bl_description = "Reset this field to its VRML97 default value"
+    bl_options = {"REGISTER", "UNDO"}
+
+    field: StringProperty(options={"HIDDEN"})
+
+    @classmethod
+    def poll(cls, context):
+        return _editable_material(_active_initialized_material(context))
+
+    def execute(self, context):
+        if self.field not in {"emissive_color", "specular_color"}:
+            self.report({"ERROR"}, "This field does not have a supported default action")
+            return {"CANCELLED"}
+
+        material = _active_initialized_material(context)
+        core.apply_values(material, {self.field: VRML_DEFAULTS[self.field]})
+        label = "Emissive Color" if self.field == "emissive_color" else "Specular Color"
+        self.report({"INFO"}, f"{label} reset to VRML97 default 0 0 0")
         return {"FINISHED"}
 
 
@@ -296,6 +314,7 @@ CLASSES = (
     VRML2_OT_initialize_material,
     VRML2_OT_copy_material_block,
     VRML2_OT_paste_material_block,
+    VRML2_OT_set_field_default,
     VRML2_OT_apply_preset,
     VRML2_OT_refresh_preview,
     VRML2_OT_make_single_user,

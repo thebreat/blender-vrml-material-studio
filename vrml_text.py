@@ -117,13 +117,11 @@ def sanitize_def_name(name: str, fallback: str = "VRML2_Material") -> str:
 def format_material_block(values: dict[str, Any], def_name: str = "") -> str:
     prefix = f"DEF {sanitize_def_name(def_name)} " if def_name.strip() else ""
     lines = [f"{prefix}Material {{"]
-    lines.append(f"  ambientIntensity {format_number(values['ambient_intensity'])}")
     lines.append(f"  diffuseColor {format_color(values['diffuse_color'])}")
-    if values.get("include_emissive_color", True):
-        lines.append(f"  emissiveColor {format_color(values['emissive_color'])}")
+    lines.append(f"  emissiveColor {format_color(values['emissive_color'])}")
+    lines.append(f"  specularColor {format_color(values['specular_color'])}")
+    lines.append(f"  ambientIntensity {format_number(values['ambient_intensity'])}")
     lines.append(f"  shininess {format_number(values['shininess'])}")
-    if values.get("include_specular_color", True):
-        lines.append(f"  specularColor {format_color(values['specular_color'])}")
     lines.append(f"  transparency {format_number(values['transparency'])}")
     lines.append("}")
     return "\n".join(lines)

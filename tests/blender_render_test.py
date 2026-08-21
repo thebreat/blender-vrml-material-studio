@@ -120,12 +120,29 @@ def main() -> None:
         assert high["peak"] > 0.1, high
         assert not math.isclose(low["mean"], high["mean"], rel_tol=0.05), (low, high)
 
-        settings.shininess = 0.0
-        settings.include_specular_color = False
+        extension.core.apply_values(
+            material,
+            {
+                "ambient_intensity": 0.0,
+                "diffuse_color": (0.35, 0.35, 0.35),
+                "emissive_color": (0.0, 0.0, 0.0),
+                "shininess": 0.2,
+                "specular_color": (0.0, 0.0, 0.0),
+                "transparency": 0.0,
+            },
+        )
+        settings.preview_ambient_light = 0.25
         extension.core.sync_material(material)
-        omitted_specular = render_metrics(scene, Path("/tmp/vrml97-specular-omitted.png"))
-        assert omitted_specular["mean"] < low["mean"], (omitted_specular, low)
-        assert omitted_specular["peak"] < low["peak"], (omitted_specular, low)
+        ambient_zero = render_metrics(scene, Path("/tmp/vrml97-ambient-000.png"))
+
+        settings.ambient_intensity = 1.0
+        extension.core.sync_material(material)
+        ambient_full = render_metrics(scene, Path("/tmp/vrml97-ambient-100.png"))
+        assert ambient_full["mean"] > ambient_zero["mean"], (ambient_zero, ambient_full)
+        assert ambient_full["peak"] > ambient_zero["peak"], (ambient_zero, ambient_full)
+        assert not math.isclose(
+            ambient_zero["mean"], ambient_full["mean"], rel_tol=0.05
+        ), (ambient_zero, ambient_full)
 
         extension.core.apply_values(
             material,
@@ -143,7 +160,8 @@ def main() -> None:
         assert graphite["peak"] > graphite["mean"], graphite
         print(
             "VRML97 render test passed: "
-            f"low={low}, high={high}, omitted={omitted_specular}, graphite={graphite}"
+            f"low={low}, high={high}, ambient0={ambient_zero}, "
+            f"ambient1={ambient_full}, graphite={graphite}"
         )
     finally:
         extension.unregister()
