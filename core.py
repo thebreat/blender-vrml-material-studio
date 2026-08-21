@@ -74,7 +74,7 @@ def linear_channel_to_srgb(value: float) -> float:
 
 
 def preview_color(value: Iterable[float]) -> tuple[float, float, float]:
-    return tuple(srgb_channel_to_linear(component) for component in clamp_color(value))
+    return clamp_color(value)
 
 
 def stored_color_from_linear(value: Iterable[float]) -> tuple[float, float, float]:
@@ -351,9 +351,9 @@ def update_preview(material: bpy.types.Material) -> None:
         return
 
     nodes = ensure_preview_graph(material)
-    # X_ITE writes VRML RGB values as display-channel values. Blender shader
-    # inputs are scene-linear and its display transform encodes them again, so
-    # decode the VRML values before evaluating the same lighting equation.
+    # Preserve the authored VRML channel values exactly. Applying an additional
+    # colour-space conversion here changes all three material colour fields and
+    # does not reproduce X_ITE's appearance.
     diffuse_color = preview_color(properties.diffuse_color)
     specular_color = preview_color(properties.specular_color)
     emissive_color = preview_color(properties.emissive_color)

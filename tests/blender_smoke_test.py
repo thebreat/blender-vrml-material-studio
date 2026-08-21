@@ -85,7 +85,7 @@ def main() -> None:
         assert "Ambient Light" not in shader.inputs
         assert "VRML97 Reference Ambient" not in shader.node_tree.nodes
         assert all(
-            math.isclose(actual, extension.core.srgb_channel_to_linear(0.8), abs_tol=1e-6)
+            math.isclose(actual, 0.8, abs_tol=1e-6)
             for actual in shader.inputs[extension.vrml_shader.SOCKET_DIFFUSE].default_value[:3]
         )
         assert math.isclose(
@@ -131,10 +131,7 @@ def main() -> None:
             math.isclose(component, expected, abs_tol=1e-6)
             for component, expected in zip(
                 shader.inputs[extension.vrml_shader.SOCKET_SPECULAR].default_value[:3],
-                tuple(
-                    extension.core.srgb_channel_to_linear(value)
-                    for value in (0.8, 0.7, 0.6)
-                ),
+                (0.8, 0.7, 0.6),
                 strict=True,
             )
         )
