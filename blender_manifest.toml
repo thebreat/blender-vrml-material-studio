@@ -1,0 +1,29 @@
+schema_version = "1.0.0"
+
+id = "vrml2_material_studio"
+version = "0.1.0"
+name = "VRML2 Material Studio"
+tagline = "Edit and preview native VRML2 material fields"
+maintainer = "Brianna O'Leary"
+type = "add-on"
+
+blender_version_min = "5.2.0"
+
+license = [
+  "SPDX:GPL-3.0-or-later",
+]
+
+copyright = [
+  "2026 Brianna O'Leary",
+]
+
+[permissions]
+clipboard = "Copy and paste VRML2 Material blocks"
+
+[build]
+paths_exclude_pattern = [
+  "__pycache__/",
+  "*.pyc",
+  "/.git/",
+  "/*.zip",
+]
