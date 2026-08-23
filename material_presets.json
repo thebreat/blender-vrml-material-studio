@@ -1,0 +1,10568 @@
+{
+ "source": "Breetos - \"CTR VRML Material Previewer\" standalone HTML tool",
+ "credit": "Breetos",
+ "imported": "2026-08-05",
+ "note": "Named full-material presets. Channels converted from 0..255 to VRML97 0..1. Out-of-range ambientIntensity/shininess clamped to 1.0; the original is in `clamped`.",
+ "count": 433,
+ "categories": [
+  "Art Deco",
+  "Autumn",
+  "Glass",
+  "Metals",
+  "Neon",
+  "Santa Fe",
+  "Sheen",
+  "Silky",
+  "Spring",
+  "Starter",
+  "Summer",
+  "Tropical",
+  "Winter"
+ ],
+ "problems": [
+  {
+   "name": "Cerise Deco High Gloss",
+   "category": "Art Deco",
+   "clamped": {
+    "ambientIntensity": 1.7453
+   }
+  },
+  {
+   "name": "Dusky Chestnut Deco Soft Sheen",
+   "category": "Art Deco",
+   "clamped": {
+    "ambientIntensity": 2.2262
+   }
+  },
+  {
+   "name": "Harvest Pale Papaya Lacquer",
+   "category": "Autumn",
+   "clamped": {
+    "shininess": 11.4872
+   }
+  },
+  {
+   "name": "Dusky Pool Frosted Glass",
+   "category": "Glass",
+   "clamped": {
+    "ambientIntensity": 2.0182
+   }
+  },
+  {
+   "name": "Dusky Icewater Frosted Glass",
+   "category": "Glass",
+   "clamped": {
+    "ambientIntensity": 2.0182
+   }
+  },
+  {
+   "name": "Muted Blue Violet Soft Glass",
+   "category": "Glass",
+   "clamped": {
+    "ambientIntensity": 1.4224
+   }
+  },
+  {
+   "name": "Silver Frosted Glass",
+   "category": "Glass",
+   "clamped": {
+    "ambientIntensity": 1.0016
+   }
+  },
+  {
+   "name": "Deep Aquamarine Frosted Glass",
+   "category": "Glass",
+   "clamped": {
+    "ambientIntensity": 2.9313
+   }
+  },
+  {
+   "name": "Dusky Glacier Frosted Glass",
+   "category": "Glass",
+   "clamped": {
+    "ambientIntensity": 2.0182
+   }
+  },
+  {
+   "name": "Deep Pool Frosted Glass",
+   "category": "Glass",
+   "clamped": {
+    "ambientIntensity": 2.9313
+   }
+  },
+  {
+   "name": "Satin Steel",
+   "category": "Metals",
+   "clamped": {
+    "ambientIntensity": 1.2619
+   }
+  },
+  {
+   "name": "Brushed Dusky Aqua Alloy",
+   "category": "Metals",
+   "clamped": {
+    "ambientIntensity": 1.96
+   }
+  },
+  {
+   "name": "Garden Dusky Sienna Lacquer",
+   "category": "Spring",
+   "clamped": {
+    "ambientIntensity": 2.2262
+   }
+  },
+  {
+   "name": "Festival Rose High Gloss",
+   "category": "Summer",
+   "clamped": {
+    "ambientIntensity": 1.7453
+   }
+  },
+  {
+   "name": "Glacier Dusky Cocoa Soft Sheen",
+   "category": "Winter",
+   "clamped": {
+    "ambientIntensity": 2.2262
+   }
+  }
+ ],
+ "materials": [
+  {
+   "name": "Clear glass",
+   "category": "Glass",
+   "def": "Clear_glass",
+   "diffuseColor": [
+    0.84,
+    0.82,
+    0.92
+   ],
+   "emissiveColor": [
+    0.01,
+    0.008,
+    0.018
+   ],
+   "specularColor": [
+    0.96,
+    0.94,
+    1
+   ],
+   "ambientIntensity": 0.18,
+   "shininess": 0.4,
+   "transparency": 0.52,
+   "source": "User favorite"
+  },
+  {
+   "name": "Frosted glass",
+   "category": "Glass",
+   "def": "Frosted_glass",
+   "diffuseColor": [
+    0.88,
+    0.9,
+    0.95
+   ],
+   "emissiveColor": [
+    0.025,
+    0.028,
+    0.035
+   ],
+   "specularColor": [
+    0.18,
+    0.2,
+    0.24
+   ],
+   "ambientIntensity": 0.24,
+   "shininess": 0.1,
+   "transparency": 0.12,
+   "source": "User favorite"
+  },
+  {
+   "name": "Aurum gold",
+   "category": "Metals",
+   "def": "Aurum_gold",
+   "diffuseColor": [
+    0.72,
+    0.66,
+    0.46
+   ],
+   "emissiveColor": [
+    0.006,
+    0.005,
+    0.002
+   ],
+   "specularColor": [
+    0.78,
+    0.72,
+    0.52
+   ],
+   "ambientIntensity": 0.22,
+   "shininess": 0.45,
+   "transparency": 0,
+   "source": "User favorite"
+  },
+  {
+   "name": "Silver Gilt",
+   "category": "Metals",
+   "def": "Silver_Gilt",
+   "diffuseColor": [
+    0.5667,
+    0.5809,
+    0.5809
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8909,
+    0.8878,
+    0.8909
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.1276,
+   "transparency": 0,
+   "source": "User favorite"
+  },
+  {
+   "name": "Reference blue",
+   "category": "Starter",
+   "def": "Reference_blue",
+   "diffuseColor": [
+    0.631,
+    0.733,
+    0.827
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.863,
+    0.882,
+    0.898
+   ],
+   "ambientIntensity": 0.334,
+   "shininess": 0.018,
+   "transparency": 0,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Plush blue",
+   "category": "Starter",
+   "def": "Plush_blue",
+   "diffuseColor": [
+    0.6706,
+    0.7882,
+    0.902
+   ],
+   "emissiveColor": [
+    0.0039,
+    0.0039,
+    0.0039
+   ],
+   "specularColor": [
+    0.0549,
+    0.0667,
+    0.0745
+   ],
+   "ambientIntensity": 0.22,
+   "shininess": 0.018,
+   "transparency": 0,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Blush fabric",
+   "category": "Starter",
+   "def": "Blush_fabric",
+   "diffuseColor": [
+    0.9098,
+    0.749,
+    0.8
+   ],
+   "emissiveColor": [
+    0.0039,
+    0.0039,
+    0.0039
+   ],
+   "specularColor": [
+    0.0588,
+    0.0431,
+    0.051
+   ],
+   "ambientIntensity": 0.23,
+   "shininess": 0.018,
+   "transparency": 0,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Pearl trim",
+   "category": "Starter",
+   "def": "Pearl_trim",
+   "diffuseColor": [
+    0.7216,
+    0.702,
+    0.8196
+   ],
+   "emissiveColor": [
+    0.0118,
+    0.0078,
+    0.0196
+   ],
+   "specularColor": [
+    0.6784,
+    0.8784,
+    1
+   ],
+   "ambientIntensity": 0.2,
+   "shininess": 0.34,
+   "transparency": 0,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Champagne gold",
+   "category": "Starter",
+   "def": "Champagne_gold",
+   "diffuseColor": [
+    0.9216,
+    0.7608,
+    0.4784
+   ],
+   "emissiveColor": [
+    0.0118,
+    0.0078,
+    0.0039
+   ],
+   "specularColor": [
+    1,
+    0.9216,
+    0.6784
+   ],
+   "ambientIntensity": 0.2,
+   "shininess": 0.3,
+   "transparency": 0,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Bright silver",
+   "category": "Starter",
+   "def": "Bright_silver",
+   "diffuseColor": [
+    0.7216,
+    0.7216,
+    0.702
+   ],
+   "emissiveColor": [
+    0.0078,
+    0.0078,
+    0.0078
+   ],
+   "specularColor": [
+    1,
+    1,
+    0.9804
+   ],
+   "ambientIntensity": 0.2,
+   "shininess": 0.62,
+   "transparency": 0,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Glossy black",
+   "category": "Starter",
+   "def": "Glossy_black",
+   "diffuseColor": [
+    0.0314,
+    0.0314,
+    0.0314
+   ],
+   "emissiveColor": [
+    0.0039,
+    0.0039,
+    0.0039
+   ],
+   "specularColor": [
+    1,
+    1,
+    1
+   ],
+   "ambientIntensity": 0.1,
+   "shininess": 0.82,
+   "transparency": 0,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Soft glass",
+   "category": "Starter",
+   "def": "Soft_glass",
+   "diffuseColor": [
+    0.7804,
+    0.8392,
+    0.9216
+   ],
+   "emissiveColor": [
+    0.0118,
+    0.0118,
+    0.0196
+   ],
+   "specularColor": [
+    0.949,
+    0.9804,
+    1
+   ],
+   "ambientIntensity": 0.18,
+   "shininess": 0.42,
+   "transparency": 0.55,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Ruby",
+   "category": "Starter",
+   "def": "Ruby",
+   "diffuseColor": [
+    0.451,
+    0.0196,
+    0.0588
+   ],
+   "emissiveColor": [
+    0.0784,
+    0,
+    0.0157
+   ],
+   "specularColor": [
+    1,
+    0.549,
+    0.651
+   ],
+   "ambientIntensity": 0.18,
+   "shininess": 0.32,
+   "transparency": 0.12,
+   "source": "Current previewer"
+  },
+  {
+   "name": "Deep Watermelon Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Deep_Watermelon_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.2824,
+    0.0852,
+    0.1345
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2763,
+    0.1143,
+    0.1399
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1273,
+   "transparency": 0,
+   "source": "Artdeco00"
+  },
+  {
+   "name": "Blush Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Blush_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.6852,
+    0.1347,
+    0.3324
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1224,
+    0.05,
+    0.05
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Artdeco01"
+  },
+  {
+   "name": "Cerise Deco High Gloss",
+   "category": "Art Deco",
+   "def": "Cerise_Deco_High_Gloss",
+   "diffuseColor": [
+    0.5369,
+    0.0529,
+    0.2455
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8053,
+    0.7652,
+    0.7474
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.8324,
+   "transparency": 0,
+   "source": "Artdeco02",
+   "clamped": {
+    "ambientIntensity": 1.7453
+   }
+  },
+  {
+   "name": "Garnet Deco Lacquer",
+   "category": "Art Deco",
+   "def": "Garnet_Deco_Lacquer",
+   "diffuseColor": [
+    1,
+    0.4524,
+    0.4034
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6865,
+    0.3969,
+    0.4193
+   ],
+   "ambientIntensity": 0.2486,
+   "shininess": 0.9027,
+   "transparency": 0,
+   "source": "Artdeco03"
+  },
+  {
+   "name": "Cardinal Deco High Gloss",
+   "category": "Art Deco",
+   "def": "Cardinal_Deco_High_Gloss",
+   "diffuseColor": [
+    0.748,
+    0.2984,
+    0.3426
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3455,
+    0.3455,
+    0.3455
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.697,
+   "transparency": 0,
+   "source": "Artdeco04"
+  },
+  {
+   "name": "Ruby Deco Matte",
+   "category": "Art Deco",
+   "def": "Ruby_Deco_Matte",
+   "diffuseColor": [
+    0.9455,
+    0.319,
+    0.3217
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0727,
+    0.0217,
+    0.0107
+   ],
+   "ambientIntensity": 0.2436,
+   "shininess": 0.0182,
+   "transparency": 0,
+   "source": "Artdeco05"
+  },
+  {
+   "name": "Dusky Royal Blue Deco Polished",
+   "category": "Art Deco",
+   "def": "Dusky_Royal_Blue_Deco_Polished",
+   "diffuseColor": [
+    0.2287,
+    0.1955,
+    0.4255
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3245,
+    0.4043,
+    0.4043
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.5426,
+   "transparency": 0,
+   "source": "Artdeco06"
+  },
+  {
+   "name": "Deep Violet Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Deep_Violet_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.2003,
+    0.1009,
+    0.3208
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3114,
+    0.3879,
+    0.3879
+   ],
+   "ambientIntensity": 0.3333,
+   "shininess": 0.1333,
+   "transparency": 0,
+   "source": "Artdeco07"
+  },
+  {
+   "name": "Sapphire Deco High Gloss",
+   "category": "Art Deco",
+   "def": "Sapphire_Deco_High_Gloss",
+   "diffuseColor": [
+    0.3305,
+    0.3389,
+    0.6
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2909,
+    0.2909,
+    0.2909
+   ],
+   "ambientIntensity": 0.2424,
+   "shininess": 0.7879,
+   "transparency": 0,
+   "source": "Artdeco08"
+  },
+  {
+   "name": "Deep Dragonfruit Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Deep_Dragonfruit_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.2371,
+    0.0963,
+    0.2156
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3114,
+    0.3879,
+    0.3879
+   ],
+   "ambientIntensity": 0.3333,
+   "shininess": 0.1333,
+   "transparency": 0,
+   "source": "Artdeco09"
+  },
+  {
+   "name": "Deep Rose Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Deep_Rose_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.304,
+    0.0903,
+    0.2074
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6665,
+    0.579,
+    0.8303
+   ],
+   "ambientIntensity": 0.2424,
+   "shininess": 0.0727,
+   "transparency": 0,
+   "source": "Artdeco10"
+  },
+  {
+   "name": "Dusky Rose Deco Matte",
+   "category": "Art Deco",
+   "def": "Dusky_Rose_Deco_Matte",
+   "diffuseColor": [
+    0.3356,
+    0.2077,
+    0.2383
+   ],
+   "emissiveColor": [
+    0.0106,
+    0.0106,
+    0.0106
+   ],
+   "specularColor": [
+    0.1986,
+    0.0754,
+    0.1388
+   ],
+   "ambientIntensity": 0.2589,
+   "shininess": 0.0213,
+   "transparency": 0,
+   "source": "Artdeco11"
+  },
+  {
+   "name": "Poppy Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Poppy_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.8769,
+    0.1472,
+    0.0086
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1939,
+    0.0294,
+    0.0294
+   ],
+   "ambientIntensity": 0.2408,
+   "shininess": 0.0765,
+   "transparency": 0,
+   "source": "Artdeco12"
+  },
+  {
+   "name": "Tangerine Deco Polished",
+   "category": "Art Deco",
+   "def": "Tangerine_Deco_Polished",
+   "diffuseColor": [
+    0.7944,
+    0.2494,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.629,
+    0.1942,
+    0.0337
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.5515,
+   "transparency": 0,
+   "source": "Artdeco13"
+  },
+  {
+   "name": "Papaya Deco Lacquer",
+   "category": "Art Deco",
+   "def": "Papaya_Deco_Lacquer",
+   "diffuseColor": [
+    0.5106,
+    0.1726,
+    0.0599
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5333,
+    0.5333,
+    0.5333
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9333,
+   "transparency": 0,
+   "source": "Artdeco14"
+  },
+  {
+   "name": "Tangerine Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Tangerine_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.9149,
+    0.4444,
+    0.3489
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3457,
+    0.1431,
+    0
+   ],
+   "ambientIntensity": 0.2558,
+   "shininess": 0.1277,
+   "transparency": 0,
+   "source": "Artdeco15"
+  },
+  {
+   "name": "Persimmon Deco High Gloss",
+   "category": "Art Deco",
+   "def": "Persimmon_Deco_High_Gloss",
+   "diffuseColor": [
+    0.8769,
+    0.3231,
+    0.1996
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8163,
+    0.2787,
+    0.2787
+   ],
+   "ambientIntensity": 0.2408,
+   "shininess": 0.801,
+   "transparency": 0,
+   "source": "Artdeco16"
+  },
+  {
+   "name": "Dusky Papaya Deco Lacquer",
+   "category": "Art Deco",
+   "def": "Dusky_Papaya_Deco_Lacquer",
+   "diffuseColor": [
+    0.5156,
+    0.3155,
+    0.2524
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5333,
+    0.5333,
+    0.5333
+   ],
+   "ambientIntensity": 0.2424,
+   "shininess": 0.9333,
+   "transparency": 0,
+   "source": "Artdeco17"
+  },
+  {
+   "name": "Celadon Deco Satin",
+   "category": "Art Deco",
+   "def": "Celadon_Deco_Satin",
+   "diffuseColor": [
+    0,
+    0.3469,
+    0.2536
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0.3111,
+    0.3571
+   ],
+   "ambientIntensity": 0.2647,
+   "shininess": 0.3163,
+   "transparency": 0,
+   "source": "Artdeco18"
+  },
+  {
+   "name": "Deep Peacock Deco Matte",
+   "category": "Art Deco",
+   "def": "Deep_Peacock_Deco_Matte",
+   "diffuseColor": [
+    0,
+    0.251,
+    0.2392
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1779,
+    0.2494,
+    0.2293
+   ],
+   "ambientIntensity": 0.2593,
+   "shininess": 0.0606,
+   "transparency": 0,
+   "source": "Artdeco19"
+  },
+  {
+   "name": "Dusky Moss Deco Polished",
+   "category": "Art Deco",
+   "def": "Dusky_Moss_Deco_Polished",
+   "diffuseColor": [
+    0.2283,
+    0.3858,
+    0.1868
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2005,
+    0.3001,
+    0.2935
+   ],
+   "ambientIntensity": 0.24,
+   "shininess": 0.3939,
+   "transparency": 0,
+   "source": "Artdeco20"
+  },
+  {
+   "name": "Malachite Deco Polished",
+   "category": "Art Deco",
+   "def": "Malachite_Deco_Polished",
+   "diffuseColor": [
+    0.3154,
+    0.544,
+    0.2581
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.456,
+    0.456,
+    0.456
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.5094,
+   "transparency": 0,
+   "source": "Artdeco21"
+  },
+  {
+   "name": "Deep Pine Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Deep_Pine_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.2511,
+    0.3126,
+    0.2017
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2092,
+    0.1138,
+    0.1113
+   ],
+   "ambientIntensity": 0.246,
+   "shininess": 0.0867,
+   "transparency": 0,
+   "source": "Artdeco22"
+  },
+  {
+   "name": "Dusky Malachite Deco Lacquer",
+   "category": "Art Deco",
+   "def": "Dusky_Malachite_Deco_Lacquer",
+   "diffuseColor": [
+    0.3923,
+    0.456,
+    0.4177
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5333,
+    0.5333,
+    0.5333
+   ],
+   "ambientIntensity": 0.2424,
+   "shininess": 0.9333,
+   "transparency": 0,
+   "source": "Artdeco23"
+  },
+  {
+   "name": "Vivid Buttercup Deco Lacquer",
+   "category": "Art Deco",
+   "def": "Vivid_Buttercup_Deco_Lacquer",
+   "diffuseColor": [
+    1,
+    0.8549,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8724,
+    0.2471,
+    0.2542
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Artdeco24"
+  },
+  {
+   "name": "Topaz Deco Polished",
+   "category": "Art Deco",
+   "def": "Topaz_Deco_Polished",
+   "diffuseColor": [
+    0.7959,
+    0.5059,
+    0.0933
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9235,
+    0.4289,
+    0.0064
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.398,
+   "transparency": 0,
+   "source": "Artdeco25"
+  },
+  {
+   "name": "Dusky Chestnut Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Dusky_Chestnut_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.3316,
+    0.2966,
+    0.2791
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3112,
+    0.2518,
+    0.133
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.0969,
+   "transparency": 0,
+   "source": "Artdeco26",
+   "clamped": {
+    "ambientIntensity": 2.2262
+   }
+  },
+  {
+   "name": "Espresso Deco Matte",
+   "category": "Art Deco",
+   "def": "Espresso_Deco_Matte",
+   "diffuseColor": [
+    0.3455,
+    0.1633,
+    0.1226
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2121,
+    0.1075,
+    0
+   ],
+   "ambientIntensity": 0.2632,
+   "shininess": 0.0486,
+   "transparency": 0,
+   "source": "Artdeco27"
+  },
+  {
+   "name": "Deep Cardinal Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Deep_Cardinal_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0.2773,
+    0.1043,
+    0.0799
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3056,
+    0.1419,
+    0.2706
+   ],
+   "ambientIntensity": 0.2405,
+   "shininess": 0.097,
+   "transparency": 0,
+   "source": "Artdeco28"
+  },
+  {
+   "name": "Midnight Walnut Deco Matte",
+   "category": "Art Deco",
+   "def": "Midnight_Walnut_Deco_Matte",
+   "diffuseColor": [
+    0.087,
+    0.0259,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2241,
+    0.1041,
+    0.1041
+   ],
+   "ambientIntensity": 0.2157,
+   "shininess": 0.0459,
+   "transparency": 0,
+   "source": "Artdeco29"
+  },
+  {
+   "name": "Black Deco Soft Sheen",
+   "category": "Art Deco",
+   "def": "Black_Deco_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2932,
+    0.2974,
+    0.2904
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0816,
+   "transparency": 0,
+   "source": "Artdeco30"
+  },
+  {
+   "name": "Graphite Deco Matte",
+   "category": "Art Deco",
+   "def": "Graphite_Deco_Matte",
+   "diffuseColor": [
+    0.2364,
+    0.2364,
+    0.2364
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.297,
+    0.2458,
+    0.296
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.0545,
+   "transparency": 0,
+   "source": "Artdeco31"
+  },
+  {
+   "name": "Pewter Deco Lacquer",
+   "category": "Art Deco",
+   "def": "Pewter_Deco_Lacquer",
+   "diffuseColor": [
+    0.3809,
+    0.383,
+    0.4177
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5333,
+    0.5333,
+    0.5333
+   ],
+   "ambientIntensity": 0.2424,
+   "shininess": 0.9333,
+   "transparency": 0,
+   "source": "Artdeco32"
+  },
+  {
+   "name": "Silver Deco Lacquer",
+   "category": "Art Deco",
+   "def": "Silver_Deco_Lacquer",
+   "diffuseColor": [
+    0.6108,
+    0.6108,
+    0.6108
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7676,
+    0.7568,
+    0.765
+   ],
+   "ambientIntensity": 0.2301,
+   "shininess": 0.8973,
+   "transparency": 0,
+   "source": "Artdeco33"
+  },
+  {
+   "name": "Pearl Deco Matte",
+   "category": "Art Deco",
+   "def": "Pearl_Deco_Matte",
+   "diffuseColor": [
+    0.8,
+    0.8,
+    0.8
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2,
+    0.2,
+    0.2
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0,
+   "transparency": 0,
+   "source": "Artdeco34"
+  },
+  {
+   "name": "Harvest Pale Papaya Lacquer",
+   "category": "Autumn",
+   "def": "Harvest_Pale_Papaya_Lacquer",
+   "diffuseColor": [
+    0.9647,
+    0.8627,
+    0.8118
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5137,
+    0.4157,
+    0.2196
+   ],
+   "ambientIntensity": 0.7988,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Autumn00",
+   "clamped": {
+    "shininess": 11.4872
+   }
+  },
+  {
+   "name": "Woodland Topaz Soft Sheen",
+   "category": "Autumn",
+   "def": "Woodland_Topaz_Soft_Sheen",
+   "diffuseColor": [
+    0.7495,
+    0.6012,
+    0.4616
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0786,
+    0.0804,
+    0.0484
+   ],
+   "ambientIntensity": 0.2517,
+   "shininess": 0.1676,
+   "transparency": 0,
+   "source": "Autumn01"
+  },
+  {
+   "name": "Maple Chestnut Lacquer",
+   "category": "Autumn",
+   "def": "Maple_Chestnut_Lacquer",
+   "diffuseColor": [
+    0.3959,
+    0.2262,
+    0.1282
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    0.4644,
+    0.4753
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9946,
+   "transparency": 0,
+   "source": "Autumn02"
+  },
+  {
+   "name": "Hearth Midnight Chestnut Matte",
+   "category": "Autumn",
+   "def": "Hearth_Midnight_Chestnut_Matte",
+   "diffuseColor": [
+    0.087,
+    0.0259,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2241,
+    0.1041,
+    0.1041
+   ],
+   "ambientIntensity": 0.2157,
+   "shininess": 0.0459,
+   "transparency": 0,
+   "source": "Autumn03"
+  },
+  {
+   "name": "Orchard Deep Cocoa Matte",
+   "category": "Autumn",
+   "def": "Orchard_Deep_Cocoa_Matte",
+   "diffuseColor": [
+    0.2524,
+    0.1086,
+    0.0704
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3004,
+    0.143,
+    0.143
+   ],
+   "ambientIntensity": 0.2517,
+   "shininess": 0.0663,
+   "transparency": 0,
+   "source": "Autumn04"
+  },
+  {
+   "name": "Cider Persimmon Lacquer",
+   "category": "Autumn",
+   "def": "Cider_Persimmon_Lacquer",
+   "diffuseColor": [
+    0.5027,
+    0.2955,
+    0.1916
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2659,
+    0.1265,
+    0.1265
+   ],
+   "ambientIntensity": 0.2517,
+   "shininess": 0.9286,
+   "transparency": 0,
+   "source": "Autumn05"
+  },
+  {
+   "name": "Ember Soft Sheen",
+   "category": "Autumn",
+   "def": "Ember_Soft_Sheen",
+   "diffuseColor": [
+    0.5027,
+    0.2955,
+    0.1916
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0786,
+    0.0804,
+    0.0484
+   ],
+   "ambientIntensity": 0.2517,
+   "shininess": 0.1676,
+   "transparency": 0,
+   "source": "Autumn06"
+  },
+  {
+   "name": "Harvest Goldenrod High Gloss",
+   "category": "Autumn",
+   "def": "Harvest_Goldenrod_High_Gloss",
+   "diffuseColor": [
+    0.7959,
+    0.5059,
+    0.1647
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2959,
+    0.0961,
+    0.002
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.8316,
+   "transparency": 0,
+   "source": "Autumn07"
+  },
+  {
+   "name": "Woodland Deep Umber Matte",
+   "category": "Autumn",
+   "def": "Woodland_Deep_Umber_Matte",
+   "diffuseColor": [
+    0.298,
+    0.1408,
+    0.1058
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1765,
+    0.0894,
+    0
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.0486,
+   "transparency": 0,
+   "source": "Autumn08"
+  },
+  {
+   "name": "Maple Honey Polished",
+   "category": "Autumn",
+   "def": "Maple_Honey_Polished",
+   "diffuseColor": [
+    0.7959,
+    0.5059,
+    0.0933
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9235,
+    0.4289,
+    0.0064
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.398,
+   "transparency": 0,
+   "source": "Autumn09"
+  },
+  {
+   "name": "Hearth Persimmon Matte",
+   "category": "Autumn",
+   "def": "Hearth_Persimmon_Matte",
+   "diffuseColor": [
+    0.5846,
+    0.2736,
+    0.0069
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4286,
+    0.199,
+    0.003
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.0663,
+   "transparency": 0,
+   "source": "Autumn10"
+  },
+  {
+   "name": "Orchard Papaya Lacquer",
+   "category": "Autumn",
+   "def": "Orchard_Papaya_Lacquer",
+   "diffuseColor": [
+    0.7959,
+    0.2736,
+    0.0069
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4865,
+    0.3192,
+    0.444
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Autumn11"
+  },
+  {
+   "name": "Cider Persimmon Soft Sheen",
+   "category": "Autumn",
+   "def": "Cider_Persimmon_Soft_Sheen",
+   "diffuseColor": [
+    0.4604,
+    0.1414,
+    0.0386
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.193,
+    0.1593,
+    0.1254
+   ],
+   "ambientIntensity": 0.2408,
+   "shininess": 0.1786,
+   "transparency": 0,
+   "source": "Autumn12"
+  },
+  {
+   "name": "Ember Walnut Soft Sheen",
+   "category": "Autumn",
+   "def": "Ember_Walnut_Soft_Sheen",
+   "diffuseColor": [
+    0.3477,
+    0.0909,
+    0.0053
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3367,
+    0.0511,
+    0.0511
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Autumn13"
+  },
+  {
+   "name": "Harvest Cardinal Lacquer",
+   "category": "Autumn",
+   "def": "Harvest_Cardinal_Lacquer",
+   "diffuseColor": [
+    0.8769,
+    0.2172,
+    0.1996
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9286,
+    0.1409,
+    0.1409
+   ],
+   "ambientIntensity": 0.2408,
+   "shininess": 0.9847,
+   "transparency": 0,
+   "source": "Autumn14"
+  },
+  {
+   "name": "Woodland Tangerine High Gloss",
+   "category": "Autumn",
+   "def": "Woodland_Tangerine_High_Gloss",
+   "diffuseColor": [
+    0.8769,
+    0.3231,
+    0.1996
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8163,
+    0.2787,
+    0.2787
+   ],
+   "ambientIntensity": 0.2408,
+   "shininess": 0.801,
+   "transparency": 0,
+   "source": "Autumn15"
+  },
+  {
+   "name": "Maple Canyon Soft Sheen",
+   "category": "Autumn",
+   "def": "Maple_Canyon_Soft_Sheen",
+   "diffuseColor": [
+    0.5629,
+    0.1472,
+    0.0086
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1071,
+    0.0163,
+    0.0163
+   ],
+   "ambientIntensity": 0.2408,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Autumn16"
+  },
+  {
+   "name": "Hearth Garnet Soft Sheen",
+   "category": "Autumn",
+   "def": "Hearth_Garnet_Soft_Sheen",
+   "diffuseColor": [
+    0.8769,
+    0.1472,
+    0.0086
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1939,
+    0.0294,
+    0.0294
+   ],
+   "ambientIntensity": 0.2408,
+   "shininess": 0.0765,
+   "transparency": 0,
+   "source": "Autumn17"
+  },
+  {
+   "name": "Orchard Ruby Matte",
+   "category": "Autumn",
+   "def": "Orchard_Ruby_Matte",
+   "diffuseColor": [
+    0.5405,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5929,
+    0,
+    0.1297
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0649,
+   "transparency": 0,
+   "source": "Autumn18"
+  },
+  {
+   "name": "Cider Scarlet Lacquer",
+   "category": "Autumn",
+   "def": "Cider_Scarlet_Lacquer",
+   "diffuseColor": [
+    0.4534,
+    0.1362,
+    0.0964
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0875,
+    0.2072,
+    0.5765
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.8929,
+   "transparency": 0,
+   "source": "Autumn19"
+  },
+  {
+   "name": "Ember Deep Cardinal Soft Sheen",
+   "category": "Autumn",
+   "def": "Ember_Deep_Cardinal_Soft_Sheen",
+   "diffuseColor": [
+    0.273,
+    0.082,
+    0.058
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2755,
+    0.0418,
+    0.0418
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.1276,
+   "transparency": 0,
+   "source": "Autumn20"
+  },
+  {
+   "name": "Harvest Jade Lacquer",
+   "category": "Autumn",
+   "def": "Harvest_Jade_Lacquer",
+   "diffuseColor": [
+    0.371,
+    0.6442,
+    0.0966
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0875,
+    0.2072,
+    0.5765
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.8929,
+   "transparency": 0,
+   "source": "Autumn21"
+  },
+  {
+   "name": "Woodland Moss Soft Sheen",
+   "category": "Autumn",
+   "def": "Woodland_Moss_Soft_Sheen",
+   "diffuseColor": [
+    0.1148,
+    0.5465,
+    0.0856
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1173,
+    0.0639,
+    0.0625
+   ],
+   "ambientIntensity": 0.2484,
+   "shininess": 0.0918,
+   "transparency": 0,
+   "source": "Autumn22"
+  },
+  {
+   "name": "Maple Midnight Fern Soft Sheen",
+   "category": "Autumn",
+   "def": "Maple_Midnight_Fern_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.1224,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0719,
+    0.3566,
+    0
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Autumn23"
+  },
+  {
+   "name": "Hearth Deep Malachite High Gloss",
+   "category": "Autumn",
+   "def": "Hearth_Deep_Malachite_High_Gloss",
+   "diffuseColor": [
+    0.2511,
+    0.3126,
+    0.2017
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4949,
+    0.2693,
+    0.2634
+   ],
+   "ambientIntensity": 0.246,
+   "shininess": 0.7908,
+   "transparency": 0,
+   "source": "Autumn24"
+  },
+  {
+   "name": "Orchard Deep Emerald Soft Sheen",
+   "category": "Autumn",
+   "def": "Orchard_Deep_Emerald_Soft_Sheen",
+   "diffuseColor": [
+    0.2511,
+    0.3126,
+    0.2017
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2092,
+    0.1138,
+    0.1113
+   ],
+   "ambientIntensity": 0.246,
+   "shininess": 0.0867,
+   "transparency": 0,
+   "source": "Autumn25"
+  },
+  {
+   "name": "Cider Deep Emerald Soft Sheen",
+   "category": "Autumn",
+   "def": "Cider_Deep_Emerald_Soft_Sheen",
+   "diffuseColor": [
+    0.1931,
+    0.2514,
+    0.1785
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4184,
+    0.2277,
+    0.2227
+   ],
+   "ambientIntensity": 0.2484,
+   "shininess": 0.0918,
+   "transparency": 0,
+   "source": "Autumn26"
+  },
+  {
+   "name": "Ember Deep Emerald Soft Sheen",
+   "category": "Autumn",
+   "def": "Ember_Deep_Emerald_Soft_Sheen",
+   "diffuseColor": [
+    0.1359,
+    0.1906,
+    0.1222
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2092,
+    0.1138,
+    0.1113
+   ],
+   "ambientIntensity": 0.2484,
+   "shininess": 0.0867,
+   "transparency": 0,
+   "source": "Autumn27"
+  },
+  {
+   "name": "Harvest Malachite Polished",
+   "category": "Autumn",
+   "def": "Harvest_Malachite_Polished",
+   "diffuseColor": [
+    0.3154,
+    0.544,
+    0.2581
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.456,
+    0.456,
+    0.456
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.5094,
+   "transparency": 0,
+   "source": "Autumn28"
+  },
+  {
+   "name": "Woodland Deep Clover Polished",
+   "category": "Autumn",
+   "def": "Woodland_Deep_Clover_Polished",
+   "diffuseColor": [
+    0.1762,
+    0.3039,
+    0.1441
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.466,
+    0.2536,
+    0.248
+   ],
+   "ambientIntensity": 0.5198,
+   "shininess": 0.4486,
+   "transparency": 0,
+   "source": "Autumn29"
+  },
+  {
+   "name": "Prismatic Maple Midnight Fern Soft Sheen",
+   "category": "Autumn",
+   "def": "Prismatic_Maple_Midnight_Fern_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.1224,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3566,
+    0.3566,
+    0.3566
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Autumn30"
+  },
+  {
+   "name": "Hearth Midnight Moss Satin",
+   "category": "Autumn",
+   "def": "Hearth_Midnight_Moss_Satin",
+   "diffuseColor": [
+    0,
+    0.1224,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0.3033,
+    0.3482
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.1946,
+   "transparency": 0,
+   "source": "Autumn31"
+  },
+  {
+   "name": "Orchard Celadon Satin",
+   "category": "Autumn",
+   "def": "Orchard_Celadon_Satin",
+   "diffuseColor": [
+    0,
+    0.3469,
+    0.2536
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0.3111,
+    0.3571
+   ],
+   "ambientIntensity": 0.2647,
+   "shininess": 0.3163,
+   "transparency": 0,
+   "source": "Autumn32"
+  },
+  {
+   "name": "Cider Deep Twilight Blue Soft Sheen",
+   "category": "Autumn",
+   "def": "Cider_Deep_Twilight_Blue_Soft_Sheen",
+   "diffuseColor": [
+    0.0878,
+    0.0639,
+    0.1831
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2348,
+    0.1711,
+    0.4898
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.0703,
+   "transparency": 0,
+   "source": "Autumn33"
+  },
+  {
+   "name": "Ember Indigo Soft Sheen",
+   "category": "Autumn",
+   "def": "Ember_Indigo_Soft_Sheen",
+   "diffuseColor": [
+    0.2633,
+    0.1918,
+    0.5492
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3747,
+    0.2731,
+    0.7817
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.0703,
+   "transparency": 0,
+   "source": "Autumn34"
+  },
+  {
+   "name": "Canary Prism Glass",
+   "category": "Glass",
+   "def": "Canary_Prism_Glass",
+   "diffuseColor": [
+    0.748,
+    0.6209,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8606,
+    0.8606,
+    0.8606
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9394,
+   "transparency": 0.3475,
+   "source": "Glass00"
+  },
+  {
+   "name": "Marigold Polished Glass",
+   "category": "Glass",
+   "def": "Marigold_Polished_Glass",
+   "diffuseColor": [
+    0.748,
+    0.5557,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8364,
+    0.8364,
+    0.8364
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.6061,
+   "transparency": 0.3514,
+   "source": "Glass01"
+  },
+  {
+   "name": "Copper Prism Glass",
+   "category": "Glass",
+   "def": "Copper_Prism_Glass",
+   "diffuseColor": [
+    0.748,
+    0.2995,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8364,
+    0.8364,
+    0.8364
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9212,
+   "transparency": 0.3475,
+   "source": "Glass02"
+  },
+  {
+   "name": "Copper Crystal Glass",
+   "category": "Glass",
+   "def": "Copper_Crystal_Glass",
+   "diffuseColor": [
+    0.748,
+    0.1396,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7091,
+    0.7091,
+    0.7091
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.4788,
+   "transparency": 0.59,
+   "source": "Glass03"
+  },
+  {
+   "name": "Ruby Prism Glass",
+   "category": "Glass",
+   "def": "Ruby_Prism_Glass",
+   "diffuseColor": [
+    0.748,
+    0,
+    0.0401
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.897,
+    0.897,
+    0.897
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 1,
+   "transparency": 0.3591,
+   "source": "Glass04"
+  },
+  {
+   "name": "Smoked Frosted Glass",
+   "category": "Glass",
+   "def": "Smoked_Frosted_Glass",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9818,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0303,
+   "transparency": 0.39,
+   "source": "Glass05"
+  },
+  {
+   "name": "Blush Prism Glass",
+   "category": "Glass",
+   "def": "Blush_Prism_Glass",
+   "diffuseColor": [
+    0.748,
+    0.0063,
+    0.2519
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6848,
+    0.6848,
+    0.6848
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9333,
+   "transparency": 0.3552,
+   "source": "Glass06"
+  },
+  {
+   "name": "Bougainvillea Soft Glass",
+   "category": "Glass",
+   "def": "Bougainvillea_Soft_Glass",
+   "diffuseColor": [
+    0.748,
+    0,
+    0.5504
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6727,
+    0.6727,
+    0.6727
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.2303,
+   "transparency": 0.3514,
+   "source": "Glass07"
+  },
+  {
+   "name": "Wisteria Polished Glass",
+   "category": "Glass",
+   "def": "Wisteria_Polished_Glass",
+   "diffuseColor": [
+    0.6244,
+    0,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9515,
+    0.9515,
+    0.9515
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.5576,
+   "transparency": 0.3552,
+   "source": "Glass08"
+  },
+  {
+   "name": "Wisteria Soft Glass",
+   "category": "Glass",
+   "def": "Wisteria_Soft_Glass",
+   "diffuseColor": [
+    0.374,
+    0,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9091,
+    0.9091,
+    0.9091
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.4061,
+   "transparency": 0.3552,
+   "source": "Glass09"
+  },
+  {
+   "name": "Bold Smoked Frosted Glass",
+   "category": "Glass",
+   "def": "Bold_Smoked_Frosted_Glass",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6416,
+    0,
+    0.9796
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0.4054,
+   "source": "Glass10"
+  },
+  {
+   "name": "Blue Violet Prism Glass",
+   "category": "Glass",
+   "def": "Blue_Violet_Prism_Glass",
+   "diffuseColor": [
+    0.0023,
+    0,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8848,
+    0.8848,
+    0.8848
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.8303,
+   "transparency": 0.3475,
+   "source": "Glass11"
+  },
+  {
+   "name": "Cobalt Prism Glass",
+   "category": "Glass",
+   "def": "Cobalt_Prism_Glass",
+   "diffuseColor": [
+    0.0207,
+    0.3396,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.903,
+    0.903,
+    0.903
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9273,
+   "transparency": 0.3629,
+   "source": "Glass12"
+  },
+  {
+   "name": "Peacock Polished Glass",
+   "category": "Glass",
+   "def": "Peacock_Polished_Glass",
+   "diffuseColor": [
+    0,
+    0.6312,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9152,
+    0.9152,
+    0.9152
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.6424,
+   "transparency": 0.39,
+   "source": "Glass13"
+  },
+  {
+   "name": "Deep Petrol Frosted Glass",
+   "category": "Glass",
+   "def": "Deep_Petrol_Frosted_Glass",
+   "diffuseColor": [
+    0,
+    0.2869,
+    0.2619
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2435,
+    0.5569,
+    0.6071
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0663,
+   "transparency": 0.2934,
+   "source": "Glass14"
+  },
+  {
+   "name": "Celadon Prism Glass",
+   "category": "Glass",
+   "def": "Celadon_Prism_Glass",
+   "diffuseColor": [
+    0,
+    0.748,
+    0.4694
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    1,
+    1
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.8182,
+   "transparency": 0.4015,
+   "source": "Glass15"
+  },
+  {
+   "name": "Fern Polished Glass",
+   "category": "Glass",
+   "def": "Fern_Polished_Glass",
+   "diffuseColor": [
+    0,
+    0.748,
+    0.176
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9818,
+    0.9818,
+    0.9818
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.7212,
+   "transparency": 0.3552,
+   "source": "Glass16"
+  },
+  {
+   "name": "Emerald Prism Glass",
+   "category": "Glass",
+   "def": "Emerald_Prism_Glass",
+   "diffuseColor": [
+    0.3819,
+    0.748,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9636,
+    0.9636,
+    0.9636
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9818,
+   "transparency": 0.3707,
+   "source": "Glass17"
+  },
+  {
+   "name": "Dusky Pool Frosted Glass",
+   "category": "Glass",
+   "def": "Dusky_Pool_Frosted_Glass",
+   "diffuseColor": [
+    0.4008,
+    0.4419,
+    0.4591
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8147,
+    0.355,
+    0.3108
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.1273,
+   "transparency": 0.2432,
+   "source": "Glass18",
+   "clamped": {
+    "ambientIntensity": 2.0182
+   }
+  },
+  {
+   "name": "Dusky Icewater Frosted Glass",
+   "category": "Glass",
+   "def": "Dusky_Icewater_Frosted_Glass",
+   "diffuseColor": [
+    0.4008,
+    0.4419,
+    0.4591
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5739,
+    0.6493,
+    0.8108
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.1273,
+   "transparency": 0.1892,
+   "source": "Glass19",
+   "clamped": {
+    "ambientIntensity": 2.0182
+   }
+  },
+  {
+   "name": "Muted Blue Violet Soft Glass",
+   "category": "Glass",
+   "def": "Muted_Blue_Violet_Soft_Glass",
+   "diffuseColor": [
+    0.482,
+    0.4811,
+    0.5521
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.834,
+    0.5659,
+    0.5402
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.2364,
+   "transparency": 0.2162,
+   "source": "Glass20",
+   "clamped": {
+    "ambientIntensity": 1.4224
+   }
+  },
+  {
+   "name": "Silver Frosted Glass",
+   "category": "Glass",
+   "def": "Silver_Frosted_Glass",
+   "diffuseColor": [
+    0.5667,
+    0.5809,
+    0.5809
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6739,
+    0.4573,
+    0.4365
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.1682,
+   "transparency": 0.3514,
+   "source": "Glass21",
+   "clamped": {
+    "ambientIntensity": 1.0016
+   }
+  },
+  {
+   "name": "Deep Aquamarine Frosted Glass",
+   "category": "Glass",
+   "def": "Deep_Aquamarine_Frosted_Glass",
+   "diffuseColor": [
+    0.2606,
+    0.2874,
+    0.2985
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4206,
+    0.4314,
+    0.4545
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.0455,
+   "transparency": 0.2162,
+   "source": "Glass22",
+   "clamped": {
+    "ambientIntensity": 2.9313
+   }
+  },
+  {
+   "name": "Dusky Glacier Frosted Glass",
+   "category": "Glass",
+   "def": "Dusky_Glacier_Frosted_Glass",
+   "diffuseColor": [
+    0.4008,
+    0.4419,
+    0.4591
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4206,
+    0.4314,
+    0.4545
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.1273,
+   "transparency": 0.2085,
+   "source": "Glass23",
+   "clamped": {
+    "ambientIntensity": 2.0182
+   }
+  },
+  {
+   "name": "Silver Prism Glass",
+   "category": "Glass",
+   "def": "Silver_Prism_Glass",
+   "diffuseColor": [
+    0.5279,
+    0.5288,
+    0.5535
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7577,
+    0.5272,
+    0.4908
+   ],
+   "ambientIntensity": 0.2344,
+   "shininess": 0.8545,
+   "transparency": 0.2857,
+   "source": "Glass24"
+  },
+  {
+   "name": "Pewter Frosted Glass",
+   "category": "Glass",
+   "def": "Pewter_Frosted_Glass",
+   "diffuseColor": [
+    0.3723,
+    0.3716,
+    0.3732
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8909,
+    0.8878,
+    0.8909
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.1276,
+   "transparency": 0.3089,
+   "source": "Glass25"
+  },
+  {
+   "name": "Muted Blue Violet Polished Glass",
+   "category": "Glass",
+   "def": "Muted_Blue_Violet_Polished_Glass",
+   "diffuseColor": [
+    0.5269,
+    0.5259,
+    0.6036
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6511,
+    0.4418,
+    0.4217
+   ],
+   "ambientIntensity": 0.2406,
+   "shininess": 0.6364,
+   "transparency": 0.2857,
+   "source": "Glass26"
+  },
+  {
+   "name": "Deep Pool Frosted Glass",
+   "category": "Glass",
+   "def": "Deep_Pool_Frosted_Glass",
+   "diffuseColor": [
+    0.2606,
+    0.2874,
+    0.2985
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6717,
+    0.6889,
+    0.7259
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.1273,
+   "transparency": 0.2703,
+   "source": "Glass27",
+   "clamped": {
+    "ambientIntensity": 2.9313
+   }
+  },
+  {
+   "name": "Burnished Silver Frosted Glass",
+   "category": "Glass",
+   "def": "Burnished_Silver_Frosted_Glass",
+   "diffuseColor": [
+    0.5667,
+    0.5809,
+    0.5809
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6102,
+    0.7546,
+    0.9421
+   ],
+   "ambientIntensity": 0.2344,
+   "shininess": 0.1682,
+   "transparency": 0.1969,
+   "source": "Glass28"
+  },
+  {
+   "name": "Opaline Silver Frosted Glass",
+   "category": "Glass",
+   "def": "Opaline_Silver_Frosted_Glass",
+   "diffuseColor": [
+    0.5667,
+    0.5809,
+    0.5809
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6178,
+    0.4298,
+    0.4001
+   ],
+   "ambientIntensity": 0.2344,
+   "shininess": 0.0727,
+   "transparency": 0.2355,
+   "source": "Glass29"
+  },
+  {
+   "name": "Prismatic Pewter Frosted Glass",
+   "category": "Glass",
+   "def": "Prismatic_Pewter_Frosted_Glass",
+   "diffuseColor": [
+    0.4242,
+    0.4242,
+    0.4242
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.168,
+    0.168,
+    0.168
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1537,
+   "transparency": 0.2548,
+   "source": "Glass30"
+  },
+  {
+   "name": "Smoked Prism Glass",
+   "category": "Glass",
+   "def": "Smoked_Prism_Glass",
+   "diffuseColor": [
+    0.1524,
+    0.1451,
+    0.1528
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7455,
+    0.7455,
+    0.7455
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9576,
+   "transparency": 0.2548,
+   "source": "Glass31"
+  },
+  {
+   "name": "Mineral Smoked Frosted Glass",
+   "category": "Glass",
+   "def": "Mineral_Smoked_Frosted_Glass",
+   "diffuseColor": [
+    0.1387,
+    0.1387,
+    0.1387
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.168,
+    0.168,
+    0.168
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1537,
+   "transparency": 0.3514,
+   "source": "Glass32"
+  },
+  {
+   "name": "Silken Smoked Frosted Glass",
+   "category": "Glass",
+   "def": "Silken_Smoked_Frosted_Glass",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9184,
+    0.9106,
+    0.8851
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0561,
+   "transparency": 0.2355,
+   "source": "Glass33"
+  },
+  {
+   "name": "Smoked Polished Glass",
+   "category": "Glass",
+   "def": "Smoked_Polished_Glass",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    0.9916,
+    0.9638
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.5576,
+   "transparency": 0.2548,
+   "source": "Glass34"
+  },
+  {
+   "name": "Polished Gold",
+   "category": "Metals",
+   "def": "Polished_Gold",
+   "diffuseColor": [
+    0.3143,
+    0.2181,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    0.888,
+    0
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.6606,
+   "transparency": 0,
+   "source": "Metal00"
+  },
+  {
+   "name": "Brushed Brass",
+   "category": "Metals",
+   "def": "Brushed_Brass",
+   "diffuseColor": [
+    0.3143,
+    0.2181,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7296,
+    0.6479,
+    0
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.1327,
+   "transparency": 0,
+   "source": "Metal01"
+  },
+  {
+   "name": "Mirror Antique Gold",
+   "category": "Metals",
+   "def": "Mirror_Antique_Gold",
+   "diffuseColor": [
+    0.497,
+    0.3449,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    0.888,
+    0
+   ],
+   "ambientIntensity": 0.2683,
+   "shininess": 0.9273,
+   "transparency": 0,
+   "source": "Metal02"
+  },
+  {
+   "name": "Aged Bronze",
+   "category": "Metals",
+   "def": "Aged_Bronze",
+   "diffuseColor": [
+    0.3143,
+    0.2181,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5408,
+    0.4802,
+    0
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.0306,
+   "transparency": 0,
+   "source": "Metal03"
+  },
+  {
+   "name": "Brushed Black Chrome",
+   "category": "Metals",
+   "def": "Brushed_Black_Chrome",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9388,
+    0.055,
+    0.055
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Metal04"
+  },
+  {
+   "name": "Radiant Brushed Black Chrome",
+   "category": "Metals",
+   "def": "Radiant_Brushed_Black_Chrome",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6416,
+    0.9762,
+    0.9796
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Metal05"
+  },
+  {
+   "name": "Satin Dark Copper",
+   "category": "Metals",
+   "def": "Satin_Dark_Copper",
+   "diffuseColor": [
+    0.3143,
+    0.0744,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7806,
+    0.6912,
+    0.397
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.3571,
+   "transparency": 0,
+   "source": "Metal06"
+  },
+  {
+   "name": "Mirror Red Bronze",
+   "category": "Metals",
+   "def": "Mirror_Red_Bronze",
+   "diffuseColor": [
+    0.4545,
+    0.1076,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9515,
+    0.7297,
+    0
+   ],
+   "ambientIntensity": 0.24,
+   "shininess": 0.9273,
+   "transparency": 0,
+   "source": "Metal07"
+  },
+  {
+   "name": "Brushed Bronze",
+   "category": "Metals",
+   "def": "Brushed_Bronze",
+   "diffuseColor": [
+    0.3143,
+    0.0744,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7806,
+    0.5986,
+    0
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.1071,
+   "transparency": 0,
+   "source": "Metal08"
+  },
+  {
+   "name": "Aged Antique Bronze",
+   "category": "Metals",
+   "def": "Aged_Antique_Bronze",
+   "diffuseColor": [
+    0.3143,
+    0.0744,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    0.7668,
+    0
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.0485,
+   "transparency": 0,
+   "source": "Metal09"
+  },
+  {
+   "name": "Aged Dark Copper",
+   "category": "Metals",
+   "def": "Aged_Dark_Copper",
+   "diffuseColor": [
+    0.3143,
+    0.0744,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7602,
+    0.583,
+    0
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.0408,
+   "transparency": 0,
+   "source": "Metal10"
+  },
+  {
+   "name": "Brushed Weathered Brass",
+   "category": "Metals",
+   "def": "Brushed_Weathered_Brass",
+   "diffuseColor": [
+    0.3143,
+    0.0744,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7806,
+    0.6912,
+    0.397
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.1071,
+   "transparency": 0,
+   "source": "Metal11"
+  },
+  {
+   "name": "Satin Gold",
+   "category": "Metals",
+   "def": "Satin_Gold",
+   "diffuseColor": [
+    0.2223,
+    0.1543,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7143,
+    0.6966,
+    0.5566
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.1633,
+   "transparency": 0,
+   "source": "Metal12"
+  },
+  {
+   "name": "Satin Brass",
+   "category": "Metals",
+   "def": "Satin_Brass",
+   "diffuseColor": [
+    0.2223,
+    0.1543,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8827,
+    0.8608,
+    0.6879
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.2041,
+   "transparency": 0,
+   "source": "Metal13"
+  },
+  {
+   "name": "Pale Aged Dark Copper",
+   "category": "Metals",
+   "def": "Pale_Aged_Dark_Copper",
+   "diffuseColor": [
+    0.3152,
+    0.0746,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5089,
+    0.684,
+    0.3263
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0364,
+   "transparency": 0,
+   "source": "Metal14"
+  },
+  {
+   "name": "Vivid Brushed Bronze",
+   "category": "Metals",
+   "def": "Vivid_Brushed_Bronze",
+   "diffuseColor": [
+    0.3847,
+    0.267,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7576,
+    0.7388,
+    0.5904
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0667,
+   "transparency": 0,
+   "source": "Metal15"
+  },
+  {
+   "name": "Aged Gold",
+   "category": "Metals",
+   "def": "Aged_Gold",
+   "diffuseColor": [
+    0.2223,
+    0.1543,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6786,
+    0.6618,
+    0.5288
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.0204,
+   "transparency": 0,
+   "source": "Metal16"
+  },
+  {
+   "name": "Polished Brushed Black Chrome",
+   "category": "Metals",
+   "def": "Polished_Brushed_Black_Chrome",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6416,
+    0.651,
+    0.9796
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Metal17"
+  },
+  {
+   "name": "Polished Black Chrome",
+   "category": "Metals",
+   "def": "Polished_Black_Chrome",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    0.9916,
+    0.9638
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.5576,
+   "transparency": 0,
+   "source": "Metal18"
+  },
+  {
+   "name": "Polished Midnight Magenta Alloy",
+   "category": "Metals",
+   "def": "Polished_Midnight_Magenta_Alloy",
+   "diffuseColor": [
+    0.0811,
+    0,
+    0.0796
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9636,
+    0.9555,
+    0.9287
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.6545,
+   "transparency": 0,
+   "source": "Metal19"
+  },
+  {
+   "name": "Brushed Blue Steel",
+   "category": "Metals",
+   "def": "Brushed_Blue_Steel",
+   "diffuseColor": [
+    0,
+    0,
+    0.0425
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6327,
+    0.6273,
+    0.6097
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.102,
+   "transparency": 0,
+   "source": "Metal20"
+  },
+  {
+   "name": "Aged Cobalt Steel",
+   "category": "Metals",
+   "def": "Aged_Cobalt_Steel",
+   "diffuseColor": [
+    0,
+    0,
+    0.0425
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6327,
+    0.6273,
+    0.6097
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0561,
+   "transparency": 0,
+   "source": "Metal21"
+  },
+  {
+   "name": "Aged Iridescent Steel",
+   "category": "Metals",
+   "def": "Aged_Iridescent_Steel",
+   "diffuseColor": [
+    0,
+    0,
+    0.0425
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8214,
+    0.8145,
+    0.7917
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0561,
+   "transparency": 0,
+   "source": "Metal22"
+  },
+  {
+   "name": "Aged Black Chrome",
+   "category": "Metals",
+   "def": "Aged_Black_Chrome",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9184,
+    0.9106,
+    0.8851
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0561,
+   "transparency": 0,
+   "source": "Metal23"
+  },
+  {
+   "name": "Brushed Gunmetal",
+   "category": "Metals",
+   "def": "Brushed_Gunmetal",
+   "diffuseColor": [
+    0.1553,
+    0.1509,
+    0.1517
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5283,
+    0.5244,
+    0.5245
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.102,
+   "transparency": 0,
+   "source": "Metal24"
+  },
+  {
+   "name": "Dawn Aged Black Chrome",
+   "category": "Metals",
+   "def": "Dawn_Aged_Black_Chrome",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.449,
+    0.4452,
+    0.4327
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0561,
+   "transparency": 0,
+   "source": "Metal25"
+  },
+  {
+   "name": "Dusk Brushed Black Chrome",
+   "category": "Metals",
+   "def": "Dusk_Brushed_Black_Chrome",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7806,
+    0.774,
+    0.7523
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.102,
+   "transparency": 0,
+   "source": "Metal26"
+  },
+  {
+   "name": "Satin Steel",
+   "category": "Metals",
+   "def": "Satin_Steel",
+   "diffuseColor": [
+    0.5578,
+    0.5718,
+    0.5718
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7082,
+    0.4806,
+    0.4587
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.2364,
+   "transparency": 0,
+   "source": "Metal27",
+   "clamped": {
+    "ambientIntensity": 1.2619
+   }
+  },
+  {
+   "name": "Brushed Dusky Aqua Alloy",
+   "category": "Metals",
+   "def": "Brushed_Dusky_Aqua_Alloy",
+   "diffuseColor": [
+    0.4127,
+    0.455,
+    0.4727
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4206,
+    0.4314,
+    0.4545
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.1273,
+   "transparency": 0,
+   "source": "Metal28",
+   "clamped": {
+    "ambientIntensity": 1.96
+   }
+  },
+  {
+   "name": "Opaline Satin Steel",
+   "category": "Metals",
+   "def": "Opaline_Satin_Steel",
+   "diffuseColor": [
+    0.5667,
+    0.5809,
+    0.5809
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6739,
+    0.4573,
+    0.4365
+   ],
+   "ambientIntensity": 0.2344,
+   "shininess": 0.1682,
+   "transparency": 0,
+   "source": "Metal29"
+  },
+  {
+   "name": "Brushed Steel",
+   "category": "Metals",
+   "def": "Brushed_Steel",
+   "diffuseColor": [
+    0.3723,
+    0.3716,
+    0.3732
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8909,
+    0.8878,
+    0.8909
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.1276,
+   "transparency": 0,
+   "source": "Metal30"
+  },
+  {
+   "name": "Jewel Brushed Steel",
+   "category": "Metals",
+   "def": "Jewel_Brushed_Steel",
+   "diffuseColor": [
+    0.3723,
+    0.3716,
+    0.3732
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5561,
+    0.5542,
+    0.5561
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.1276,
+   "transparency": 0,
+   "source": "Metal31"
+  },
+  {
+   "name": "Mirror Silver",
+   "category": "Metals",
+   "def": "Mirror_Silver",
+   "diffuseColor": [
+    0.6977,
+    0.6963,
+    0.6993
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2278,
+    0.2273,
+    0.2274
+   ],
+   "ambientIntensity": 0.1132,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Metal32"
+  },
+  {
+   "name": "Polished Steel",
+   "category": "Metals",
+   "def": "Polished_Steel",
+   "diffuseColor": [
+    0.4,
+    0.4,
+    0.4
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7746,
+    0.7746,
+    0.7746
+   ],
+   "ambientIntensity": 0.625,
+   "shininess": 0.6,
+   "transparency": 0,
+   "source": "Metal33"
+  },
+  {
+   "name": "Polished Gunmetal",
+   "category": "Metals",
+   "def": "Polished_Gunmetal",
+   "diffuseColor": [
+    0.2775,
+    0.2775,
+    0.2775
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7739,
+    0.7739,
+    0.7739
+   ],
+   "ambientIntensity": 0.8333,
+   "shininess": 0.7,
+   "transparency": 0,
+   "source": "Metal34"
+  },
+  {
+   "name": "Electric Cobalt Neon",
+   "category": "Neon",
+   "def": "Electric_Cobalt_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0.3987,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon00"
+  },
+  {
+   "name": "Laser Cyan Neon",
+   "category": "Neon",
+   "def": "Laser_Cyan_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0.6286,
+    1
+   ],
+   "specularColor": [
+    0.4703,
+    0.4703,
+    0.4703
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon01"
+  },
+  {
+   "name": "Plasma Teal Neon",
+   "category": "Neon",
+   "def": "Plasma_Teal_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.0188,
+    0.9403,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon02"
+  },
+  {
+   "name": "Neon Seafoam Neon",
+   "category": "Neon",
+   "def": "Neon_Seafoam_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    1,
+    0.7342
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon03"
+  },
+  {
+   "name": "Arc Seafoam Neon",
+   "category": "Neon",
+   "def": "Arc_Seafoam_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    1,
+    0.4563
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon04"
+  },
+  {
+   "name": "Pulse Jade Neon",
+   "category": "Neon",
+   "def": "Pulse_Jade_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    1,
+    0.1683
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon05"
+  },
+  {
+   "name": "Ion Emerald Neon",
+   "category": "Neon",
+   "def": "Ion_Emerald_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.0239,
+    1,
+    0.0024
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon06"
+  },
+  {
+   "name": "Electric Emerald Neon",
+   "category": "Neon",
+   "def": "Electric_Emerald_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.3639,
+    1,
+    0.0478
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon07"
+  },
+  {
+   "name": "Laser Lime Neon",
+   "category": "Neon",
+   "def": "Laser_Lime_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.5596,
+    1,
+    0
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon08"
+  },
+  {
+   "name": "Plasma Citrine Neon",
+   "category": "Neon",
+   "def": "Plasma_Citrine_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.7577,
+    1,
+    0
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon09"
+  },
+  {
+   "name": "Neon Buttercup Neon",
+   "category": "Neon",
+   "def": "Neon_Buttercup_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0.8718,
+    0
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon10"
+  },
+  {
+   "name": "Arc Honey Neon",
+   "category": "Neon",
+   "def": "Arc_Honey_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0.7155,
+    0
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon11"
+  },
+  {
+   "name": "Pulse Honey Neon",
+   "category": "Neon",
+   "def": "Pulse_Honey_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0.5771,
+    0
+   ],
+   "specularColor": [
+    0.3838,
+    0.3838,
+    0.3838
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0541,
+   "transparency": 0,
+   "source": "Neon12"
+  },
+  {
+   "name": "Ion Copper Neon",
+   "category": "Neon",
+   "def": "Ion_Copper_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0.4428,
+    0
+   ],
+   "specularColor": [
+    0.4757,
+    0.4757,
+    0.4757
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon13"
+  },
+  {
+   "name": "Electric Papaya Neon",
+   "category": "Neon",
+   "def": "Electric_Papaya_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0.3189,
+    0
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0865,
+   "transparency": 0,
+   "source": "Neon14"
+  },
+  {
+   "name": "Laser Cherry Neon",
+   "category": "Neon",
+   "def": "Laser_Cherry_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0.1515,
+    0
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon15"
+  },
+  {
+   "name": "Plasma Poppy Neon",
+   "category": "Neon",
+   "def": "Plasma_Poppy_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon16"
+  },
+  {
+   "name": "Neon Cherry Neon",
+   "category": "Neon",
+   "def": "Neon_Cherry_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0,
+    0.0807
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon17"
+  },
+  {
+   "name": "Arc Peony Neon",
+   "category": "Neon",
+   "def": "Arc_Peony_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0,
+    0.2658
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon18"
+  },
+  {
+   "name": "Pulse Peony Neon",
+   "category": "Neon",
+   "def": "Pulse_Peony_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0,
+    0.3468
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon19"
+  },
+  {
+   "name": "Ion Watermelon Neon",
+   "category": "Neon",
+   "def": "Ion_Watermelon_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0.0791,
+    0.6569
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon20"
+  },
+  {
+   "name": "Electric Dragonfruit Neon",
+   "category": "Neon",
+   "def": "Electric_Dragonfruit_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.934,
+    0.003,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon21"
+  },
+  {
+   "name": "Laser Lavender Neon",
+   "category": "Neon",
+   "def": "Laser_Lavender_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.7558,
+    0,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon22"
+  },
+  {
+   "name": "Plasma Lavender Neon",
+   "category": "Neon",
+   "def": "Plasma_Lavender_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.5883,
+    0.0173,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon23"
+  },
+  {
+   "name": "Neon Grape Neon",
+   "category": "Neon",
+   "def": "Neon_Grape_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.4602,
+    0,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon24"
+  },
+  {
+   "name": "Arc Nightshade Neon",
+   "category": "Neon",
+   "def": "Arc_Nightshade_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.175,
+    0,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon25"
+  },
+  {
+   "name": "Pulse Ultramarine Neon",
+   "category": "Neon",
+   "def": "Pulse_Ultramarine_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0.136,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon26"
+  },
+  {
+   "name": "Ion Azure Neon",
+   "category": "Neon",
+   "def": "Ion_Azure_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0.2773,
+    1
+   ],
+   "specularColor": [
+    0.6224,
+    0.6224,
+    0.6224
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.051,
+   "transparency": 0,
+   "source": "Neon27"
+  },
+  {
+   "name": "Electric Aquamarine Neon",
+   "category": "Neon",
+   "def": "Electric_Aquamarine_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0.2805,
+    0.3966
+   ],
+   "specularColor": [
+    0.6162,
+    0.6162,
+    0.6162
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Neon28"
+  },
+  {
+   "name": "Laser Moss Neon",
+   "category": "Neon",
+   "def": "Laser_Moss_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0.2805,
+    0.0407
+   ],
+   "specularColor": [
+    0.6162,
+    0.6162,
+    0.6162
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Neon29"
+  },
+  {
+   "name": "Plasma Ochre Neon",
+   "category": "Neon",
+   "def": "Plasma_Ochre_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.9218,
+    0.5442,
+    0
+   ],
+   "specularColor": [
+    0.6378,
+    0.3765,
+    0
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0541,
+   "transparency": 0,
+   "source": "Neon30"
+  },
+  {
+   "name": "Jewel Neon Cherry Neon",
+   "category": "Neon",
+   "def": "Jewel_Neon_Cherry_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    1,
+    0.2865,
+    0.1593
+   ],
+   "specularColor": [
+    0.5351,
+    0.5351,
+    0.5351
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0541,
+   "transparency": 0,
+   "source": "Neon31"
+  },
+  {
+   "name": "Arc Scarlet Neon",
+   "category": "Neon",
+   "def": "Arc_Scarlet_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.6678,
+    0.077,
+    0.1711
+   ],
+   "specularColor": [
+    0.4973,
+    0.4973,
+    0.4973
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0541,
+   "transparency": 0,
+   "source": "Neon32"
+  },
+  {
+   "name": "Pulse Berry Neon",
+   "category": "Neon",
+   "def": "Pulse_Berry_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.5908,
+    0.0583,
+    0.3074
+   ],
+   "specularColor": [
+    0.6,
+    0.6,
+    0.6
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0757,
+   "transparency": 0,
+   "source": "Neon33"
+  },
+  {
+   "name": "Ion Bougainvillea Neon",
+   "category": "Neon",
+   "def": "Ion_Bougainvillea_Neon",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0.5953,
+    0.1877,
+    0.5954
+   ],
+   "specularColor": [
+    0.4703,
+    0.4703,
+    0.4703
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0541,
+   "transparency": 0,
+   "source": "Neon34"
+  },
+  {
+   "name": "Mesa Canyon Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Mesa_Canyon_Soft_Sheen",
+   "diffuseColor": [
+    0.9149,
+    0.4444,
+    0.3489
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3457,
+    0.1431,
+    0
+   ],
+   "ambientIntensity": 0.2558,
+   "shininess": 0.1277,
+   "transparency": 0,
+   "source": "Santafe00"
+  },
+  {
+   "name": "Adobe Ruby Matte",
+   "category": "Santa Fe",
+   "def": "Adobe_Ruby_Matte",
+   "diffuseColor": [
+    0.8032,
+    0.4644,
+    0.4906
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3191,
+    0.0813,
+    0.0813
+   ],
+   "ambientIntensity": 0.245,
+   "shininess": 0.0266,
+   "transparency": 0,
+   "source": "Santafe01"
+  },
+  {
+   "name": "Desert Cardinal Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Desert_Cardinal_Soft_Sheen",
+   "diffuseColor": [
+    0.7996,
+    0.3267,
+    0.3267
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3274,
+    0.1355,
+    0
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.0765,
+   "transparency": 0,
+   "source": "Santafe02"
+  },
+  {
+   "name": "Canyon Cherry Lacquer",
+   "category": "Santa Fe",
+   "def": "Canyon_Cherry_Lacquer",
+   "diffuseColor": [
+    0.6011,
+    0.1722,
+    0.2129
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8245,
+    0.2275,
+    0.2275
+   ],
+   "ambientIntensity": 0.2566,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Santafe03"
+  },
+  {
+   "name": "Pueblo Scarlet Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Pueblo_Scarlet_Soft_Sheen",
+   "diffuseColor": [
+    0.6011,
+    0.0739,
+    0.1147
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4255,
+    0.0322,
+    0.0322
+   ],
+   "ambientIntensity": 0.2566,
+   "shininess": 0.0851,
+   "transparency": 0,
+   "source": "Santafe04"
+  },
+  {
+   "name": "Taos Deep Cerise Matte",
+   "category": "Santa Fe",
+   "def": "Taos_Deep_Cerise_Matte",
+   "diffuseColor": [
+    0.1915,
+    0.0266,
+    0.0666
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3673,
+    0.0557,
+    0.0557
+   ],
+   "ambientIntensity": 0.2353,
+   "shininess": 0.0585,
+   "transparency": 0,
+   "source": "Santafe05"
+  },
+  {
+   "name": "Sunset Muted Ultramarine Matte",
+   "category": "Santa Fe",
+   "def": "Sunset_Muted_Ultramarine_Matte",
+   "diffuseColor": [
+    0.462,
+    0.4843,
+    0.6858
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2038,
+    0.2539,
+    0.2539
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.057,
+   "transparency": 0,
+   "source": "Santafe06"
+  },
+  {
+   "name": "Mesa Dusky Arctic Matte",
+   "category": "Santa Fe",
+   "def": "Mesa_Dusky_Arctic_Matte",
+   "diffuseColor": [
+    0.2436,
+    0.3903,
+    0.4423
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2579,
+    0.3212,
+    0.3212
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.0311,
+   "transparency": 0,
+   "source": "Santafe07"
+  },
+  {
+   "name": "Adobe Sapphire Polished",
+   "category": "Santa Fe",
+   "def": "Adobe_Sapphire_Polished",
+   "diffuseColor": [
+    0.3405,
+    0.375,
+    0.6858
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2371,
+    0.2953,
+    0.2953
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.4663,
+   "transparency": 0,
+   "source": "Santafe08"
+  },
+  {
+   "name": "Desert Persimmon Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Desert_Persimmon_Soft_Sheen",
+   "diffuseColor": [
+    0.9149,
+    0.4444,
+    0.3489
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3457,
+    0.1431,
+    0
+   ],
+   "ambientIntensity": 0.2558,
+   "shininess": 0.1277,
+   "transparency": 0,
+   "source": "Santafe09"
+  },
+  {
+   "name": "Canyon Dusky Twilight Blue Polished",
+   "category": "Santa Fe",
+   "def": "Canyon_Dusky_Twilight_Blue_Polished",
+   "diffuseColor": [
+    0.2287,
+    0.1955,
+    0.4255
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3245,
+    0.4043,
+    0.4043
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.5426,
+   "transparency": 0,
+   "source": "Santafe10"
+  },
+  {
+   "name": "Pueblo Deep Cyan Matte",
+   "category": "Santa Fe",
+   "def": "Pueblo_Deep_Cyan_Matte",
+   "diffuseColor": [
+    0.0511,
+    0.241,
+    0.3074
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0551,
+    0.0811,
+    0.2074
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.0319,
+   "transparency": 0,
+   "source": "Santafe11"
+  },
+  {
+   "name": "Taos Turquoise Matte",
+   "category": "Santa Fe",
+   "def": "Taos_Turquoise_Matte",
+   "diffuseColor": [
+    0.1308,
+    0.5026,
+    0.4799
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3304,
+    0.3368,
+    0.2351
+   ],
+   "ambientIntensity": 0.2474,
+   "shininess": 0.057,
+   "transparency": 0,
+   "source": "Santafe12"
+  },
+  {
+   "name": "Sunset Petrol Satin",
+   "category": "Santa Fe",
+   "def": "Sunset_Petrol_Satin",
+   "diffuseColor": [
+    0.1301,
+    0.5,
+    0.4774
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3601,
+    0.367,
+    0.2562
+   ],
+   "ambientIntensity": 0.234,
+   "shininess": 0.3085,
+   "transparency": 0,
+   "source": "Santafe13"
+  },
+  {
+   "name": "Mesa Dusky Pine Matte",
+   "category": "Santa Fe",
+   "def": "Mesa_Dusky_Pine_Matte",
+   "diffuseColor": [
+    0.3591,
+    0.4889,
+    0.3265
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2181,
+    0.2181,
+    0.2181
+   ],
+   "ambientIntensity": 0.2589,
+   "shininess": 0.0585,
+   "transparency": 0,
+   "source": "Santafe14"
+  },
+  {
+   "name": "Adobe Patina Satin",
+   "category": "Santa Fe",
+   "def": "Adobe_Patina_Satin",
+   "diffuseColor": [
+    0,
+    0.4139,
+    0.2803
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1124,
+    0.3906,
+    0.2054
+   ],
+   "ambientIntensity": 0.2447,
+   "shininess": 0.1915,
+   "transparency": 0,
+   "source": "Santafe15"
+  },
+  {
+   "name": "Desert Deep Sea Satin",
+   "category": "Santa Fe",
+   "def": "Desert_Deep_Sea_Satin",
+   "diffuseColor": [
+    0.0164,
+    0.2991,
+    0.2815
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4796,
+    0.4289,
+    0.4036
+   ],
+   "ambientIntensity": 0.2449,
+   "shininess": 0.25,
+   "transparency": 0,
+   "source": "Santafe16"
+  },
+  {
+   "name": "Canyon Midnight Moss Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Canyon_Midnight_Moss_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.1224,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3566,
+    0.3566,
+    0.3566
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Santafe17"
+  },
+  {
+   "name": "Pueblo Amber Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Pueblo_Amber_Soft_Sheen",
+   "diffuseColor": [
+    0.7495,
+    0.6012,
+    0.4616
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0786,
+    0.0804,
+    0.0484
+   ],
+   "ambientIntensity": 0.2517,
+   "shininess": 0.1676,
+   "transparency": 0,
+   "source": "Santafe18"
+  },
+  {
+   "name": "Taos Dusky Canyon Matte",
+   "category": "Santa Fe",
+   "def": "Taos_Dusky_Canyon_Matte",
+   "diffuseColor": [
+    0.4495,
+    0.3104,
+    0.2089
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1809,
+    0.0685,
+    0.0474
+   ],
+   "ambientIntensity": 0.2533,
+   "shininess": 0.0106,
+   "transparency": 0,
+   "source": "Santafe19"
+  },
+  {
+   "name": "Sunset Copper Matte",
+   "category": "Santa Fe",
+   "def": "Sunset_Copper_Matte",
+   "diffuseColor": [
+    0.5,
+    0.2433,
+    0.1274
+   ],
+   "emissiveColor": [
+    0.016,
+    0.016,
+    0.016
+   ],
+   "specularColor": [
+    0.2766,
+    0.0551,
+    0.0152
+   ],
+   "ambientIntensity": 0.234,
+   "shininess": 0.0319,
+   "transparency": 0,
+   "source": "Santafe20"
+  },
+  {
+   "name": "Mesa Deep Mocha Matte",
+   "category": "Santa Fe",
+   "def": "Mesa_Deep_Mocha_Matte",
+   "diffuseColor": [
+    0.3221,
+    0.1567,
+    0.0821
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2969,
+    0.0591,
+    0.0164
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0319,
+   "transparency": 0,
+   "source": "Santafe21"
+  },
+  {
+   "name": "Adobe Deep Chestnut Matte",
+   "category": "Santa Fe",
+   "def": "Adobe_Deep_Chestnut_Matte",
+   "diffuseColor": [
+    0.3221,
+    0.1567,
+    0.0821
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1227,
+    0.0364,
+    0.0101
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0319,
+   "transparency": 0,
+   "source": "Santafe22"
+  },
+  {
+   "name": "Desert Cocoa Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Desert_Cocoa_Soft_Sheen",
+   "diffuseColor": [
+    0.3477,
+    0.0909,
+    0.0053
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3367,
+    0.0511,
+    0.0511
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Santafe23"
+  },
+  {
+   "name": "Canyon Dusky Mocha Matte",
+   "category": "Santa Fe",
+   "def": "Canyon_Dusky_Mocha_Matte",
+   "diffuseColor": [
+    0.3305,
+    0.2582,
+    0.2114
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1837,
+    0.1655,
+    0.1634
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0255,
+   "transparency": 0,
+   "source": "Santafe24"
+  },
+  {
+   "name": "Pueblo Deep Cocoa Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Pueblo_Deep_Cocoa_Soft_Sheen",
+   "diffuseColor": [
+    0.3118,
+    0.2047,
+    0.1578
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2044,
+    0.1028,
+    0.1145
+   ],
+   "ambientIntensity": 0.2484,
+   "shininess": 0.0957,
+   "transparency": 0,
+   "source": "Santafe25"
+  },
+  {
+   "name": "Taos Honey Matte",
+   "category": "Santa Fe",
+   "def": "Taos_Honey_Matte",
+   "diffuseColor": [
+    0.5013,
+    0.321,
+    0.1355
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0794,
+    0.0301,
+    0.0208
+   ],
+   "ambientIntensity": 0.2974,
+   "shininess": 0.0213,
+   "transparency": 0,
+   "source": "Santafe26"
+  },
+  {
+   "name": "Sunset Topaz Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Sunset_Topaz_Soft_Sheen",
+   "diffuseColor": [
+    0.484,
+    0.3387,
+    0.0357
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2237,
+    0.1091,
+    0.0334
+   ],
+   "ambientIntensity": 0.2405,
+   "shininess": 0.0851,
+   "transparency": 0,
+   "source": "Santafe27"
+  },
+  {
+   "name": "Mesa Amber Polished",
+   "category": "Santa Fe",
+   "def": "Mesa_Amber_Polished",
+   "diffuseColor": [
+    0.7959,
+    0.5059,
+    0.0933
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9235,
+    0.4289,
+    0.0064
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.398,
+   "transparency": 0,
+   "source": "Santafe28"
+  },
+  {
+   "name": "Adobe Deep Scarlet Matte",
+   "category": "Santa Fe",
+   "def": "Adobe_Deep_Scarlet_Matte",
+   "diffuseColor": [
+    0.2412,
+    0.1005,
+    0.1005
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0092,
+    0.0158,
+    0.1086
+   ],
+   "ambientIntensity": 0.2533,
+   "shininess": 0.0372,
+   "transparency": 0,
+   "source": "Santafe29"
+  },
+  {
+   "name": "Desert Dusky Ember Matte",
+   "category": "Santa Fe",
+   "def": "Desert_Dusky_Ember_Matte",
+   "diffuseColor": [
+    0.4495,
+    0.3742,
+    0.3192
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1986,
+    0.0321,
+    0.1603
+   ],
+   "ambientIntensity": 0.2533,
+   "shininess": 0.0106,
+   "transparency": 0,
+   "source": "Santafe30"
+  },
+  {
+   "name": "Canyon Dusky Berry Matte",
+   "category": "Santa Fe",
+   "def": "Canyon_Dusky_Berry_Matte",
+   "diffuseColor": [
+    0.3356,
+    0.2077,
+    0.2383
+   ],
+   "emissiveColor": [
+    0.0106,
+    0.0106,
+    0.0106
+   ],
+   "specularColor": [
+    0.1986,
+    0.0754,
+    0.1388
+   ],
+   "ambientIntensity": 0.2589,
+   "shininess": 0.0213,
+   "transparency": 0,
+   "source": "Santafe31"
+  },
+  {
+   "name": "Pueblo Pewter Matte",
+   "category": "Santa Fe",
+   "def": "Pueblo_Pewter_Matte",
+   "diffuseColor": [
+    0.3817,
+    0.3817,
+    0.3817
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0397,
+    0.0342,
+    0.101
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.0363,
+   "transparency": 0,
+   "source": "Santafe32"
+  },
+  {
+   "name": "Taos Graphite Soft Sheen",
+   "category": "Santa Fe",
+   "def": "Taos_Graphite_Soft_Sheen",
+   "diffuseColor": [
+    0.2487,
+    0.2487,
+    0.2487
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.053,
+    0.0456,
+    0.1347
+   ],
+   "ambientIntensity": 0.2083,
+   "shininess": 0.0984,
+   "transparency": 0,
+   "source": "Santafe33"
+  },
+  {
+   "name": "Sunset Black Matte",
+   "category": "Santa Fe",
+   "def": "Sunset_Black_Matte",
+   "diffuseColor": [
+    0.0428,
+    0.0428,
+    0.0428
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1135,
+    0.1096,
+    0.1563
+   ],
+   "ambientIntensity": 0.2083,
+   "shininess": 0.0638,
+   "transparency": 0,
+   "source": "Santafe34"
+  },
+  {
+   "name": "Vivid Grape on Black Sheen",
+   "category": "Sheen",
+   "def": "Vivid_Grape_on_Black_Sheen",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6416,
+    0,
+    0.9796
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Sheen00"
+  },
+  {
+   "name": "Deep Aqua–Orchid Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Aqua_Orchid_Iridescent_Sheen",
+   "diffuseColor": [
+    0,
+    0.1254,
+    0.2622
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.384,
+    0,
+    0.6071
+   ],
+   "ambientIntensity": 0.4532,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen01"
+  },
+  {
+   "name": "Deep Lapis Satin Sheen",
+   "category": "Sheen",
+   "def": "Deep_Lapis_Satin_Sheen",
+   "diffuseColor": [
+    0,
+    0.0043,
+    0.3143
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3647,
+    0.8338,
+    0.9091
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.6364,
+   "transparency": 0,
+   "source": "Sheen02"
+  },
+  {
+   "name": "Deep Cobalt Soft Sheen",
+   "category": "Sheen",
+   "def": "Deep_Cobalt_Soft_Sheen",
+   "diffuseColor": [
+    0.1208,
+    0.1441,
+    0.3143
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2333,
+    0.2784,
+    0.6071
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen03"
+  },
+  {
+   "name": "Deep Royal Blue–Moss Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Royal_Blue_Moss_Iridescent_Sheen",
+   "diffuseColor": [
+    0.0018,
+    0,
+    0.2857
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1518,
+    0.6071,
+    0.1739
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen04"
+  },
+  {
+   "name": "Deep Turquoise–Amethyst Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Turquoise_Amethyst_Iridescent_Sheen",
+   "diffuseColor": [
+    0,
+    0.2622,
+    0.2622
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.384,
+    0,
+    0.6071
+   ],
+   "ambientIntensity": 0.2932,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen05"
+  },
+  {
+   "name": "Deep Turquoise–Cherry Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Turquoise_Cherry_Iridescent_Sheen",
+   "diffuseColor": [
+    0,
+    0.268,
+    0.2651
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6071,
+    0.1328,
+    0.1758
+   ],
+   "ambientIntensity": 0.2932,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen06"
+  },
+  {
+   "name": "Deep Blue Spruce Soft Sheen",
+   "category": "Sheen",
+   "def": "Deep_Blue_Spruce_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.2825,
+    0.3143
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2333,
+    0.2784,
+    0.6071
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen07"
+  },
+  {
+   "name": "Deep Sea Low Sheen",
+   "category": "Sheen",
+   "def": "Deep_Sea_Low_Sheen",
+   "diffuseColor": [
+    0,
+    0.2869,
+    0.2619
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2435,
+    0.5569,
+    0.6071
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0663,
+   "transparency": 0,
+   "source": "Sheen08"
+  },
+  {
+   "name": "Muted Deep Blue Spruce Soft Sheen",
+   "category": "Sheen",
+   "def": "Muted_Deep_Blue_Spruce_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.2869,
+    0.2619
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2435,
+    0.5569,
+    0.6071
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.15,
+   "transparency": 0,
+   "source": "Sheen09"
+  },
+  {
+   "name": "Deep Fern–Lemon Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Fern_Lemon_Iridescent_Sheen",
+   "diffuseColor": [
+    0.0249,
+    0.1856,
+    0.0026
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5053,
+    0.4639,
+    0
+   ],
+   "ambientIntensity": 0.2551,
+   "shininess": 0.1276,
+   "transparency": 0,
+   "source": "Sheen10"
+  },
+  {
+   "name": "Malachite–Buttercup Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Malachite_Buttercup_Iridescent_Sheen",
+   "diffuseColor": [
+    0.0249,
+    0.4231,
+    0.0026
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5053,
+    0.4639,
+    0
+   ],
+   "ambientIntensity": 0.2551,
+   "shininess": 0.1276,
+   "transparency": 0,
+   "source": "Sheen11"
+  },
+  {
+   "name": "Deep Daffodil–Denim Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Daffodil_Denim_Iridescent_Sheen",
+   "diffuseColor": [
+    0.3143,
+    0.3143,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.368,
+    0.4391,
+    0.9576
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.3455,
+   "transparency": 0,
+   "source": "Sheen12"
+  },
+  {
+   "name": "Deep Sunbeam–Clover Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Sunbeam_Clover_Iridescent_Sheen",
+   "diffuseColor": [
+    0.2872,
+    0.2999,
+    0.0059
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1518,
+    0.6071,
+    0.1739
+   ],
+   "ambientIntensity": 0.2382,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen13"
+  },
+  {
+   "name": "Citron–Emerald Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Citron_Emerald_Iridescent_Sheen",
+   "diffuseColor": [
+    0.5,
+    0.4769,
+    0.188
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0358,
+    0.5918,
+    0
+   ],
+   "ambientIntensity": 0.2551,
+   "shininess": 0.0816,
+   "transparency": 0,
+   "source": "Sheen14"
+  },
+  {
+   "name": "Citron Soft Sheen",
+   "category": "Sheen",
+   "def": "Citron_Soft_Sheen",
+   "diffuseColor": [
+    0.4901,
+    0.5,
+    0.2172
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5653,
+    0.5918,
+    0
+   ],
+   "ambientIntensity": 0.2551,
+   "shininess": 0.1071,
+   "transparency": 0,
+   "source": "Sheen15"
+  },
+  {
+   "name": "Canary Soft Sheen",
+   "category": "Sheen",
+   "def": "Canary_Soft_Sheen",
+   "diffuseColor": [
+    0.4031,
+    0.3954,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6837,
+    0.099,
+    0
+   ],
+   "ambientIntensity": 0.2532,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen16"
+  },
+  {
+   "name": "Deep Walnut Soft Sheen",
+   "category": "Sheen",
+   "def": "Deep_Walnut_Soft_Sheen",
+   "diffuseColor": [
+    0.3143,
+    0.2181,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6071,
+    0.5391,
+    0
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen17"
+  },
+  {
+   "name": "Satin Deep Walnut Soft Sheen",
+   "category": "Sheen",
+   "def": "Satin_Deep_Walnut_Soft_Sheen",
+   "diffuseColor": [
+    0.3143,
+    0.14,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6071,
+    0.5391,
+    0
+   ],
+   "ambientIntensity": 0.0227,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen18"
+  },
+  {
+   "name": "Peony–Primrose Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Peony_Primrose_Iridescent_Sheen",
+   "diffuseColor": [
+    0.3369,
+    0,
+    0.1115
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3362,
+    0.373,
+    0.0013
+   ],
+   "ambientIntensity": 0.2468,
+   "shininess": 0.0649,
+   "transparency": 0,
+   "source": "Sheen19"
+  },
+  {
+   "name": "Copper–Teal Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Copper_Teal_Iridescent_Sheen",
+   "diffuseColor": [
+    0.4271,
+    0.1959,
+    0.0093
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2333,
+    0.6071,
+    0.5723
+   ],
+   "ambientIntensity": 0.2479,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen20"
+  },
+  {
+   "name": "Deep Chestnut–Lapis Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Chestnut_Lapis_Iridescent_Sheen",
+   "diffuseColor": [
+    0.3143,
+    0.1441,
+    0.0069
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2333,
+    0.2784,
+    0.6071
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen21"
+  },
+  {
+   "name": "Deep Garnet–Cobalt Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Garnet_Cobalt_Iridescent_Sheen",
+   "diffuseColor": [
+    0.3143,
+    0.0112,
+    0.0069
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.382,
+    0.4558,
+    0.9939
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.8,
+   "transparency": 0,
+   "source": "Sheen22"
+  },
+  {
+   "name": "Deep Cherry Soft Sheen",
+   "category": "Sheen",
+   "def": "Deep_Cherry_Soft_Sheen",
+   "diffuseColor": [
+    0.268,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6071,
+    0.1328,
+    0.1758
+   ],
+   "ambientIntensity": 0.2932,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen23"
+  },
+  {
+   "name": "Vivid Scarlet on Black Sheen",
+   "category": "Sheen",
+   "def": "Vivid_Scarlet_on_Black_Sheen",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9388,
+    0.055,
+    0.055
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Sheen24"
+  },
+  {
+   "name": "Vivid Ruby on Black Sheen",
+   "category": "Sheen",
+   "def": "Vivid_Ruby_on_Black_Sheen",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9818,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0303,
+   "transparency": 0,
+   "source": "Sheen25"
+  },
+  {
+   "name": "Deep Scarlet–Amethyst Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Scarlet_Amethyst_Iridescent_Sheen",
+   "diffuseColor": [
+    0.2622,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.384,
+    0,
+    0.6071
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen26"
+  },
+  {
+   "name": "Deep Bougainvillea–Sunbeam Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Bougainvillea_Sunbeam_Iridescent_Sheen",
+   "diffuseColor": [
+    0.2651,
+    0,
+    0.2658
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6071,
+    0.6071,
+    0.005
+   ],
+   "ambientIntensity": 0.2687,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen27"
+  },
+  {
+   "name": "Deep Cyclamen–Vivid Fern Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Cyclamen_Vivid_Fern_Iridescent_Sheen",
+   "diffuseColor": [
+    0.3083,
+    0,
+    0.3006
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2364,
+    0.9455,
+    0.2707
+   ],
+   "ambientIntensity": 0.2317,
+   "shininess": 0.3697,
+   "transparency": 0,
+   "source": "Sheen28"
+  },
+  {
+   "name": "Deep Amethyst Soft Sheen",
+   "category": "Sheen",
+   "def": "Deep_Amethyst_Soft_Sheen",
+   "diffuseColor": [
+    0.2731,
+    0.1441,
+    0.3143
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2333,
+    0.2784,
+    0.6071
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen29"
+  },
+  {
+   "name": "Deep Plum Soft Sheen",
+   "category": "Sheen",
+   "def": "Deep_Plum_Soft_Sheen",
+   "diffuseColor": [
+    0.2622,
+    0,
+    0.2622
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.384,
+    0,
+    0.6071
+   ],
+   "ambientIntensity": 0.2932,
+   "shininess": 0.1571,
+   "transparency": 0,
+   "source": "Sheen30"
+  },
+  {
+   "name": "Wisteria Satin Sheen",
+   "category": "Sheen",
+   "def": "Wisteria_Satin_Sheen",
+   "diffuseColor": [
+    0.3486,
+    0,
+    0.7959
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4485,
+    0,
+    0.7092
+   ],
+   "ambientIntensity": 0.4104,
+   "shininess": 0.4337,
+   "transparency": 0,
+   "source": "Sheen31"
+  },
+  {
+   "name": "Deep Purple–Vivid Pool Iridescent Sheen",
+   "category": "Sheen",
+   "def": "Deep_Purple_Vivid_Pool_Iridescent_Sheen",
+   "diffuseColor": [
+    0.1874,
+    0.1212,
+    0.2594
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0.625,
+    0.8929
+   ],
+   "ambientIntensity": 0.2788,
+   "shininess": 0.1224,
+   "transparency": 0,
+   "source": "Sheen32"
+  },
+  {
+   "name": "Deep Wisteria Low Sheen",
+   "category": "Sheen",
+   "def": "Deep_Wisteria_Low_Sheen",
+   "diffuseColor": [
+    0.1199,
+    0.0607,
+    0.1831
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3563,
+    0.3831,
+    0.8265
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.0867,
+   "transparency": 0,
+   "source": "Sheen33"
+  },
+  {
+   "name": "Deep Azure Low Sheen",
+   "category": "Sheen",
+   "def": "Deep_Azure_Low_Sheen",
+   "diffuseColor": [
+    0.1354,
+    0.1381,
+    0.1831
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3622,
+    0.3695,
+    0.4898
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.0703,
+   "transparency": 0,
+   "source": "Sheen34"
+  },
+  {
+   "name": "Silver Soft Sheen Silk",
+   "category": "Silky",
+   "def": "Silver_Soft_Sheen_Silk",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0348,
+    0.0336,
+    0.6939
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky00"
+  },
+  {
+   "name": "Deep Silver Soft Sheen Silk",
+   "category": "Silky",
+   "def": "Deep_Silver_Soft_Sheen_Silk",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4252,
+    0.0336,
+    0.6939
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky01"
+  },
+  {
+   "name": "Silver Silk with Berry Lustre",
+   "category": "Silky",
+   "def": "Silver_Silk_with_Berry_Lustre",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6939,
+    0.0336,
+    0.3136
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky02"
+  },
+  {
+   "name": "Silver Silk with Garnet Lustre",
+   "category": "Silky",
+   "def": "Silver_Silk_with_Garnet_Lustre",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6939,
+    0.0336,
+    0.0336
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky03"
+  },
+  {
+   "name": "Silver Silk with Vermilion Lustre",
+   "category": "Silky",
+   "def": "Silver_Silk_with_Vermilion_Lustre",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6939,
+    0.2931,
+    0.0336
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky04"
+  },
+  {
+   "name": "Silver Silk with Lemon Lustre",
+   "category": "Silky",
+   "def": "Silver_Silk_with_Lemon_Lustre",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5357,
+    0.5006,
+    0.0259
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky05"
+  },
+  {
+   "name": "Silver Silk with Moss Lustre",
+   "category": "Silky",
+   "def": "Silver_Silk_with_Moss_Lustre",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1823,
+    0.5408,
+    0.0262
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky06"
+  },
+  {
+   "name": "Silver Silk with Seafoam Lustre",
+   "category": "Silky",
+   "def": "Silver_Silk_with_Seafoam_Lustre",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0262,
+    0.5408,
+    0.4397
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky07"
+  },
+  {
+   "name": "Silver Silk with Lapis Lustre",
+   "category": "Silky",
+   "def": "Silver_Silk_with_Lapis_Lustre",
+   "diffuseColor": [
+    0.6846,
+    0.6832,
+    0.6861
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0262,
+    0.2427,
+    0.5408
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Silky08"
+  },
+  {
+   "name": "Black Silk with Muted Indigo Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Indigo_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6707,
+    0.6416,
+    0.9796
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky09"
+  },
+  {
+   "name": "Black Silk with Muted Dragonfruit Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Dragonfruit_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9644,
+    0.6416,
+    0.9796
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky10"
+  },
+  {
+   "name": "Black Silk with Muted Rose Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Rose_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9796,
+    0.6416,
+    0.7989
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky11"
+  },
+  {
+   "name": "Black Silk with Muted Cherry Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Cherry_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9796,
+    0.6416,
+    0.6416
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky12"
+  },
+  {
+   "name": "Black Silk with Muted Goldenrod Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Goldenrod_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9796,
+    0.8059,
+    0.6416
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky13"
+  },
+  {
+   "name": "Black Silk with Muted Canary Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Canary_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.947,
+    0.9796,
+    0.6416
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky14"
+  },
+  {
+   "name": "Black Silk with Muted Malachite Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Malachite_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6416,
+    0.9796,
+    0.6579
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky15"
+  },
+  {
+   "name": "Black Silk with Muted Petrol Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Petrol_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6416,
+    0.9762,
+    0.9796
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky16"
+  },
+  {
+   "name": "Black Silk with Muted Azure Lustre",
+   "category": "Silky",
+   "def": "Black_Silk_with_Muted_Azure_Lustre",
+   "diffuseColor": [
+    0.0292,
+    0.0263,
+    0.027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6416,
+    0.7488,
+    0.9796
+   ],
+   "ambientIntensity": 0.256,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky17"
+  },
+  {
+   "name": "Deep Denim Soft Sheen Silk",
+   "category": "Silky",
+   "def": "Deep_Denim_Soft_Sheen_Silk",
+   "diffuseColor": [
+    0.1354,
+    0.1381,
+    0.1831
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3622,
+    0.3695,
+    0.4898
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.0703,
+   "transparency": 0,
+   "source": "Silky18"
+  },
+  {
+   "name": "Deep Plum Matte Silk",
+   "category": "Silky",
+   "def": "Deep_Plum_Matte_Silk",
+   "diffuseColor": [
+    0.2801,
+    0.0865,
+    0.2849
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5885,
+    0.248,
+    0.5969
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0204,
+   "transparency": 0,
+   "source": "Silky19"
+  },
+  {
+   "name": "Deep Blush Matte Silk",
+   "category": "Silky",
+   "def": "Deep_Blush_Matte_Silk",
+   "diffuseColor": [
+    0.2849,
+    0.0865,
+    0.1891
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7653,
+    0.3378,
+    0.5722
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0408,
+   "transparency": 0,
+   "source": "Silky20"
+  },
+  {
+   "name": "Deep Ruby Matte Silk",
+   "category": "Silky",
+   "def": "Deep_Ruby_Matte_Silk",
+   "diffuseColor": [
+    0.2849,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8316,
+    0.4039,
+    0.3671
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0408,
+   "transparency": 0,
+   "source": "Silky21"
+  },
+  {
+   "name": "Deep Cocoa Matte Silk",
+   "category": "Silky",
+   "def": "Deep_Cocoa_Matte_Silk",
+   "diffuseColor": [
+    0.2869,
+    0.1209,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8316,
+    0.4823,
+    0.3174
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0408,
+   "transparency": 0,
+   "source": "Silky22"
+  },
+  {
+   "name": "Deep Lemon Matte Silk",
+   "category": "Silky",
+   "def": "Deep_Lemon_Matte_Silk",
+   "diffuseColor": [
+    0.2869,
+    0.274,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6317,
+    0.6008,
+    0.2411
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0408,
+   "transparency": 0,
+   "source": "Silky23"
+  },
+  {
+   "name": "Deep Clover Matte Silk",
+   "category": "Silky",
+   "def": "Deep_Clover_Matte_Silk",
+   "diffuseColor": [
+    0,
+    0.2869,
+    0.0603
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4289,
+    0.6327,
+    0.2414
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0255,
+   "transparency": 0,
+   "source": "Silky24"
+  },
+  {
+   "name": "Deep Lagoon Matte Silk",
+   "category": "Silky",
+   "def": "Deep_Lagoon_Matte_Silk",
+   "diffuseColor": [
+    0,
+    0.2869,
+    0.2619
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2435,
+    0.5569,
+    0.6071
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0663,
+   "transparency": 0,
+   "source": "Silky25"
+  },
+  {
+   "name": "Deep Cyan Soft Sheen Silk",
+   "category": "Silky",
+   "def": "Deep_Cyan_Soft_Sheen_Silk",
+   "diffuseColor": [
+    0.0073,
+    0.1381,
+    0.1831
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3622,
+    0.3695,
+    0.4898
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.0703,
+   "transparency": 0,
+   "source": "Silky26"
+  },
+  {
+   "name": "Dusky Sapphire Matte Silk",
+   "category": "Silky",
+   "def": "Dusky_Sapphire_Matte_Silk",
+   "diffuseColor": [
+    0.2114,
+    0.2571,
+    0.3305
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1837,
+    0.1655,
+    0.1634
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0255,
+   "transparency": 0,
+   "source": "Silky27"
+  },
+  {
+   "name": "Dusky Raspberry Matte Silk",
+   "category": "Silky",
+   "def": "Dusky_Raspberry_Matte_Silk",
+   "diffuseColor": [
+    0.3363,
+    0.2481,
+    0.2771
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2211,
+    0.1993,
+    0.1967
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0357,
+   "transparency": 0,
+   "source": "Silky28"
+  },
+  {
+   "name": "Dusky Umber Matte Silk",
+   "category": "Silky",
+   "def": "Dusky_Umber_Matte_Silk",
+   "diffuseColor": [
+    0.3305,
+    0.2582,
+    0.2114
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1837,
+    0.1655,
+    0.1634
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0255,
+   "transparency": 0,
+   "source": "Silky29"
+  },
+  {
+   "name": "Dusky Walnut Matte Silk",
+   "category": "Silky",
+   "def": "Dusky_Walnut_Matte_Silk",
+   "diffuseColor": [
+    0.3363,
+    0.2481,
+    0.2011
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1088,
+    0.0981,
+    0.0968
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky30"
+  },
+  {
+   "name": "Jewel Deep Cocoa Matte Silk",
+   "category": "Silky",
+   "def": "Jewel_Deep_Cocoa_Matte_Silk",
+   "diffuseColor": [
+    0.2672,
+    0.2108,
+    0.0928
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1837,
+    0.1655,
+    0.1634
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0255,
+   "transparency": 0,
+   "source": "Silky31"
+  },
+  {
+   "name": "Muted Primrose Chalk Matte Silk",
+   "category": "Silky",
+   "def": "Muted_Primrose_Chalk_Matte_Silk",
+   "diffuseColor": [
+    0.5892,
+    0.5814,
+    0.492
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky32"
+  },
+  {
+   "name": "Deep Daffodil Matte Silk",
+   "category": "Silky",
+   "def": "Deep_Daffodil_Matte_Silk",
+   "diffuseColor": [
+    0.2808,
+    0.2771,
+    0.2345
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2281,
+    0.2056,
+    0.203
+   ],
+   "ambientIntensity": 0.249,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky33"
+  },
+  {
+   "name": "Dusky Citrine Matte Silk",
+   "category": "Silky",
+   "def": "Dusky_Citrine_Matte_Silk",
+   "diffuseColor": [
+    0.289,
+    0.3301,
+    0.1728
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1088,
+    0.0981,
+    0.0968
+   ],
+   "ambientIntensity": 0.2458,
+   "shininess": 0.0612,
+   "transparency": 0,
+   "source": "Silky34"
+  },
+  {
+   "name": "Garden Dusky Sienna Lacquer",
+   "category": "Spring",
+   "def": "Garden_Dusky_Sienna_Lacquer",
+   "diffuseColor": [
+    0.3316,
+    0.2966,
+    0.2791
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4898,
+    0.3963,
+    0.2094
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.9796,
+   "transparency": 0,
+   "source": "Spring00",
+   "clamped": {
+    "ambientIntensity": 2.2262
+   }
+  },
+  {
+   "name": "Meadow Canary Soft Sheen",
+   "category": "Spring",
+   "def": "Meadow_Canary_Soft_Sheen",
+   "diffuseColor": [
+    0.8643,
+    0.8338,
+    0.3305
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.094,
+    0.0682
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Spring01"
+  },
+  {
+   "name": "Bloom Daffodil Lacquer",
+   "category": "Spring",
+   "def": "Bloom_Daffodil_Lacquer",
+   "diffuseColor": [
+    1,
+    0.9005,
+    0.3142
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8724,
+    0.2471,
+    0.2542
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Spring02"
+  },
+  {
+   "name": "Petal Vivid Buttercup Lacquer",
+   "category": "Spring",
+   "def": "Petal_Vivid_Buttercup_Lacquer",
+   "diffuseColor": [
+    1,
+    0.8549,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8724,
+    0.2471,
+    0.2542
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Spring03"
+  },
+  {
+   "name": "Rainwashed Vivid Ochre Soft Sheen",
+   "category": "Spring",
+   "def": "Rainwashed_Vivid_Ochre_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0.5493,
+    0.2243
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Spring04"
+  },
+  {
+   "name": "Morning Ochre Lacquer",
+   "category": "Spring",
+   "def": "Morning_Ochre_Lacquer",
+   "diffuseColor": [
+    0.7959,
+    0.5059,
+    0.0933
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.305,
+    0.1318,
+    0.0079
+   ],
+   "ambientIntensity": 0.2564,
+   "shininess": 0.9745,
+   "transparency": 0,
+   "source": "Spring05"
+  },
+  {
+   "name": "Fresh Vermilion Soft Sheen",
+   "category": "Spring",
+   "def": "Fresh_Vermilion_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0.4578,
+    0.3411
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Spring06"
+  },
+  {
+   "name": "Garden Poppy Soft Sheen",
+   "category": "Spring",
+   "def": "Garden_Poppy_Soft_Sheen",
+   "diffuseColor": [
+    0.7996,
+    0.2563,
+    0.1585
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2037,
+    0.0832,
+    0.0832
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Spring07"
+  },
+  {
+   "name": "Meadow Poppy Lacquer",
+   "category": "Spring",
+   "def": "Meadow_Poppy_Lacquer",
+   "diffuseColor": [
+    0.7996,
+    0.3267,
+    0.2417
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8913,
+    0.3642,
+    0.3642
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.9286,
+   "transparency": 0,
+   "source": "Spring08"
+  },
+  {
+   "name": "Bloom Ruby Lacquer",
+   "category": "Spring",
+   "def": "Bloom_Ruby_Lacquer",
+   "diffuseColor": [
+    1,
+    0.4524,
+    0.4034
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6865,
+    0.3969,
+    0.4193
+   ],
+   "ambientIntensity": 0.2486,
+   "shininess": 0.9027,
+   "transparency": 0,
+   "source": "Spring09"
+  },
+  {
+   "name": "Petal Scarlet Lacquer",
+   "category": "Spring",
+   "def": "Petal_Scarlet_Lacquer",
+   "diffuseColor": [
+    0.7996,
+    0.0813,
+    0.1258
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9133,
+    0.3732,
+    0.3732
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.9592,
+   "transparency": 0,
+   "source": "Spring10"
+  },
+  {
+   "name": "Rainwashed Ruby Lacquer",
+   "category": "Spring",
+   "def": "Rainwashed_Ruby_Lacquer",
+   "diffuseColor": [
+    0.6852,
+    0.0893,
+    0.0272
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9133,
+    0.3732,
+    0.3732
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.9592,
+   "transparency": 0,
+   "source": "Spring11"
+  },
+  {
+   "name": "Morning Berry Soft Sheen",
+   "category": "Spring",
+   "def": "Morning_Berry_Soft_Sheen",
+   "diffuseColor": [
+    0.6852,
+    0.1347,
+    0.3324
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1224,
+    0.05,
+    0.05
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Spring12"
+  },
+  {
+   "name": "Fresh Blush Soft Sheen",
+   "category": "Spring",
+   "def": "Fresh_Blush_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0.3155,
+    0.5444
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Spring13"
+  },
+  {
+   "name": "Garden Dusky Blush Matte",
+   "category": "Spring",
+   "def": "Garden_Dusky_Blush_Matte",
+   "diffuseColor": [
+    0.4848,
+    0.3771,
+    0.4331
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4364,
+    0.2439,
+    0.2987
+   ],
+   "ambientIntensity": 0.2375,
+   "shininess": 0.0242,
+   "transparency": 0,
+   "source": "Spring14"
+  },
+  {
+   "name": "Meadow Mulberry Soft Sheen",
+   "category": "Spring",
+   "def": "Meadow_Mulberry_Soft_Sheen",
+   "diffuseColor": [
+    0.8945,
+    0.3828,
+    0.9044
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Spring15"
+  },
+  {
+   "name": "Bloom Grape Soft Sheen",
+   "category": "Spring",
+   "def": "Bloom_Grape_Soft_Sheen",
+   "diffuseColor": [
+    0.631,
+    0.3686,
+    0.7455
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2788,
+    0.2788,
+    0.2788
+   ],
+   "ambientIntensity": 0.2439,
+   "shininess": 0.0909,
+   "transparency": 0,
+   "source": "Spring16"
+  },
+  {
+   "name": "Petal Cyclamen Soft Sheen",
+   "category": "Spring",
+   "def": "Petal_Cyclamen_Soft_Sheen",
+   "diffuseColor": [
+    0.3554,
+    0.1334,
+    0.3501
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6803,
+    0.315,
+    0.8418
+   ],
+   "ambientIntensity": 0.2537,
+   "shininess": 0.1071,
+   "transparency": 0,
+   "source": "Spring17"
+  },
+  {
+   "name": "Rainwashed Violet Polished",
+   "category": "Spring",
+   "def": "Rainwashed_Violet_Polished",
+   "diffuseColor": [
+    0.4324,
+    0.2002,
+    0.5351
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3058,
+    0.1416,
+    0.3784
+   ],
+   "ambientIntensity": 0.2525,
+   "shininess": 0.5676,
+   "transparency": 0,
+   "source": "Spring18"
+  },
+  {
+   "name": "Morning Nightshade Polished",
+   "category": "Spring",
+   "def": "Morning_Nightshade_Polished",
+   "diffuseColor": [
+    0.3486,
+    0.3454,
+    0.6135
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3809,
+    0.3532,
+    0.8902
+   ],
+   "ambientIntensity": 0.2581,
+   "shininess": 0.6122,
+   "transparency": 0,
+   "source": "Spring19"
+  },
+  {
+   "name": "Fresh Muted Denim Matte",
+   "category": "Spring",
+   "def": "Fresh_Muted_Denim_Matte",
+   "diffuseColor": [
+    0.4537,
+    0.4628,
+    0.6135
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1012,
+    0.0939,
+    0.0914
+   ],
+   "ambientIntensity": 0.2581,
+   "shininess": 0.0432,
+   "transparency": 0,
+   "source": "Spring20"
+  },
+  {
+   "name": "Garden Dusky Cerulean Matte",
+   "category": "Spring",
+   "def": "Garden_Dusky_Cerulean_Matte",
+   "diffuseColor": [
+    0.2781,
+    0.2837,
+    0.376
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2488,
+    0.2538,
+    0.3364
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0432,
+   "transparency": 0,
+   "source": "Spring21"
+  },
+  {
+   "name": "Meadow Ink Soft Sheen",
+   "category": "Spring",
+   "def": "Meadow_Ink_Soft_Sheen",
+   "diffuseColor": [
+    0.351,
+    0.2558,
+    0.7322
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3747,
+    0.2731,
+    0.7817
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0703,
+   "transparency": 0,
+   "source": "Spring22"
+  },
+  {
+   "name": "Bloom Royal Blue Soft Sheen",
+   "category": "Spring",
+   "def": "Bloom_Royal_Blue_Soft_Sheen",
+   "diffuseColor": [
+    0.351,
+    0.2558,
+    0.7322
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.102,
+    0.0743,
+    0.2127
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0703,
+   "transparency": 0,
+   "source": "Spring23"
+  },
+  {
+   "name": "Petal Icewater Soft Sheen",
+   "category": "Spring",
+   "def": "Petal_Icewater_Soft_Sheen",
+   "diffuseColor": [
+    0.4559,
+    0.7497,
+    0.9044
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Spring24"
+  },
+  {
+   "name": "Rainwashed Turquoise Polished",
+   "category": "Spring",
+   "def": "Rainwashed_Turquoise_Polished",
+   "diffuseColor": [
+    0.2616,
+    0.748,
+    0.7259
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4909,
+    0.4909,
+    0.4909
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.5939,
+   "transparency": 0,
+   "source": "Spring25"
+  },
+  {
+   "name": "Morning Turquoise Matte",
+   "category": "Spring",
+   "def": "Morning_Turquoise_Matte",
+   "diffuseColor": [
+    0.1308,
+    0.5026,
+    0.4799
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3304,
+    0.3368,
+    0.2351
+   ],
+   "ambientIntensity": 0.2474,
+   "shininess": 0.057,
+   "transparency": 0,
+   "source": "Spring26"
+  },
+  {
+   "name": "Fresh Petrol Polished",
+   "category": "Spring",
+   "def": "Fresh_Petrol_Polished",
+   "diffuseColor": [
+    0.1308,
+    0.5026,
+    0.4799
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3304,
+    0.3368,
+    0.2351
+   ],
+   "ambientIntensity": 0.2474,
+   "shininess": 0.5855,
+   "transparency": 0,
+   "source": "Spring27"
+  },
+  {
+   "name": "Garden Deep Turquoise Satin",
+   "category": "Spring",
+   "def": "Garden_Deep_Turquoise_Satin",
+   "diffuseColor": [
+    0.0164,
+    0.2991,
+    0.2815
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4796,
+    0.4289,
+    0.4036
+   ],
+   "ambientIntensity": 0.2449,
+   "shininess": 0.25,
+   "transparency": 0,
+   "source": "Spring28"
+  },
+  {
+   "name": "Meadow Deep Petrol Soft Sheen",
+   "category": "Spring",
+   "def": "Meadow_Deep_Petrol_Soft_Sheen",
+   "diffuseColor": [
+    0.0164,
+    0.2991,
+    0.2815
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1684,
+    0.1506,
+    0.1417
+   ],
+   "ambientIntensity": 0.2449,
+   "shininess": 0.0867,
+   "transparency": 0,
+   "source": "Spring29"
+  },
+  {
+   "name": "Bloom Mint High Gloss",
+   "category": "Spring",
+   "def": "Bloom_Mint_High_Gloss",
+   "diffuseColor": [
+    0.0403,
+    0.5926,
+    0.3053
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0447,
+    0.6123,
+    0.0843
+   ],
+   "ambientIntensity": 0.2431,
+   "shininess": 0.6786,
+   "transparency": 0,
+   "source": "Spring30"
+  },
+  {
+   "name": "Petal Pine Lacquer",
+   "category": "Spring",
+   "def": "Petal_Pine_Lacquer",
+   "diffuseColor": [
+    0.3707,
+    0.6727,
+    0.3691
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3558,
+    0.6424,
+    0.3558
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.9091,
+   "transparency": 0,
+   "source": "Spring31"
+  },
+  {
+   "name": "Rainwashed Clover Soft Sheen",
+   "category": "Spring",
+   "def": "Rainwashed_Clover_Soft_Sheen",
+   "diffuseColor": [
+    0.2154,
+    0.5331,
+    0.1774
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0.2728,
+    0
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.0714,
+   "transparency": 0,
+   "source": "Spring32"
+  },
+  {
+   "name": "Morning Malachite Soft Sheen",
+   "category": "Spring",
+   "def": "Morning_Malachite_Soft_Sheen",
+   "diffuseColor": [
+    0.2154,
+    0.5331,
+    0.1774
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0.5911,
+    0
+   ],
+   "ambientIntensity": 0.2548,
+   "shininess": 0.0765,
+   "transparency": 0,
+   "source": "Spring33"
+  },
+  {
+   "name": "Fresh Fern Soft Sheen",
+   "category": "Spring",
+   "def": "Fresh_Fern_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.497,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5857,
+    0.6,
+    0
+   ],
+   "ambientIntensity": 0.2805,
+   "shininess": 0.1091,
+   "transparency": 0,
+   "source": "Spring34"
+  },
+  {
+   "name": "Coastal Ivory Chalk Matte",
+   "category": "Summer",
+   "def": "Coastal_Ivory_Chalk_Matte",
+   "diffuseColor": [
+    0.983,
+    0.9694,
+    0.8881
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.7243,
+   "shininess": 0,
+   "transparency": 0,
+   "source": "Summer00"
+  },
+  {
+   "name": "Boardwalk Muted Copper Chalk Matte",
+   "category": "Summer",
+   "def": "Boardwalk_Muted_Copper_Chalk_Matte",
+   "diffuseColor": [
+    0.7661,
+    0.5771,
+    0.535
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.2541,
+   "shininess": 0.027,
+   "transparency": 0,
+   "source": "Summer01"
+  },
+  {
+   "name": "Sunlit Chestnut Matte",
+   "category": "Summer",
+   "def": "Sunlit_Chestnut_Matte",
+   "diffuseColor": [
+    0.3959,
+    0.2262,
+    0.1282
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1926,
+    0.1101,
+    0.0624
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.027,
+   "transparency": 0,
+   "source": "Summer02"
+  },
+  {
+   "name": "Seaside Deep Mocha Soft Sheen",
+   "category": "Summer",
+   "def": "Seaside_Deep_Mocha_Soft_Sheen",
+   "diffuseColor": [
+    0.2177,
+    0.1143,
+    0.0705
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2541,
+    0.118,
+    0.1208
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1351,
+   "transparency": 0,
+   "source": "Summer03"
+  },
+  {
+   "name": "Poolside Deep Chestnut Lacquer",
+   "category": "Summer",
+   "def": "Poolside_Deep_Chestnut_Lacquer",
+   "diffuseColor": [
+    0.2177,
+    0.1143,
+    0.0705
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    0.4644,
+    0.4753
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9946,
+   "transparency": 0,
+   "source": "Summer04"
+  },
+  {
+   "name": "Breezy Midnight Icewater Matte",
+   "category": "Summer",
+   "def": "Breezy_Midnight_Icewater_Matte",
+   "diffuseColor": [
+    0.0808,
+    0.1126,
+    0.1378
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1272,
+    0.1772,
+    0.2169
+   ],
+   "ambientIntensity": 0.2128,
+   "shininess": 0.0486,
+   "transparency": 0,
+   "source": "Summer05"
+  },
+  {
+   "name": "Festival Midnight Twilight Blue Soft Sheen",
+   "category": "Summer",
+   "def": "Festival_Midnight_Twilight_Blue_Soft_Sheen",
+   "diffuseColor": [
+    0.0228,
+    0.0166,
+    0.0475
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2715,
+    0.3023,
+    0.3514
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.1351,
+   "transparency": 0,
+   "source": "Summer06"
+  },
+  {
+   "name": "Coastal Midnight Lapis Matte",
+   "category": "Summer",
+   "def": "Coastal_Midnight_Lapis_Matte",
+   "diffuseColor": [
+    0.0013,
+    0.0081,
+    0.0293
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1357,
+    0.1511,
+    0.1756
+   ],
+   "ambientIntensity": 0.2,
+   "shininess": 0.027,
+   "transparency": 0,
+   "source": "Summer07"
+  },
+  {
+   "name": "Boardwalk Dusky Pool Lacquer",
+   "category": "Summer",
+   "def": "Boardwalk_Dusky_Pool_Lacquer",
+   "diffuseColor": [
+    0.2888,
+    0.4023,
+    0.4925
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2888,
+    0.4023,
+    0.4925
+   ],
+   "ambientIntensity": 0.2738,
+   "shininess": 0.9622,
+   "transparency": 0,
+   "source": "Summer08"
+  },
+  {
+   "name": "Sunlit Cyan Soft Sheen",
+   "category": "Summer",
+   "def": "Sunlit_Cyan_Soft_Sheen",
+   "diffuseColor": [
+    0.4067,
+    0.6516,
+    0.7384
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0651,
+    0.0811,
+    0.0811
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Summer09"
+  },
+  {
+   "name": "Seaside Glacier High Gloss",
+   "category": "Summer",
+   "def": "Seaside_Glacier_High_Gloss",
+   "diffuseColor": [
+    0.4067,
+    0.6516,
+    0.7384
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    0.1316,
+    0.2186
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.8486,
+   "transparency": 0,
+   "source": "Summer10"
+  },
+  {
+   "name": "Poolside Arctic Lacquer",
+   "category": "Summer",
+   "def": "Poolside_Arctic_Lacquer",
+   "diffuseColor": [
+    0.054,
+    0.2329,
+    0.3899
+   ],
+   "emissiveColor": [
+    0.0054,
+    0.0054,
+    0.0054
+   ],
+   "specularColor": [
+    0.0963,
+    0.0795,
+    0.3793
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9946,
+   "transparency": 0,
+   "source": "Summer11"
+  },
+  {
+   "name": "Breezy Pool Matte",
+   "category": "Summer",
+   "def": "Breezy_Pool_Matte",
+   "diffuseColor": [
+    0.054,
+    0.2329,
+    0.3899
+   ],
+   "emissiveColor": [
+    0.0054,
+    0.0054,
+    0.0054
+   ],
+   "specularColor": [
+    0.0511,
+    0.2203,
+    0.3688
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0649,
+   "transparency": 0,
+   "source": "Summer12"
+  },
+  {
+   "name": "Festival Twilight Blue Soft Sheen",
+   "category": "Summer",
+   "def": "Festival_Twilight_Blue_Soft_Sheen",
+   "diffuseColor": [
+    0.351,
+    0.2558,
+    0.7322
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0801,
+    0.3455,
+    0.5784
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0919,
+   "transparency": 0,
+   "source": "Summer13"
+  },
+  {
+   "name": "Coastal Indigo Matte",
+   "category": "Summer",
+   "def": "Coastal_Indigo_Matte",
+   "diffuseColor": [
+    0.1918,
+    0.1397,
+    0.4
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0382,
+    0.1647,
+    0.2757
+   ],
+   "ambientIntensity": 0.2568,
+   "shininess": 0.0216,
+   "transparency": 0,
+   "source": "Summer14"
+  },
+  {
+   "name": "Boardwalk Iris Lacquer",
+   "category": "Summer",
+   "def": "Boardwalk_Iris_Lacquer",
+   "diffuseColor": [
+    0.1918,
+    0.1397,
+    0.4
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0898,
+    0.3875,
+    0.6486
+   ],
+   "ambientIntensity": 0.2568,
+   "shininess": 0.9243,
+   "transparency": 0,
+   "source": "Summer15"
+  },
+  {
+   "name": "Sunlit Mint Polished",
+   "category": "Summer",
+   "def": "Sunlit_Mint_Polished",
+   "diffuseColor": [
+    0.3712,
+    0.7533,
+    0.6417
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.2806,
+    0.17
+   ],
+   "ambientIntensity": 0.1917,
+   "shininess": 0.4031,
+   "transparency": 0,
+   "source": "Summer16"
+  },
+  {
+   "name": "Seaside Fern Matte",
+   "category": "Summer",
+   "def": "Seaside_Fern_Matte",
+   "diffuseColor": [
+    0,
+    0.619,
+    0.2016
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0714,
+    0.2096,
+    0.127
+   ],
+   "ambientIntensity": 0.7027,
+   "shininess": 0.0108,
+   "transparency": 0,
+   "source": "Summer17"
+  },
+  {
+   "name": "Poolside Fern Lacquer",
+   "category": "Summer",
+   "def": "Poolside_Fern_Lacquer",
+   "diffuseColor": [
+    0,
+    0.5387,
+    0.1754
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2809,
+    0.8242,
+    0.4993
+   ],
+   "ambientIntensity": 0.2857,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Summer18"
+  },
+  {
+   "name": "Breezy Emerald Matte",
+   "category": "Summer",
+   "def": "Breezy_Emerald_Matte",
+   "diffuseColor": [
+    0.179,
+    0.5387,
+    0.2961
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0862,
+    0.2596,
+    0.1427
+   ],
+   "ambientIntensity": 0.2857,
+   "shininess": 0.0649,
+   "transparency": 0,
+   "source": "Summer19"
+  },
+  {
+   "name": "Festival Patina High Gloss",
+   "category": "Summer",
+   "def": "Festival_Patina_High_Gloss",
+   "diffuseColor": [
+    0,
+    0.619,
+    0.359
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2598,
+    0.7623,
+    0.4618
+   ],
+   "ambientIntensity": 0.2486,
+   "shininess": 0.827,
+   "transparency": 0,
+   "source": "Summer20"
+  },
+  {
+   "name": "Coastal Sunbeam Lacquer",
+   "category": "Summer",
+   "def": "Coastal_Sunbeam_Lacquer",
+   "diffuseColor": [
+    1,
+    0.9695,
+    0.3085
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7289,
+    0.6918,
+    0.1532
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.8919,
+   "transparency": 0,
+   "source": "Summer21"
+  },
+  {
+   "name": "Boardwalk Vivid Primrose Satin",
+   "category": "Summer",
+   "def": "Boardwalk_Vivid_Primrose_Satin",
+   "diffuseColor": [
+    1,
+    0.9574,
+    0.0325
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9909,
+    0.9405,
+    0.2083
+   ],
+   "ambientIntensity": 0.2595,
+   "shininess": 0.3636,
+   "transparency": 0,
+   "source": "Summer22"
+  },
+  {
+   "name": "Sunlit Marigold Soft Sheen",
+   "category": "Summer",
+   "def": "Sunlit_Marigold_Soft_Sheen",
+   "diffuseColor": [
+    0.7922,
+    0.5804,
+    0.0084
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.25,
+    0.2373,
+    0.0525
+   ],
+   "ambientIntensity": 0.2557,
+   "shininess": 0.1773,
+   "transparency": 0,
+   "source": "Summer23"
+  },
+  {
+   "name": "Seaside Cardinal Polished",
+   "category": "Summer",
+   "def": "Seaside_Cardinal_Polished",
+   "diffuseColor": [
+    1,
+    0.5782,
+    0.6108
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.2486,
+   "shininess": 0.5135,
+   "transparency": 0,
+   "source": "Summer24"
+  },
+  {
+   "name": "Poolside Raspberry Lacquer",
+   "category": "Summer",
+   "def": "Poolside_Raspberry_Lacquer",
+   "diffuseColor": [
+    0.9946,
+    0.3493,
+    0.5226
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7189,
+    0.2396,
+    0.3704
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Summer25"
+  },
+  {
+   "name": "Breezy Berry Matte",
+   "category": "Summer",
+   "def": "Breezy_Berry_Matte",
+   "diffuseColor": [
+    0.6973,
+    0.2449,
+    0.3664
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3351,
+    0.0307,
+    0
+   ],
+   "ambientIntensity": 0.2481,
+   "shininess": 0.0595,
+   "transparency": 0,
+   "source": "Summer26"
+  },
+  {
+   "name": "Festival Rose High Gloss",
+   "category": "Summer",
+   "def": "Festival_Rose_High_Gloss",
+   "diffuseColor": [
+    0.5369,
+    0.0529,
+    0.2455
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8053,
+    0.7652,
+    0.7474
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.8324,
+   "transparency": 0,
+   "source": "Summer27",
+   "clamped": {
+    "ambientIntensity": 1.7453
+   }
+  },
+  {
+   "name": "Coastal Rose Matte",
+   "category": "Summer",
+   "def": "Coastal_Rose_Matte",
+   "diffuseColor": [
+    0.4162,
+    0.0708,
+    0.1411
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.373,
+    0.0025,
+    0.0013
+   ],
+   "ambientIntensity": 0.2468,
+   "shininess": 0.0108,
+   "transparency": 0,
+   "source": "Summer28"
+  },
+  {
+   "name": "Boardwalk Raspberry Matte",
+   "category": "Summer",
+   "def": "Boardwalk_Raspberry_Matte",
+   "diffuseColor": [
+    0.3369,
+    0,
+    0.1115
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3411,
+    0.2059,
+    0
+   ],
+   "ambientIntensity": 0.2468,
+   "shininess": 0.0649,
+   "transparency": 0,
+   "source": "Summer29"
+  },
+  {
+   "name": "Sunlit Dusky Berry Matte",
+   "category": "Summer",
+   "def": "Sunlit_Dusky_Berry_Matte",
+   "diffuseColor": [
+    0.4658,
+    0.2559,
+    0.3572
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.178,
+    0.0933,
+    0.1619
+   ],
+   "ambientIntensity": 0.2642,
+   "shininess": 0.0541,
+   "transparency": 0,
+   "source": "Summer30"
+  },
+  {
+   "name": "Seaside Dusky Rose High Gloss",
+   "category": "Summer",
+   "def": "Seaside_Dusky_Rose_High_Gloss",
+   "diffuseColor": [
+    0.4658,
+    0.2559,
+    0.3572
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8054,
+    0.8054,
+    0.8054
+   ],
+   "ambientIntensity": 0.2642,
+   "shininess": 0.7514,
+   "transparency": 0,
+   "source": "Summer31"
+  },
+  {
+   "name": "Poolside Deep Poppy Soft Sheen",
+   "category": "Summer",
+   "def": "Poolside_Deep_Poppy_Soft_Sheen",
+   "diffuseColor": [
+    0.2282,
+    0.009,
+    0.0089
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2378,
+    0,
+    0.101
+   ],
+   "ambientIntensity": 0.2668,
+   "shininess": 0.1135,
+   "transparency": 0,
+   "source": "Summer32"
+  },
+  {
+   "name": "Breezy Deep Peony Matte",
+   "category": "Summer",
+   "def": "Breezy_Deep_Peony_Matte",
+   "diffuseColor": [
+    0.3039,
+    0,
+    0.1329
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3405,
+    0,
+    0.1447
+   ],
+   "ambientIntensity": 0.2668,
+   "shininess": 0.0486,
+   "transparency": 0,
+   "source": "Summer33"
+  },
+  {
+   "name": "Festival Midnight Fuchsia Matte",
+   "category": "Summer",
+   "def": "Festival_Midnight_Fuchsia_Matte",
+   "diffuseColor": [
+    0.1238,
+    0.0026,
+    0.1193
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1519,
+    0.0224,
+    0.1565
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 0.0649,
+   "transparency": 0,
+   "source": "Summer34"
+  },
+  {
+   "name": "Island Vivid Citron Soft Sheen",
+   "category": "Tropical",
+   "def": "Island_Vivid_Citron_Soft_Sheen",
+   "diffuseColor": [
+    0.8775,
+    0.9044,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical00"
+  },
+  {
+   "name": "Rainforest Sunbeam Lacquer",
+   "category": "Tropical",
+   "def": "Rainforest_Sunbeam_Lacquer",
+   "diffuseColor": [
+    0.748,
+    0.6209,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8606,
+    0.8606,
+    0.8606
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9394,
+   "transparency": 0,
+   "source": "Tropical01"
+  },
+  {
+   "name": "Lagoon Vivid Citron Soft Sheen",
+   "category": "Tropical",
+   "def": "Lagoon_Vivid_Citron_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0.7747,
+    0.0831
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical02"
+  },
+  {
+   "name": "Parrot Ochre Polished",
+   "category": "Tropical",
+   "def": "Parrot_Ochre_Polished",
+   "diffuseColor": [
+    0.748,
+    0.5557,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8364,
+    0.8364,
+    0.8364
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.6061,
+   "transparency": 0,
+   "source": "Tropical03"
+  },
+  {
+   "name": "Orchid Vivid Tangerine Soft Sheen",
+   "category": "Tropical",
+   "def": "Orchid_Vivid_Tangerine_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0.4123,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical04"
+  },
+  {
+   "name": "Canopy Canyon Lacquer",
+   "category": "Tropical",
+   "def": "Canopy_Canyon_Lacquer",
+   "diffuseColor": [
+    0.748,
+    0.2995,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8364,
+    0.8364,
+    0.8364
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9212,
+   "transparency": 0,
+   "source": "Tropical05"
+  },
+  {
+   "name": "Reef Vivid Ember Soft Sheen",
+   "category": "Tropical",
+   "def": "Reef_Vivid_Ember_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0.2838,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical06"
+  },
+  {
+   "name": "Island Tangerine Polished",
+   "category": "Tropical",
+   "def": "Island_Tangerine_Polished",
+   "diffuseColor": [
+    0.748,
+    0.1396,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7091,
+    0.7091,
+    0.7091
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.4788,
+   "transparency": 0,
+   "source": "Tropical07"
+  },
+  {
+   "name": "Rainforest Vivid Garnet Soft Sheen",
+   "category": "Tropical",
+   "def": "Rainforest_Vivid_Garnet_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0.1503,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical08"
+  },
+  {
+   "name": "Lagoon Vivid Lemon Soft Sheen",
+   "category": "Tropical",
+   "def": "Lagoon_Vivid_Lemon_Soft_Sheen",
+   "diffuseColor": [
+    0.8775,
+    0.9044,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical09"
+  },
+  {
+   "name": "Parrot Vivid Blush Soft Sheen",
+   "category": "Tropical",
+   "def": "Parrot_Vivid_Blush_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0,
+    0.3099
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical10"
+  },
+  {
+   "name": "Orchid Rose Lacquer",
+   "category": "Tropical",
+   "def": "Orchid_Rose_Lacquer",
+   "diffuseColor": [
+    0.748,
+    0.0063,
+    0.2519
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6848,
+    0.6848,
+    0.6848
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9333,
+   "transparency": 0,
+   "source": "Tropical11"
+  },
+  {
+   "name": "Canopy Vivid Cerise Soft Sheen",
+   "category": "Tropical",
+   "def": "Canopy_Vivid_Cerise_Soft_Sheen",
+   "diffuseColor": [
+    0.9044,
+    0.0469,
+    0.4961
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0956,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical12"
+  },
+  {
+   "name": "Reef Mulberry Satin",
+   "category": "Tropical",
+   "def": "Reef_Mulberry_Satin",
+   "diffuseColor": [
+    0.748,
+    0,
+    0.5504
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6727,
+    0.6727,
+    0.6727
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.2303,
+   "transparency": 0,
+   "source": "Tropical13"
+  },
+  {
+   "name": "Island Vivid Dragonfruit Soft Sheen",
+   "category": "Tropical",
+   "def": "Island_Vivid_Dragonfruit_Soft_Sheen",
+   "diffuseColor": [
+    0.896,
+    0,
+    0.6913
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0956,
+    0.0863,
+    0.0935
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical14"
+  },
+  {
+   "name": "Rainforest Wisteria Polished",
+   "category": "Tropical",
+   "def": "Rainforest_Wisteria_Polished",
+   "diffuseColor": [
+    0.6244,
+    0,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9515,
+    0.9515,
+    0.9515
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.5576,
+   "transparency": 0,
+   "source": "Tropical15"
+  },
+  {
+   "name": "Lagoon Vivid Wisteria Soft Sheen",
+   "category": "Tropical",
+   "def": "Lagoon_Vivid_Wisteria_Soft_Sheen",
+   "diffuseColor": [
+    0.6218,
+    0.0209,
+    0.8802
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0877,
+    0.0694,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical16"
+  },
+  {
+   "name": "Parrot Orchid Polished",
+   "category": "Tropical",
+   "def": "Parrot_Orchid_Polished",
+   "diffuseColor": [
+    0.374,
+    0,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9091,
+    0.9091,
+    0.9091
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.4061,
+   "transparency": 0,
+   "source": "Tropical17"
+  },
+  {
+   "name": "Orchid Ink Soft Sheen",
+   "category": "Tropical",
+   "def": "Orchid_Ink_Soft_Sheen",
+   "diffuseColor": [
+    0.2795,
+    0.0051,
+    0.8459
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0523,
+    0.0313,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical18"
+  },
+  {
+   "name": "Canopy Ink High Gloss",
+   "category": "Tropical",
+   "def": "Canopy_Ink_High_Gloss",
+   "diffuseColor": [
+    0.0023,
+    0,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8848,
+    0.8848,
+    0.8848
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.8303,
+   "transparency": 0,
+   "source": "Tropical19"
+  },
+  {
+   "name": "Reef Denim Soft Sheen",
+   "category": "Tropical",
+   "def": "Reef_Denim_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.205,
+    0.8452
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0302,
+    0.046,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical20"
+  },
+  {
+   "name": "Island Cerulean Lacquer",
+   "category": "Tropical",
+   "def": "Island_Cerulean_Lacquer",
+   "diffuseColor": [
+    0.0207,
+    0.3396,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.903,
+    0.903,
+    0.903
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9273,
+   "transparency": 0,
+   "source": "Tropical21"
+  },
+  {
+   "name": "Rainforest Icewater Soft Sheen",
+   "category": "Tropical",
+   "def": "Rainforest_Icewater_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.597,
+    0.818
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0.0698,
+    0.0956
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical22"
+  },
+  {
+   "name": "Lagoon Deep Sea Polished",
+   "category": "Tropical",
+   "def": "Lagoon_Deep_Sea_Polished",
+   "diffuseColor": [
+    0,
+    0.6312,
+    0.748
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9152,
+    0.9152,
+    0.9152
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.6424,
+   "transparency": 0,
+   "source": "Tropical23"
+  },
+  {
+   "name": "Parrot Verdigris Soft Sheen",
+   "category": "Tropical",
+   "def": "Parrot_Verdigris_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.818,
+    0.5538
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0.0956,
+    0.0647
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical24"
+  },
+  {
+   "name": "Orchid Verdigris High Gloss",
+   "category": "Tropical",
+   "def": "Orchid_Verdigris_High_Gloss",
+   "diffuseColor": [
+    0,
+    0.748,
+    0.4694
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    1,
+    1,
+    1
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.8182,
+   "transparency": 0,
+   "source": "Tropical25"
+  },
+  {
+   "name": "Canopy Pine Soft Sheen",
+   "category": "Tropical",
+   "def": "Canopy_Pine_Soft_Sheen",
+   "diffuseColor": [
+    0.0532,
+    0.818,
+    0.088
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0062,
+    0.0956,
+    0.0103
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical26"
+  },
+  {
+   "name": "Reef Malachite High Gloss",
+   "category": "Tropical",
+   "def": "Reef_Malachite_High_Gloss",
+   "diffuseColor": [
+    0,
+    0.748,
+    0.176
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9818,
+    0.9818,
+    0.9818
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.7212,
+   "transparency": 0,
+   "source": "Tropical27"
+  },
+  {
+   "name": "Island Clover Soft Sheen",
+   "category": "Tropical",
+   "def": "Island_Clover_Soft_Sheen",
+   "diffuseColor": [
+    0.3554,
+    0.818,
+    0.0158
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0415,
+    0.0956,
+    0.0018
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0781,
+   "transparency": 0,
+   "source": "Tropical28"
+  },
+  {
+   "name": "Rainforest Clover Lacquer",
+   "category": "Tropical",
+   "def": "Rainforest_Clover_Lacquer",
+   "diffuseColor": [
+    0.3819,
+    0.748,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.9636,
+    0.9636,
+    0.9636
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9818,
+   "transparency": 0,
+   "source": "Tropical29"
+  },
+  {
+   "name": "Lagoon Ivory Chalk Matte",
+   "category": "Tropical",
+   "def": "Lagoon_Ivory_Chalk_Matte",
+   "diffuseColor": [
+    0.9917,
+    0.9395,
+    1
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0,
+   "transparency": 0,
+   "source": "Tropical30"
+  },
+  {
+   "name": "Parrot Pewter Lacquer",
+   "category": "Tropical",
+   "def": "Parrot_Pewter_Lacquer",
+   "diffuseColor": [
+    0.4251,
+    0.4049,
+    0.4263
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8606,
+    0.8606,
+    0.8606
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.903,
+   "transparency": 0,
+   "source": "Tropical31"
+  },
+  {
+   "name": "Orchid Pewter Soft Sheen",
+   "category": "Tropical",
+   "def": "Orchid_Pewter_Soft_Sheen",
+   "diffuseColor": [
+    0.4242,
+    0.4242,
+    0.4242
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.168,
+    0.168,
+    0.168
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1537,
+   "transparency": 0,
+   "source": "Tropical32"
+  },
+  {
+   "name": "Canopy Charcoal Lacquer",
+   "category": "Tropical",
+   "def": "Canopy_Charcoal_Lacquer",
+   "diffuseColor": [
+    0.1524,
+    0.1451,
+    0.1528
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7455,
+    0.7455,
+    0.7455
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.9576,
+   "transparency": 0,
+   "source": "Tropical33"
+  },
+  {
+   "name": "Reef Charcoal Soft Sheen",
+   "category": "Tropical",
+   "def": "Reef_Charcoal_Soft_Sheen",
+   "diffuseColor": [
+    0.1387,
+    0.1387,
+    0.1387
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.168,
+    0.168,
+    0.168
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.1537,
+   "transparency": 0,
+   "source": "Tropical34"
+  },
+  {
+   "name": "Frost Ivory Polished",
+   "category": "Winter",
+   "def": "Frost_Ivory_Polished",
+   "diffuseColor": [
+    0.9865,
+    1,
+    1
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4053,
+    0.4108,
+    0.4108
+   ],
+   "ambientIntensity": 0.2486,
+   "shininess": 0.5243,
+   "transparency": 0,
+   "source": "Winter00"
+  },
+  {
+   "name": "Alpine Silver Lacquer",
+   "category": "Winter",
+   "def": "Alpine_Silver_Lacquer",
+   "diffuseColor": [
+    0.6108,
+    0.6108,
+    0.6108
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.7676,
+    0.7568,
+    0.765
+   ],
+   "ambientIntensity": 0.2301,
+   "shininess": 0.8973,
+   "transparency": 0,
+   "source": "Winter01"
+  },
+  {
+   "name": "Solstice Graphite Lacquer",
+   "category": "Winter",
+   "def": "Solstice_Graphite_Lacquer",
+   "diffuseColor": [
+    0.2054,
+    0.2054,
+    0.2054
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6865,
+    0.6768,
+    0.6842
+   ],
+   "ambientIntensity": 0.2368,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Winter02"
+  },
+  {
+   "name": "Snowfall Dusky Ultramarine Soft Sheen",
+   "category": "Winter",
+   "def": "Snowfall_Dusky_Ultramarine_Soft_Sheen",
+   "diffuseColor": [
+    0.2402,
+    0.2616,
+    0.3576
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2203,
+    0.2595,
+    0.2909
+   ],
+   "ambientIntensity": 0.2542,
+   "shininess": 0.0727,
+   "transparency": 0,
+   "source": "Winter03"
+  },
+  {
+   "name": "Evergreen Midnight Cerulean Soft Sheen",
+   "category": "Winter",
+   "def": "Evergreen_Midnight_Cerulean_Soft_Sheen",
+   "diffuseColor": [
+    0.1413,
+    0.1455,
+    0.1644
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3947,
+    0.465,
+    0.5212
+   ],
+   "ambientIntensity": 0.2542,
+   "shininess": 0.0727,
+   "transparency": 0,
+   "source": "Winter04"
+  },
+  {
+   "name": "Starlight Black Soft Sheen",
+   "category": "Winter",
+   "def": "Starlight_Black_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2932,
+    0.2974,
+    0.2904
+   ],
+   "ambientIntensity": 0,
+   "shininess": 0.0816,
+   "transparency": 0,
+   "source": "Winter05"
+  },
+  {
+   "name": "Glacier Dusky Cocoa Soft Sheen",
+   "category": "Winter",
+   "def": "Glacier_Dusky_Cocoa_Soft_Sheen",
+   "diffuseColor": [
+    0.3316,
+    0.2966,
+    0.2791
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3112,
+    0.2518,
+    0.133
+   ],
+   "ambientIntensity": 1,
+   "shininess": 0.0969,
+   "transparency": 0,
+   "source": "Winter06",
+   "clamped": {
+    "ambientIntensity": 2.2262
+   }
+  },
+  {
+   "name": "Frost Canary Chalk Matte",
+   "category": "Winter",
+   "def": "Frost_Canary_Chalk_Matte",
+   "diffuseColor": [
+    1,
+    1,
+    0.4744
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.0378,
+   "transparency": 0,
+   "source": "Winter07"
+  },
+  {
+   "name": "Alpine Vivid Lemon High Gloss",
+   "category": "Winter",
+   "def": "Alpine_Vivid_Lemon_High_Gloss",
+   "diffuseColor": [
+    1,
+    1,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8999,
+    0.8931,
+    0.8968
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.6811,
+   "transparency": 0,
+   "source": "Winter08"
+  },
+  {
+   "name": "Solstice Malachite Lacquer",
+   "category": "Winter",
+   "def": "Solstice_Malachite_Lacquer",
+   "diffuseColor": [
+    0.5798,
+    1,
+    0.4744
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8095,
+    0,
+    1
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Winter09"
+  },
+  {
+   "name": "Snowfall Deep Clover Soft Sheen",
+   "category": "Winter",
+   "def": "Snowfall_Deep_Clover_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.3095,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0719,
+    0.6773,
+    0
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Winter10"
+  },
+  {
+   "name": "Evergreen Emerald Chalk Matte",
+   "category": "Winter",
+   "def": "Evergreen_Emerald_Chalk_Matte",
+   "diffuseColor": [
+    0,
+    0.4886,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0,
+    0,
+    0
+   ],
+   "ambientIntensity": 0.3559,
+   "shininess": 0,
+   "transparency": 0,
+   "source": "Winter11"
+  },
+  {
+   "name": "Starlight Midnight Clover Soft Sheen",
+   "category": "Winter",
+   "def": "Starlight_Midnight_Clover_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.1224,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0719,
+    0.3566,
+    0
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Winter12"
+  },
+  {
+   "name": "Glacier Midnight Malachite High Gloss",
+   "category": "Winter",
+   "def": "Glacier_Midnight_Malachite_High_Gloss",
+   "diffuseColor": [
+    0,
+    0.1224,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0816,
+    0.4048,
+    0
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.7892,
+   "transparency": 0,
+   "source": "Winter13"
+  },
+  {
+   "name": "Frost Midnight Emerald Soft Sheen",
+   "category": "Winter",
+   "def": "Frost_Midnight_Emerald_Soft_Sheen",
+   "diffuseColor": [
+    0,
+    0.1224,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.3566,
+    0.3566,
+    0.3566
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.0811,
+   "transparency": 0,
+   "source": "Winter14"
+  },
+  {
+   "name": "Alpine Midnight Jade High Gloss",
+   "category": "Winter",
+   "def": "Alpine_Midnight_Jade_High_Gloss",
+   "diffuseColor": [
+    0,
+    0.1224,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8703,
+    0.4588,
+    0.8703
+   ],
+   "ambientIntensity": 0.254,
+   "shininess": 0.7243,
+   "transparency": 0,
+   "source": "Winter15"
+  },
+  {
+   "name": "Solstice Deep Cobalt Lacquer",
+   "category": "Winter",
+   "def": "Solstice_Deep_Cobalt_Lacquer",
+   "diffuseColor": [
+    0.0595,
+    0.0701,
+    0.2113
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0845,
+    0.0996,
+    0.1116
+   ],
+   "ambientIntensity": 0.2432,
+   "shininess": 1,
+   "transparency": 0,
+   "source": "Winter16"
+  },
+  {
+   "name": "Snowfall Blue Violet High Gloss",
+   "category": "Winter",
+   "def": "Snowfall_Blue_Violet_High_Gloss",
+   "diffuseColor": [
+    0.0827,
+    0.068,
+    0.3485
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6563,
+    0.7731,
+    0.8667
+   ],
+   "ambientIntensity": 0.2481,
+   "shininess": 0.6848,
+   "transparency": 0,
+   "source": "Winter17"
+  },
+  {
+   "name": "Evergreen Ultramarine Polished",
+   "category": "Winter",
+   "def": "Evergreen_Ultramarine_Polished",
+   "diffuseColor": [
+    0.4425,
+    0.5065,
+    0.8424
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4053,
+    0.4108,
+    0.4108
+   ],
+   "ambientIntensity": 0.2518,
+   "shininess": 0.5243,
+   "transparency": 0,
+   "source": "Winter18"
+  },
+  {
+   "name": "Starlight Sapphire Polished",
+   "category": "Winter",
+   "def": "Starlight_Sapphire_Polished",
+   "diffuseColor": [
+    0.2389,
+    0.4172,
+    0.8424
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.4053,
+    0.4108,
+    0.4108
+   ],
+   "ambientIntensity": 0.2518,
+   "shininess": 0.5243,
+   "transparency": 0,
+   "source": "Winter19"
+  },
+  {
+   "name": "Glacier Icewater Soft Sheen",
+   "category": "Winter",
+   "def": "Glacier_Icewater_Soft_Sheen",
+   "diffuseColor": [
+    0.4343,
+    0.6958,
+    0.7885
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0617,
+    0.0988,
+    0.112
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0945,
+   "transparency": 0,
+   "source": "Winter20"
+  },
+  {
+   "name": "Frost Deep Sea High Gloss",
+   "category": "Winter",
+   "def": "Frost_Deep_Sea_High_Gloss",
+   "diffuseColor": [
+    0.0151,
+    0.3318,
+    0.3991
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0171,
+    0.3749,
+    0.451
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.773,
+   "transparency": 0,
+   "source": "Winter21"
+  },
+  {
+   "name": "Alpine Blue Spruce Soft Sheen",
+   "category": "Winter",
+   "def": "Alpine_Blue_Spruce_Soft_Sheen",
+   "diffuseColor": [
+    0.0151,
+    0.3318,
+    0.3991
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0044,
+    0.0962,
+    0.1157
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0973,
+   "transparency": 0,
+   "source": "Winter22"
+  },
+  {
+   "name": "Solstice Glacier Soft Sheen",
+   "category": "Winter",
+   "def": "Solstice_Glacier_Soft_Sheen",
+   "diffuseColor": [
+    0.0309,
+    0.3939,
+    0.5229
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.0138,
+    0.3023,
+    0.3636
+   ],
+   "ambientIntensity": 0.2424,
+   "shininess": 0.0973,
+   "transparency": 0,
+   "source": "Winter23"
+  },
+  {
+   "name": "Snowfall Peony High Gloss",
+   "category": "Winter",
+   "def": "Snowfall_Peony_High_Gloss",
+   "diffuseColor": [
+    0.9728,
+    0.619,
+    0.7051
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6108,
+    0.3532,
+    0.3731
+   ],
+   "ambientIntensity": 0.2486,
+   "shininess": 0.8324,
+   "transparency": 0,
+   "source": "Winter24"
+  },
+  {
+   "name": "Evergreen Vivid Blush High Gloss",
+   "category": "Winter",
+   "def": "Evergreen_Vivid_Blush_High_Gloss",
+   "diffuseColor": [
+    0.937,
+    0.0923,
+    0.4284
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8053,
+    0.217,
+    0.3673
+   ],
+   "ambientIntensity": 0.2486,
+   "shininess": 0.8324,
+   "transparency": 0,
+   "source": "Winter25"
+  },
+  {
+   "name": "Starlight Raspberry Soft Sheen",
+   "category": "Winter",
+   "def": "Starlight_Raspberry_Soft_Sheen",
+   "diffuseColor": [
+    0.7384,
+    0.0923,
+    0.3613
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5267,
+    0.1419,
+    0.2403
+   ],
+   "ambientIntensity": 0.2541,
+   "shininess": 0.1514,
+   "transparency": 0,
+   "source": "Winter26"
+  },
+  {
+   "name": "Glacier Deep Grape Matte",
+   "category": "Winter",
+   "def": "Glacier_Deep_Grape_Matte",
+   "diffuseColor": [
+    0.2305,
+    0.1067,
+    0.2852
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5514,
+    0,
+    0.2342
+   ],
+   "ambientIntensity": 0.2668,
+   "shininess": 0.0541,
+   "transparency": 0,
+   "source": "Winter27"
+  },
+  {
+   "name": "Frost Deep Violet High Gloss",
+   "category": "Winter",
+   "def": "Frost_Deep_Violet_High_Gloss",
+   "diffuseColor": [
+    0.2305,
+    0.1067,
+    0.2852
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.8486,
+    0,
+    0.3605
+   ],
+   "ambientIntensity": 0.2668,
+   "shininess": 0.7405,
+   "transparency": 0,
+   "source": "Winter28"
+  },
+  {
+   "name": "Alpine Deep Purple High Gloss",
+   "category": "Winter",
+   "def": "Alpine_Deep_Purple_High_Gloss",
+   "diffuseColor": [
+    0.2446,
+    0.1133,
+    0.3027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.6902,
+    0.3196,
+    0.8541
+   ],
+   "ambientIntensity": 0.2679,
+   "shininess": 0.6595,
+   "transparency": 0,
+   "source": "Winter29"
+  },
+  {
+   "name": "Solstice Deep Wisteria Soft Sheen",
+   "category": "Winter",
+   "def": "Solstice_Deep_Wisteria_Soft_Sheen",
+   "diffuseColor": [
+    0.2446,
+    0.1133,
+    0.3027
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.2534,
+    0.1173,
+    0.3135
+   ],
+   "ambientIntensity": 0.2679,
+   "shininess": 0.0703,
+   "transparency": 0,
+   "source": "Winter30"
+  },
+  {
+   "name": "Snowfall Deep Poppy Soft Sheen",
+   "category": "Winter",
+   "def": "Snowfall_Deep_Poppy_Soft_Sheen",
+   "diffuseColor": [
+    0.2852,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1109,
+    0,
+    0.338
+   ],
+   "ambientIntensity": 0.2668,
+   "shininess": 0.0973,
+   "transparency": 0,
+   "source": "Winter31"
+  },
+  {
+   "name": "Evergreen Deep Cardinal High Gloss",
+   "category": "Winter",
+   "def": "Evergreen_Deep_Cardinal_High_Gloss",
+   "diffuseColor": [
+    0.2852,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.1501,
+    0,
+    0.4574
+   ],
+   "ambientIntensity": 0.2668,
+   "shininess": 0.7405,
+   "transparency": 0,
+   "source": "Winter32"
+  },
+  {
+   "name": "Starlight Garnet Matte",
+   "category": "Winter",
+   "def": "Starlight_Garnet_Matte",
+   "diffuseColor": [
+    0.5405,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.092,
+    0,
+    0.0201
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.0649,
+   "transparency": 0,
+   "source": "Winter33"
+  },
+  {
+   "name": "Glacier Cherry High Gloss",
+   "category": "Winter",
+   "def": "Glacier_Cherry_High_Gloss",
+   "diffuseColor": [
+    0.5405,
+    0,
+    0
+   ],
+   "emissiveColor": [
+    0,
+    0,
+    0
+   ],
+   "specularColor": [
+    0.5776,
+    0,
+    0.1263
+   ],
+   "ambientIntensity": 0.25,
+   "shininess": 0.773,
+   "transparency": 0,
+   "source": "Winter34"
+  }
+ ]
+}

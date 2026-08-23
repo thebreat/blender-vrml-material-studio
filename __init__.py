@@ -7,12 +7,13 @@ import bpy
 from bpy.app.handlers import persistent
 from bpy.props import PointerProperty
 
-from . import core, operators, properties, ui
+from . import core, material_library, operators, properties, ui
 from .constants import MATERIAL_POINTER_NAME
 
 
 _LOAD_HANDLER_TAG = "_vrml2_material_studio_load_post"
 _SYNC_TIMER_NAMESPACE_KEY = "vrml2_material_studio.sync_timer"
+_LIBRARY_POINTER_NAME = "vrml2_material_library"
 _REMOVED_CLASS_NAMES = (
     (bpy.types.Operator, "VRML2_OT_apply_preset"),
     (bpy.types.Operator, "VRML2_OT_refresh_preview"),
@@ -84,6 +85,7 @@ def _clear_existing_registration() -> None:
             bpy.app.handlers.load_post.remove(handler)
 
     _unregister_classes(ui.CLASSES)
+    material_library.unregister_previews()
     _unregister_classes(operators.CLASSES)
     for base_type, class_name in _REMOVED_CLASS_NAMES:
         registered_cls = base_type.bl_rna_get_subclass_py(class_name)
@@ -92,6 +94,8 @@ def _clear_existing_registration() -> None:
 
     if hasattr(bpy.types.Material, MATERIAL_POINTER_NAME):
         delattr(bpy.types.Material, MATERIAL_POINTER_NAME)
+    if hasattr(bpy.types.WindowManager, _LIBRARY_POINTER_NAME):
+        delattr(bpy.types.WindowManager, _LIBRARY_POINTER_NAME)
 
     _unregister_classes(properties.CLASSES)
 
@@ -108,9 +112,15 @@ def register() -> None:
             MATERIAL_POINTER_NAME,
             PointerProperty(type=properties.VRML2MaterialProperties),
         )
+        setattr(
+            bpy.types.WindowManager,
+            _LIBRARY_POINTER_NAME,
+            PointerProperty(type=properties.VRML2MaterialLibraryProperties),
+        )
 
         for cls in operators.CLASSES:
             bpy.utils.register_class(cls)
+        material_library.register_previews()
         for cls in ui.CLASSES:
             bpy.utils.register_class(cls)
 

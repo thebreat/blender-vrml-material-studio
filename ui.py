@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import bpy
 
-from . import core
+from . import core, material_library
 from .constants import MATERIAL_POINTER_NAME
 
 
@@ -28,6 +28,72 @@ def _draw_color(
     values.prop(properties, property_name, index=0, text="R")
     values.prop(properties, property_name, index=1, text="G")
     values.prop(properties, property_name, index=2, text="B")
+
+
+def _draw_material_library(layout, context) -> None:
+    header, body = layout.panel("vrml2_contributed_materials", default_closed=True)
+    header.label(text="Contributed Materials", icon="MATERIAL")
+    if body is None:
+        return
+
+    settings = material_library.ensure_items(context.window_manager)
+    body.label(text="433 materials contributed by Breetos")
+    body.prop(settings, "search", text="", icon="VIEWZOOM")
+    body.prop(settings, "category", text="")
+    body.template_list(
+        "VRML2_UL_contributed_materials",
+        "",
+        settings,
+        "items",
+        settings,
+        "active_index",
+        rows=8,
+        maxrows=12,
+    )
+    body.label(text="Click a material name to apply it.", icon="INFO")
+
+
+class VRML2_UL_contributed_materials(bpy.types.UIList):
+    bl_idname = "VRML2_UL_contributed_materials"
+
+    def draw_item(
+        self,
+        _context,
+        layout,
+        _data,
+        item,
+        _icon,
+        _active_data,
+        _active_property,
+        _index=0,
+        _flt_flag=0,
+    ):
+        if self.layout_type in {"DEFAULT", "COMPACT"}:
+            row = layout.row(align=True)
+            row.template_icon(
+                icon_value=material_library.icon_id(item.preset_index),
+                scale=1.5,
+            )
+            operator = row.operator(
+                "vrml2.apply_library_material",
+                text=item.name,
+            )
+            operator.preset_index = item.preset_index
+            row.label(text=item.category)
+        else:
+            layout.label(text="", icon_value=material_library.icon_id(item.preset_index))
+
+    def filter_items(self, _context, data, property_name):
+        items = getattr(data, property_name)
+        query = data.search.strip().casefold()
+        category = data.category
+        flags = []
+        for item in items:
+            visible = (category == "ALL" or item.category == category) and (
+                not query or query in item.name.casefold()
+            )
+            flags.append(self.bitflag_filter_item if visible else 0)
+        return flags, []
 
 
 def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context) -> None:
@@ -114,6 +180,9 @@ def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context)
     remove_row.alert = True
     remove_row.operator("vrml2.remove_material_data", icon="TRASH")
 
+    layout.separator()
+    _draw_material_library(layout, context)
+
 
 class VIEW3D_PT_vrml2_material_studio(bpy.types.Panel):
     bl_idname = "VIEW3D_PT_vrml2_material_studio"
@@ -142,6 +211,7 @@ class MATERIAL_PT_vrml2_material_studio(bpy.types.Panel):
 
 
 CLASSES = (
+    VRML2_UL_contributed_materials,
     VIEW3D_PT_vrml2_material_studio,
     MATERIAL_PT_vrml2_material_studio,
 )

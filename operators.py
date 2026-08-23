@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.props import StringProperty
+from bpy.props import IntProperty, StringProperty
 
-from . import core
+from . import core, material_library
 from .constants import MATERIAL_POINTER_NAME, VRML_DEFAULTS
 from .vrml_text import format_material_block, has_material_block, parse_material_block
 
@@ -183,6 +183,34 @@ class VRML2_OT_set_field_default(bpy.types.Operator):
         return {"FINISHED"}
 
 
+class VRML2_OT_apply_library_material(bpy.types.Operator):
+    bl_idname = "vrml2.apply_library_material"
+    bl_label = "Apply Contributed Material"
+    bl_description = "Apply this contributed VRML97 material to the active material"
+    bl_options = {"REGISTER", "UNDO"}
+
+    preset_index: IntProperty(options={"HIDDEN"})
+
+    @classmethod
+    def poll(cls, context):
+        return _editable_material(_active_initialized_material(context))
+
+    def execute(self, context):
+        presets = material_library.materials()
+        if not 0 <= self.preset_index < len(presets):
+            self.report({"ERROR"}, "The selected contributed material could not be found")
+            return {"CANCELLED"}
+
+        preset = presets[self.preset_index]
+        material = _active_initialized_material(context)
+        core.apply_values(material, material_library.preset_values(preset))
+        message = f"Applied {preset['name']}"
+        if preset.get("clamped"):
+            message += "; original out-of-range values are clamped to VRML97 limits"
+        self.report({"WARNING"} if preset.get("clamped") else {"INFO"}, message)
+        return {"FINISHED"}
+
+
 class VRML2_OT_make_single_user(bpy.types.Operator):
     bl_idname = "vrml2.make_single_user"
     bl_label = "Make Material Single User"
@@ -266,6 +294,7 @@ CLASSES = (
     VRML2_OT_copy_material_block,
     VRML2_OT_paste_material_block,
     VRML2_OT_set_field_default,
+    VRML2_OT_apply_library_material,
     VRML2_OT_make_single_user,
     VRML2_OT_assign_to_selected,
     VRML2_OT_remove_material_data,

@@ -2,9 +2,17 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.props import BoolProperty, FloatProperty, FloatVectorProperty, StringProperty
+from bpy.props import (
+    BoolProperty,
+    CollectionProperty,
+    EnumProperty,
+    FloatProperty,
+    FloatVectorProperty,
+    IntProperty,
+    StringProperty,
+)
 
-from . import core
+from . import core, material_library
 from .constants import VRML_DEFAULTS
 
 
@@ -16,6 +24,27 @@ def _update_material(properties, _context) -> None:
         core.sync_material(material)
     except Exception as exc:
         print(f"VRML2 Material Studio update failed for {material.name!r}: {exc}")
+
+
+class VRML2MaterialLibraryItem(bpy.types.PropertyGroup):
+    preset_index: IntProperty(options={"HIDDEN"})
+    name: StringProperty()
+    category: StringProperty()
+
+
+class VRML2MaterialLibraryProperties(bpy.types.PropertyGroup):
+    search: StringProperty(
+        name="Search",
+        description="Filter contributed materials by name",
+        default="",
+    )
+    category: EnumProperty(
+        name="Category",
+        description="Show contributed materials in this category",
+        items=material_library.category_items,
+    )
+    active_index: IntProperty(default=0, min=0)
+    items: CollectionProperty(type=VRML2MaterialLibraryItem)
 
 
 class VRML2MaterialProperties(bpy.types.PropertyGroup):
@@ -110,4 +139,8 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         precision=4,
         update=_update_material,
     )
-CLASSES = (VRML2MaterialProperties,)
+CLASSES = (
+    VRML2MaterialLibraryItem,
+    VRML2MaterialLibraryProperties,
+    VRML2MaterialProperties,
+)

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 - 2026-08-23
+
+- Added a collapsed-by-default Contributed Materials library at the bottom of Material Studio.
+- Bundled all 433 named materials contributed by Breetos across 13 categories.
+- Added name search, category filtering, and direct one-click application to the active material.
+- Added shaded circular preview swatches inspired by the Cybertown Mall Material Previewer design.
+- Made the swatches reflect diffuse, emissive, specular, shininess, and transparency values.
+- Preserved the active Blender material name and VRML DEF name when applying a library entry.
+- Retained warnings for the fifteen source entries whose values required VRML97 clamping.
+
 ## 0.2.0 - 2026-08-21
 
 - Replaced the Blender diffuse/glossy approximation with a direct VRML97 lighting equation.

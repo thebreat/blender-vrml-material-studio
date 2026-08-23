@@ -183,6 +183,31 @@ def main() -> None:
             abs_tol=1e-6,
         )
 
+        library_settings = extension.material_library.ensure_items(bpy.context.window_manager)
+        assert len(library_settings.items) == 433
+        assert library_settings.items[0].name == "Clear glass"
+        assert library_settings.items[0].category == "Glass"
+        icon_id = extension.material_library.icon_id(0)
+        assert icon_id >= 0
+        preview_collection = bpy.app.driver_namespace[
+            extension.material_library.PREVIEW_NAMESPACE_KEY
+        ]
+        assert preview_collection["0"].image_size[:] == (40, 40)
+        assert len(preview_collection["0"].image_pixels_float) == 40 * 40 * 4
+
+        result = bpy.ops.vrml2.apply_library_material(preset_index=0)
+        assert result == {"FINISHED"}
+        first_preset = extension.material_library.materials()[0]
+        assert all(
+            math.isclose(actual, expected, abs_tol=1e-6)
+            for actual, expected in zip(
+                settings.diffuse_color,
+                first_preset["diffuseColor"],
+                strict=True,
+            )
+        )
+        assert math.isclose(settings.transparency, first_preset["transparency"], abs_tol=1e-6)
+
         extension.core.remove_vrml2_data(material)
         assert not settings.initialized
         for key in extension.constants.EXPORT_KEYS.values():
