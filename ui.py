@@ -32,12 +32,12 @@ def _draw_color(
 
 def _draw_material_library(layout, context) -> None:
     header, body = layout.panel("vrml2_contributed_materials", default_closed=True)
-    header.label(text="Contributed Materials", icon="MATERIAL")
+    header.label(text="Presets", icon="PRESET")
     if body is None:
         return
 
     settings = material_library.ensure_items(context.window_manager)
-    body.label(text="433 materials contributed by Breetos")
+    body.label(text="433 presets by Breetos")
     body.prop(settings, "search", text="", icon="VIEWZOOM")
     body.prop(settings, "category", text="")
     body.template_list(
@@ -50,7 +50,7 @@ def _draw_material_library(layout, context) -> None:
         rows=8,
         maxrows=12,
     )
-    body.label(text="Click a material name to apply it.", icon="INFO")
+    body.label(text="Click a preset name to apply it.", icon="INFO")
 
 
 class VRML2_UL_contributed_materials(bpy.types.UIList):

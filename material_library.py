@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Brianna O'Leary
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Breetos contributed-material library and native Blender preview icons."""
+"""Breetos preset library and native Blender preview icons."""
 
 from __future__ import annotations
 
@@ -30,7 +30,7 @@ def materials() -> list[dict]:
 
 
 def category_items(_owner=None, _context=None):
-    return [("ALL", "All Categories", "Show every contributed material")] + [
+    return [("ALL", "All Categories", "Show every preset")] + [
         (category, category, f"Show {category} materials")
         for category in library_data()["categories"]
     ]

@@ -185,8 +185,8 @@ class VRML2_OT_set_field_default(bpy.types.Operator):
 
 class VRML2_OT_apply_library_material(bpy.types.Operator):
     bl_idname = "vrml2.apply_library_material"
-    bl_label = "Apply Contributed Material"
-    bl_description = "Apply this contributed VRML97 material to the active material"
+    bl_label = "Apply Preset"
+    bl_description = "Apply this VRML97 preset to the active material"
     bl_options = {"REGISTER", "UNDO"}
 
     preset_index: IntProperty(options={"HIDDEN"})
@@ -198,7 +198,7 @@ class VRML2_OT_apply_library_material(bpy.types.Operator):
     def execute(self, context):
         presets = material_library.materials()
         if not 0 <= self.preset_index < len(presets):
-            self.report({"ERROR"}, "The selected contributed material could not be found")
+            self.report({"ERROR"}, "The selected preset could not be found")
             return {"CANCELLED"}
 
         preset = presets[self.preset_index]

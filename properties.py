@@ -35,12 +35,12 @@ class VRML2MaterialLibraryItem(bpy.types.PropertyGroup):
 class VRML2MaterialLibraryProperties(bpy.types.PropertyGroup):
     search: StringProperty(
         name="Search",
-        description="Filter contributed materials by name",
+        description="Filter presets by name",
         default="",
     )
     category: EnumProperty(
         name="Category",
-        description="Show contributed materials in this category",
+        description="Show presets in this category",
         items=material_library.category_items,
     )
     active_index: IntProperty(default=0, min=0)

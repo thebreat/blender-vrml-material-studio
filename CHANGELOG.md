@@ -2,8 +2,8 @@
 
 ## 0.3.0 - 2026-08-23
 
-- Added a collapsed-by-default Contributed Materials library at the bottom of Material Studio.
-- Bundled all 433 named materials contributed by Breetos across 13 categories.
+- Added a collapsed-by-default Presets library at the bottom of Material Studio.
+- Bundled all 433 Breetos presets across 13 categories.
 - Added name search, category filtering, and direct one-click application to the active material.
 - Added shaded circular preview swatches inspired by the Cybertown Mall Material Previewer design.
 - Made the swatches reflect diffuse, emissive, specular, shininess, and transparency values.
