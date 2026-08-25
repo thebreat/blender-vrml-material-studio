@@ -9,21 +9,17 @@ from typing import Any, Iterable
 
 import bpy
 
+from . import vrml_shader
 from .constants import (
     DATA_SCHEMA_VERSION,
     EXPORT_KEYS,
+    LEGACY_EXPORT_KEYS,
     MATERIAL_POINTER_NAME,
     META_KEYS,
     PREVIEW_NODE_PREFIX,
     PREVIEW_NODE_TAG,
     PREVIEW_ROLE_TAG,
-    ROLE_ADD_EMISSION,
-    ROLE_ADD_LIT,
-    ROLE_DIFFUSE,
-    ROLE_EMISSION,
-    ROLE_MIX_TRANSPARENCY,
-    ROLE_SPECULAR,
-    ROLE_TRANSPARENT,
+    ROLE_VRML_SHADER,
     VRML_DEFAULTS,
 )
 from .vrml_text import sanitize_def_name
@@ -77,23 +73,13 @@ def linear_channel_to_srgb(value: float) -> float:
     return 1.055 * (value ** (1.0 / 2.4)) - 0.055
 
 
-def preview_color(value: Iterable[float], color_space: str) -> tuple[float, float, float]:
-    color = clamp_color(value)
-    if color_space == "DIRECT":
-        return color
-    return tuple(srgb_channel_to_linear(component) for component in color)
+def preview_color(value: Iterable[float]) -> tuple[float, float, float]:
+    return clamp_color(value)
 
 
 def stored_color_from_linear(value: Iterable[float]) -> tuple[float, float, float]:
     components = tuple(float(component) for component in value)
     return tuple(clamp01(linear_channel_to_srgb(component)) for component in components[:3])
-
-
-def shininess_to_roughness(shininess: float) -> float:
-    """Approximate VRML's normalized Phong exponent as microfacet roughness."""
-    exponent = clamp01(shininess) * 128.0
-    roughness = math.sqrt(2.0 / (exponent + 2.0))
-    return max(0.02, min(1.0, roughness))
 
 
 def roughness_to_shininess(roughness: float) -> float:
@@ -113,11 +99,11 @@ def active_material(context: bpy.types.Context) -> bpy.types.Material | None:
 
 def property_values(properties: Any) -> dict[str, Any]:
     return {
-        "ambient_intensity": float(properties.ambient_intensity),
         "diffuse_color": tuple(float(v) for v in properties.diffuse_color),
         "emissive_color": tuple(float(v) for v in properties.emissive_color),
-        "shininess": float(properties.shininess),
         "specular_color": tuple(float(v) for v in properties.specular_color),
+        "ambient_intensity": float(properties.ambient_intensity),
+        "shininess": float(properties.shininess),
         "transparency": float(properties.transparency),
     }
 
@@ -131,12 +117,15 @@ def sync_custom_properties(material: bpy.types.Material) -> None:
     material[EXPORT_KEYS["initialized"]] = bool(properties.initialized)
     material[EXPORT_KEYS["enabled"]] = bool(properties.enabled)
     material[EXPORT_KEYS["def_name"]] = str(properties.def_name)
-    material[EXPORT_KEYS["ambient_intensity"]] = float(properties.ambient_intensity)
     material[EXPORT_KEYS["diffuse_color"]] = list(clamp_color(properties.diffuse_color))
     material[EXPORT_KEYS["emissive_color"]] = list(clamp_color(properties.emissive_color))
-    material[EXPORT_KEYS["shininess"]] = float(properties.shininess)
     material[EXPORT_KEYS["specular_color"]] = list(clamp_color(properties.specular_color))
+    material[EXPORT_KEYS["ambient_intensity"]] = float(properties.ambient_intensity)
+    material[EXPORT_KEYS["shininess"]] = float(properties.shininess)
     material[EXPORT_KEYS["transparency"]] = float(properties.transparency)
+    for key in LEGACY_EXPORT_KEYS:
+        if key in material:
+            del material[key]
 
 
 def _socket_by_names(sockets: Any, names: Iterable[str]):
@@ -240,37 +229,6 @@ def _preview_node(node_tree: bpy.types.NodeTree, role: str):
     return None
 
 
-def _ensure_preview_node(
-    node_tree: bpy.types.NodeTree,
-    role: str,
-    node_types: tuple[str, ...],
-    location: tuple[float, float],
-    label: str,
-) -> bpy.types.Node:
-    node = _preview_node(node_tree, role)
-    if node is not None and node.bl_idname not in node_types:
-        node_tree.nodes.remove(node)
-        node = None
-
-    if node is None:
-        last_error: Exception | None = None
-        for node_type in node_types:
-            try:
-                node = node_tree.nodes.new(node_type)
-                break
-            except (RuntimeError, TypeError) as exc:
-                last_error = exc
-        if node is None:
-            raise RuntimeError(f"Unable to create preview node for {role}") from last_error
-
-    node[PREVIEW_NODE_TAG] = True
-    node[PREVIEW_ROLE_TAG] = role
-    node.name = f"{PREVIEW_NODE_PREFIX} - {label}"
-    node.label = label
-    node.location = location
-    return node
-
-
 def _ensure_link(node_tree: bpy.types.NodeTree, from_socket: Any, to_socket: Any) -> None:
     if from_socket is None or to_socket is None:
         return
@@ -314,84 +272,39 @@ def _record_original_state(material: bpy.types.Material) -> None:
 
 
 def ensure_preview_graph(material: bpy.types.Material) -> dict[str, bpy.types.Node]:
-    # Record this before enabling nodes. Setting use_nodes can create Blender's
-    # default node tree, which is not the pre-preview state for a legacy material.
+    """Create the material-level wrapper around the shared VRML97 shader."""
     _record_original_state(material)
     material.use_nodes = True
     node_tree = material.node_tree
     output = _material_output(material)
 
-    nodes = {
-        ROLE_DIFFUSE: _ensure_preview_node(
-            node_tree,
-            ROLE_DIFFUSE,
-            ("ShaderNodeBsdfDiffuse",),
-            (-620, 180),
-            "VRML2 Diffuse",
-        ),
-        ROLE_SPECULAR: _ensure_preview_node(
-            node_tree,
-            ROLE_SPECULAR,
-            ("ShaderNodeBsdfAnisotropic", "ShaderNodeBsdfGlossy", "ShaderNodeBsdfPrincipled"),
-            (-620, -40),
-            "VRML2 Specular",
-        ),
-        ROLE_EMISSION: _ensure_preview_node(
-            node_tree,
-            ROLE_EMISSION,
-            ("ShaderNodeEmission",),
-            (-380, -260),
-            "VRML2 Ambient + Emissive",
-        ),
-        ROLE_ADD_LIT: _ensure_preview_node(
-            node_tree,
-            ROLE_ADD_LIT,
-            ("ShaderNodeAddShader",),
-            (-320, 100),
-            "Add Diffuse + Specular",
-        ),
-        ROLE_ADD_EMISSION: _ensure_preview_node(
-            node_tree,
-            ROLE_ADD_EMISSION,
-            ("ShaderNodeAddShader",),
-            (-80, 40),
-            "Add Ambient + Emissive",
-        ),
-        ROLE_TRANSPARENT: _ensure_preview_node(
-            node_tree,
-            ROLE_TRANSPARENT,
-            ("ShaderNodeBsdfTransparent",),
-            (-80, -180),
-            "VRML2 Transparent",
-        ),
-        ROLE_MIX_TRANSPARENCY: _ensure_preview_node(
-            node_tree,
-            ROLE_MIX_TRANSPARENCY,
-            ("ShaderNodeMixShader",),
-            (240, 40),
-            "VRML2 Transparency",
-        ),
-    }
+    # Remove preview nodes from the old Blender-BSDF implementation during the
+    # first sync after upgrading, while retaining our output and current group.
+    for candidate in list(node_tree.nodes):
+        if not candidate.get(PREVIEW_NODE_TAG):
+            continue
+        role = candidate.get(PREVIEW_ROLE_TAG)
+        if role not in {"OUTPUT", ROLE_VRML_SHADER}:
+            node_tree.nodes.remove(candidate)
 
-    diffuse = nodes[ROLE_DIFFUSE]
-    specular = nodes[ROLE_SPECULAR]
-    emission = nodes[ROLE_EMISSION]
-    add_lit = nodes[ROLE_ADD_LIT]
-    add_emission = nodes[ROLE_ADD_EMISSION]
-    transparent = nodes[ROLE_TRANSPARENT]
-    mix = nodes[ROLE_MIX_TRANSPARENCY]
+    shader = _preview_node(node_tree, ROLE_VRML_SHADER)
+    if shader is not None and shader.bl_idname != "ShaderNodeGroup":
+        node_tree.nodes.remove(shader)
+        shader = None
 
-    _ensure_link(node_tree, _node_output(diffuse), _first_socket(add_lit.inputs, 0))
-    _ensure_link(node_tree, _node_output(specular), _first_socket(add_lit.inputs, 1))
-    _ensure_link(node_tree, _node_output(add_lit), _first_socket(add_emission.inputs, 0))
-    _ensure_link(node_tree, _node_output(emission), _first_socket(add_emission.inputs, 1))
-    _ensure_link(node_tree, _node_output(add_emission), _first_socket(mix.inputs, 1))
-    _ensure_link(node_tree, _node_output(transparent), _first_socket(mix.inputs, 2))
+    if shader is None:
+        shader = node_tree.nodes.new("ShaderNodeGroup")
+        shader[PREVIEW_NODE_TAG] = True
+        shader[PREVIEW_ROLE_TAG] = ROLE_VRML_SHADER
+        shader.name = f"{PREVIEW_NODE_PREFIX} - VRML97 Live Preview"
+        shader.label = "VRML97 Live Preview"
+        shader.location = (300, 40)
+
+    shader.node_tree = vrml_shader.ensure_shader_group()
 
     surface = _socket_by_names(output.inputs, ("Surface",)) or _first_socket(output.inputs, 0)
-    _ensure_link(node_tree, _node_output(mix), surface)
-    nodes["OUTPUT"] = output
-    return nodes
+    _ensure_link(node_tree, _node_output(shader, (vrml_shader.SOCKET_SHADER, "Shader")), surface)
+    return {ROLE_VRML_SHADER: shader, "OUTPUT": output}
 
 
 def _restore_render_mode(material: bpy.types.Material) -> None:
@@ -438,43 +351,23 @@ def update_preview(material: bpy.types.Material) -> None:
         return
 
     nodes = ensure_preview_graph(material)
-    color_space = properties.preview_color_space
-    diffuse_color = preview_color(properties.diffuse_color, color_space)
-    specular_color = preview_color(properties.specular_color, color_space)
-    emissive_color = preview_color(properties.emissive_color, color_space)
+    # Preserve the authored VRML channel values exactly. Applying an additional
+    # colour-space conversion here changes all three material colour fields and
+    # does not reproduce X_ITE's appearance.
+    diffuse_color = preview_color(properties.diffuse_color)
+    specular_color = preview_color(properties.specular_color)
+    emissive_color = preview_color(properties.emissive_color)
     transparency = clamp01(properties.transparency)
-    roughness = shininess_to_roughness(properties.shininess)
 
-    ambient_scale = clamp01(properties.ambient_intensity) * max(0.0, float(properties.preview_ambient_light))
-    ambient_color = tuple(component * ambient_scale for component in diffuse_color)
-    emission_total = tuple(ambient_color[i] + emissive_color[i] for i in range(3))
-    emission_peak = max(1.0, max(emission_total))
-    emission_color = tuple(component / emission_peak for component in emission_total)
-
-    diffuse = nodes[ROLE_DIFFUSE]
-    _set_color_input(diffuse, ("Color", "Base Color"), diffuse_color, 0)
-    _set_float_input(diffuse, ("Roughness",), 0.0, 1)
-
-    specular = nodes[ROLE_SPECULAR]
-    if specular.bl_idname == "ShaderNodeBsdfPrincipled":
-        _set_color_input(specular, ("Base Color",), specular_color, 0)
-        _set_float_input(specular, ("Metallic",), 1.0, 1)
-        _set_float_input(specular, ("Roughness",), roughness, 2)
-    else:
-        _set_color_input(specular, ("Color",), specular_color, 0)
-        _set_float_input(specular, ("Roughness",), roughness, 1)
-        _set_float_input(specular, ("IOR",), 1.5)
-        _set_float_input(specular, ("Anisotropy",), 0.0)
-
-    emission = nodes[ROLE_EMISSION]
-    _set_color_input(emission, ("Color", "Emission Color"), emission_color, 0)
-    _set_float_input(emission, ("Strength", "Emission Strength"), emission_peak, 1)
-
-    transparent = nodes[ROLE_TRANSPARENT]
-    _set_color_input(transparent, ("Color",), (1.0, 1.0, 1.0), 0)
-
-    mix = nodes[ROLE_MIX_TRANSPARENCY]
-    _set_float_input(mix, ("Fac", "Factor"), transparency, 0)
+    vrml_shader.configure_preview_node(
+        nodes[ROLE_VRML_SHADER],
+        diffuse_color=diffuse_color,
+        specular_color=specular_color,
+        emissive_color=emissive_color,
+        ambient_intensity=clamp01(properties.ambient_intensity),
+        shininess=clamp01(properties.shininess),
+        transparency=transparency,
+    )
 
     alpha = 1.0 - transparency
     try:
@@ -667,25 +560,6 @@ def read_existing_blender_values(material: bpy.types.Material) -> dict[str, Any]
     elif base is not None and hasattr(base, "__len__") and len(base) > 3:
         values["transparency"] = clamp01(1.0 - float(base[3]))
 
-    specular_strength = _get_input_value(node, ("Specular IOR Level", "Specular"))
-    if not isinstance(specular_strength, (int, float)):
-        specular_strength = 0.5
-    specular_strength = clamp01(float(specular_strength))
-
-    specular_tint = _get_input_value(node, ("Specular Tint",))
-    if specular_tint is not None and hasattr(specular_tint, "__len__"):
-        linear_specular = tuple(float(component) * specular_strength for component in specular_tint[:3])
-        values["specular_color"] = stored_color_from_linear(linear_specular)
-    else:
-        values["specular_color"] = (specular_strength, specular_strength, specular_strength)
-
-    emission = _get_input_value(node, ("Emission Color", "Emission"))
-    emission_strength = _get_input_value(node, ("Emission Strength",))
-    if emission is not None and hasattr(emission, "__len__"):
-        strength = float(emission_strength) if isinstance(emission_strength, (int, float)) else 1.0
-        linear_emission = tuple(float(component) * max(0.0, strength) for component in emission[:3])
-        values["emissive_color"] = stored_color_from_linear(linear_emission)
-
     return values
 
 
@@ -712,11 +586,11 @@ def initialize_material(
         properties.enabled = bool(enable_export)
         properties.live_preview = True
         properties.def_name = sanitize_def_name(def_name or material.name)
-        properties.ambient_intensity = clamp01(values.get("ambient_intensity", VRML_DEFAULTS["ambient_intensity"]))
         properties.diffuse_color = clamp_color(values.get("diffuse_color", VRML_DEFAULTS["diffuse_color"]))
         properties.emissive_color = clamp_color(values.get("emissive_color", VRML_DEFAULTS["emissive_color"]))
-        properties.shininess = clamp01(values.get("shininess", VRML_DEFAULTS["shininess"]))
         properties.specular_color = clamp_color(values.get("specular_color", VRML_DEFAULTS["specular_color"]))
+        properties.ambient_intensity = clamp01(values.get("ambient_intensity", VRML_DEFAULTS["ambient_intensity"]))
+        properties.shininess = clamp01(values.get("shininess", VRML_DEFAULTS["shininess"]))
         properties.transparency = clamp01(values.get("transparency", VRML_DEFAULTS["transparency"]))
 
     sync_material(material)
@@ -732,14 +606,14 @@ def remove_vrml2_data(material: bpy.types.Material) -> None:
         properties.enabled = False
         properties.live_preview = True
         properties.def_name = ""
-        properties.ambient_intensity = VRML_DEFAULTS["ambient_intensity"]
         properties.diffuse_color = VRML_DEFAULTS["diffuse_color"]
         properties.emissive_color = VRML_DEFAULTS["emissive_color"]
-        properties.shininess = VRML_DEFAULTS["shininess"]
         properties.specular_color = VRML_DEFAULTS["specular_color"]
+        properties.ambient_intensity = VRML_DEFAULTS["ambient_intensity"]
+        properties.shininess = VRML_DEFAULTS["shininess"]
         properties.transparency = VRML_DEFAULTS["transparency"]
 
-    for key in tuple(EXPORT_KEYS.values()) + tuple(META_KEYS.values()):
+    for key in tuple(EXPORT_KEYS.values()) + LEGACY_EXPORT_KEYS + tuple(META_KEYS.values()):
         if key in material:
             del material[key]
 
@@ -752,24 +626,24 @@ def migrate_material(material: bpy.types.Material) -> None:
     stored_initialized = bool(material.get(EXPORT_KEYS["initialized"], False))
     if stored_initialized and not properties.initialized:
         values = {
+            "diffuse_color": material.get(EXPORT_KEYS["diffuse_color"], VRML_DEFAULTS["diffuse_color"]),
+            "emissive_color": material.get(EXPORT_KEYS["emissive_color"], VRML_DEFAULTS["emissive_color"]),
+            "specular_color": material.get(EXPORT_KEYS["specular_color"], VRML_DEFAULTS["specular_color"]),
             "ambient_intensity": material.get(
                 EXPORT_KEYS["ambient_intensity"], VRML_DEFAULTS["ambient_intensity"]
             ),
-            "diffuse_color": material.get(EXPORT_KEYS["diffuse_color"], VRML_DEFAULTS["diffuse_color"]),
-            "emissive_color": material.get(EXPORT_KEYS["emissive_color"], VRML_DEFAULTS["emissive_color"]),
             "shininess": material.get(EXPORT_KEYS["shininess"], VRML_DEFAULTS["shininess"]),
-            "specular_color": material.get(EXPORT_KEYS["specular_color"], VRML_DEFAULTS["specular_color"]),
             "transparency": material.get(EXPORT_KEYS["transparency"], VRML_DEFAULTS["transparency"]),
         }
         with suspend_updates(material):
             properties.initialized = True
             properties.enabled = bool(material.get(EXPORT_KEYS["enabled"], True))
             properties.def_name = str(material.get(EXPORT_KEYS["def_name"], ""))
-            properties.ambient_intensity = clamp01(values["ambient_intensity"])
             properties.diffuse_color = clamp_color(values["diffuse_color"])
             properties.emissive_color = clamp_color(values["emissive_color"])
-            properties.shininess = clamp01(values["shininess"])
             properties.specular_color = clamp_color(values["specular_color"])
+            properties.ambient_intensity = clamp01(values["ambient_intensity"])
+            properties.shininess = clamp01(values["shininess"])
             properties.transparency = clamp01(values["transparency"])
 
     if properties.initialized:

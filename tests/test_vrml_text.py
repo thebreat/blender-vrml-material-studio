@@ -53,6 +53,11 @@ class ParseMaterialBlockTests(unittest.TestCase):
     def test_empty_input(self) -> None:
         self.assertEqual(vrml_text.parse_material_block(""), {})
 
+    def test_distinguishes_material_block_from_partial_fields(self) -> None:
+        self.assertTrue(vrml_text.has_material_block("Material { diffuseColor 1 0 0 }"))
+        self.assertTrue(vrml_text.has_material_block("DEF Test Material { }"))
+        self.assertFalse(vrml_text.has_material_block("diffuseColor 1 0 0"))
+
 
 class FormatMaterialBlockTests(unittest.TestCase):
     def test_round_trip(self) -> None:
@@ -75,6 +80,32 @@ class FormatMaterialBlockTests(unittest.TestCase):
     def test_sanitize_def_name(self) -> None:
         self.assertEqual(vrml_text.sanitize_def_name("  123 odd/name  "), "MAT_123_odd_name")
         self.assertEqual(vrml_text.sanitize_def_name("!!!"), "VRML2_Material")
+
+    def test_default_color_fields_are_serialized_in_editor_order(self) -> None:
+        values = {
+            "ambient_intensity": 0.2,
+            "diffuse_color": (0.8, 0.7, 0.6),
+            "emissive_color": (0.0, 0.0, 0.0),
+            "shininess": 0.0,
+            "specular_color": (0.0, 0.0, 0.0),
+            "transparency": 0.0,
+        }
+
+        block = vrml_text.format_material_block(values)
+
+        field_lines = [line.strip().split()[0] for line in block.splitlines()[1:-1]]
+        self.assertEqual(
+            field_lines,
+            [
+                "diffuseColor",
+                "emissiveColor",
+                "specularColor",
+                "ambientIntensity",
+                "shininess",
+                "transparency",
+            ],
+        )
+        self.assertEqual(vrml_text.parse_material_block(block)["specular_color"], (0.0, 0.0, 0.0))
 
 
 if __name__ == "__main__":

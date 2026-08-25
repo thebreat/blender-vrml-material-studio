@@ -51,6 +51,13 @@ def _first_material_block(text: str) -> tuple[str, str | None]:
     return cleaned[match.start() :], match.group(1)
 
 
+def has_material_block(text: str) -> bool:
+    """Return whether text contains a Material node rather than partial fields."""
+    if not isinstance(text, str):
+        return False
+    return bool(re.search(r"\bMaterial\s*\{", _strip_comments(text), flags=re.IGNORECASE))
+
+
 def parse_material_block(text: str) -> dict[str, Any]:
     """Parse the first VRML2 Material block.
 
@@ -110,11 +117,11 @@ def sanitize_def_name(name: str, fallback: str = "VRML2_Material") -> str:
 def format_material_block(values: dict[str, Any], def_name: str = "") -> str:
     prefix = f"DEF {sanitize_def_name(def_name)} " if def_name.strip() else ""
     lines = [f"{prefix}Material {{"]
-    lines.append(f"  ambientIntensity {format_number(values['ambient_intensity'])}")
     lines.append(f"  diffuseColor {format_color(values['diffuse_color'])}")
     lines.append(f"  emissiveColor {format_color(values['emissive_color'])}")
-    lines.append(f"  shininess {format_number(values['shininess'])}")
     lines.append(f"  specularColor {format_color(values['specular_color'])}")
+    lines.append(f"  ambientIntensity {format_number(values['ambient_intensity'])}")
+    lines.append(f"  shininess {format_number(values['shininess'])}")
     lines.append(f"  transparency {format_number(values['transparency'])}")
     lines.append("}")
     return "\n".join(lines)

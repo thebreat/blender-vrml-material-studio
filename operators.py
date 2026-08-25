@@ -2,12 +2,11 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.props import EnumProperty
+from bpy.props import IntProperty, StringProperty
 
-from . import core
+from . import core, material_library
 from .constants import MATERIAL_POINTER_NAME, VRML_DEFAULTS
-from .presets import PRESETS, PRESET_ITEMS
-from .vrml_text import format_material_block, parse_material_block
+from .vrml_text import format_material_block, has_material_block, parse_material_block
 
 
 def _editable_material(material: bpy.types.Material | None) -> bool:
@@ -110,7 +109,9 @@ class VRML2_OT_paste_material_block(bpy.types.Operator):
 
     def execute(self, context):
         material = core.active_material(context)
-        parsed = parse_material_block(context.window_manager.clipboard)
+        clipboard = context.window_manager.clipboard
+        parsed = parse_material_block(clipboard)
+        complete_block = has_material_block(clipboard)
         recognized_fields = set(parsed).intersection(
             {
                 "ambient_intensity",
@@ -122,66 +123,91 @@ class VRML2_OT_paste_material_block(bpy.types.Operator):
                 "def_name",
             }
         )
-        if not recognized_fields:
+        if not recognized_fields and not complete_block:
             self.report({"ERROR"}, "The clipboard does not contain recognizable VRML2 Material values")
             return {"CANCELLED"}
+
+        if complete_block:
+            values = dict(VRML_DEFAULTS)
+            values.update(parsed)
+        else:
+            values = dict(parsed)
 
         properties = getattr(material, MATERIAL_POINTER_NAME)
         if not properties.initialized:
             core.initialize_material(material, dict(VRML_DEFAULTS), def_name=material.name, enable_export=True)
 
-        was_clamped = core.apply_values(material, parsed)
-        message = f"Pasted {len(recognized_fields)} VRML2 field(s)"
+        was_clamped = core.apply_values(material, values)
+        message = (
+            f"Pasted Material block with {len(recognized_fields)} explicit field(s)"
+            if complete_block
+            else f"Pasted {len(recognized_fields)} VRML2 field(s)"
+        )
         if was_clamped:
             message += "; out-of-range values were clamped to 0–1"
         self.report({"WARNING"} if was_clamped else {"INFO"}, message)
         return {"FINISHED"}
 
 
-class VRML2_OT_apply_preset(bpy.types.Operator):
-    bl_idname = "vrml2.apply_preset"
-    bl_label = "Apply VRML2 Preset"
-    bl_description = "Apply a starting-point preset to the active VRML2 material"
+class VRML2_OT_set_field_default(bpy.types.Operator):
+    bl_idname = "vrml2.set_field_default"
+    bl_label = "Set VRML97 Default"
+    bl_description = "Reset this field to its VRML97 default value"
     bl_options = {"REGISTER", "UNDO"}
 
-    preset: EnumProperty(name="Preset", items=PRESET_ITEMS)
+    field: StringProperty(options={"HIDDEN"})
 
     @classmethod
     def poll(cls, context):
-        return _editable_material(core.active_material(context))
+        return _editable_material(_active_initialized_material(context))
 
     def execute(self, context):
-        material = core.active_material(context)
-        preset = PRESETS.get(self.preset)
-        if preset is None:
-            self.report({"ERROR"}, "Unknown preset")
+        labels = {
+            "ambient_intensity": "Ambient Intensity",
+            "emissive_color": "Emissive Color",
+            "specular_color": "Specular Color",
+        }
+        if self.field not in labels:
+            self.report({"ERROR"}, "This field does not have a supported default action")
             return {"CANCELLED"}
 
-        values = {key: value for key, value in preset.items() if key != "label"}
-        properties = getattr(material, MATERIAL_POINTER_NAME)
-        if not properties.initialized:
-            core.initialize_material(material, values, def_name=material.name, enable_export=True)
-        else:
-            core.apply_values(material, values)
-
-        self.report({"INFO"}, f"Applied {preset['label']} preset")
+        material = _active_initialized_material(context)
+        core.apply_values(material, {self.field: VRML_DEFAULTS[self.field]})
+        value = VRML_DEFAULTS[self.field]
+        formatted = (
+            " ".join(str(component) for component in value)
+            if isinstance(value, tuple)
+            else str(value)
+        )
+        self.report({"INFO"}, f"{labels[self.field]} reset to VRML97 default {formatted}")
         return {"FINISHED"}
 
 
-class VRML2_OT_refresh_preview(bpy.types.Operator):
-    bl_idname = "vrml2.refresh_preview"
-    bl_label = "Rebuild Preview"
-    bl_description = "Rebuild and reconnect the generated VRML2 preview shader nodes"
+class VRML2_OT_apply_library_material(bpy.types.Operator):
+    bl_idname = "vrml2.apply_library_material"
+    bl_label = "Apply Preset"
+    bl_description = "Apply this VRML97 preset to the active material"
     bl_options = {"REGISTER", "UNDO"}
+
+    preset_index: IntProperty(options={"HIDDEN"})
 
     @classmethod
     def poll(cls, context):
-        return _active_initialized_material(context) is not None
+        return _editable_material(_active_initialized_material(context))
 
     def execute(self, context):
+        presets = material_library.materials()
+        if not 0 <= self.preset_index < len(presets):
+            self.report({"ERROR"}, "The selected preset could not be found")
+            return {"CANCELLED"}
+
+        preset = presets[self.preset_index]
         material = _active_initialized_material(context)
-        core.sync_material(material)
-        self.report({"INFO"}, "VRML2 preview rebuilt")
+        core.apply_values(material, material_library.preset_values(preset))
+        message = f"Applied {preset['name']}"
+        if preset.get("clamped"):
+            message += "; original out-of-range values are clamped to VRML97 limits"
+        self.report({"WARNING"} if preset.get("clamped") else {"INFO"}, message)
         return {"FINISHED"}
 
 
@@ -262,26 +288,14 @@ class VRML2_OT_remove_material_data(bpy.types.Operator):
         return {"FINISHED"}
 
 
-class VRML2_MT_presets(bpy.types.Menu):
-    bl_idname = "VRML2_MT_presets"
-    bl_label = "VRML2 Presets"
-
-    def draw(self, _context):
-        layout = self.layout
-        for key, preset in PRESETS.items():
-            operator = layout.operator(VRML2_OT_apply_preset.bl_idname, text=preset["label"])
-            operator.preset = key
-
-
 CLASSES = (
     VRML2_OT_create_material,
     VRML2_OT_initialize_material,
     VRML2_OT_copy_material_block,
     VRML2_OT_paste_material_block,
-    VRML2_OT_apply_preset,
-    VRML2_OT_refresh_preview,
+    VRML2_OT_set_field_default,
+    VRML2_OT_apply_library_material,
     VRML2_OT_make_single_user,
     VRML2_OT_assign_to_selected,
     VRML2_OT_remove_material_data,
-    VRML2_MT_presets,
 )

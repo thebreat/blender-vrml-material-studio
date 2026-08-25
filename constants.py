@@ -3,33 +3,27 @@
 
 EXTENSION_ID = "vrml2_material_studio"
 EXTENSION_NAME = "VRML2 Material Studio"
-EXTENSION_VERSION = (0, 1, 0)
+EXTENSION_VERSION = (0, 2, 0)
 
 MATERIAL_POINTER_NAME = "vrml2_material"
-DATA_SCHEMA_VERSION = 1
+DATA_SCHEMA_VERSION = 3
 
 PREVIEW_NODE_TAG = "vrml2_preview_node"
 PREVIEW_ROLE_TAG = "vrml2_preview_role"
 PREVIEW_NODE_PREFIX = "VRML2 Preview"
 
-ROLE_DIFFUSE = "DIFFUSE"
-ROLE_SPECULAR = "SPECULAR"
-ROLE_EMISSION = "EMISSION"
-ROLE_ADD_LIT = "ADD_LIT"
-ROLE_ADD_EMISSION = "ADD_EMISSION"
-ROLE_TRANSPARENT = "TRANSPARENT"
-ROLE_MIX_TRANSPARENCY = "MIX_TRANSPARENCY"
+ROLE_VRML_SHADER = "VRML_SHADER"
 
 EXPORT_KEYS = {
     "schema_version": "vrml2_schemaVersion",
     "initialized": "vrml2_initialized",
     "enabled": "vrml2_enabled",
     "def_name": "vrml2_defName",
-    "ambient_intensity": "vrml2_ambientIntensity",
     "diffuse_color": "vrml2_diffuseColor",
     "emissive_color": "vrml2_emissiveColor",
-    "shininess": "vrml2_shininess",
     "specular_color": "vrml2_specularColor",
+    "ambient_intensity": "vrml2_ambientIntensity",
+    "shininess": "vrml2_shininess",
     "transparency": "vrml2_transparency",
 }
 
@@ -47,10 +41,15 @@ META_KEYS = {
 }
 
 VRML_DEFAULTS = {
-    "ambient_intensity": 0.2,
     "diffuse_color": (0.8, 0.8, 0.8),
     "emissive_color": (0.0, 0.0, 0.0),
-    "shininess": 0.2,
     "specular_color": (0.0, 0.0, 0.0),
+    "ambient_intensity": 0.2,
+    "shininess": 0.2,
     "transparency": 0.0,
 }
+
+LEGACY_EXPORT_KEYS = (
+    "vrml2_includeEmissiveColor",
+    "vrml2_includeSpecularColor",
+)

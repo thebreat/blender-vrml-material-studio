@@ -2,9 +2,17 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import bpy
-from bpy.props import BoolProperty, EnumProperty, FloatProperty, FloatVectorProperty, StringProperty
+from bpy.props import (
+    BoolProperty,
+    CollectionProperty,
+    EnumProperty,
+    FloatProperty,
+    FloatVectorProperty,
+    IntProperty,
+    StringProperty,
+)
 
-from . import core
+from . import core, material_library
 from .constants import VRML_DEFAULTS
 
 
@@ -16,6 +24,38 @@ def _update_material(properties, _context) -> None:
         core.sync_material(material)
     except Exception as exc:
         print(f"VRML2 Material Studio update failed for {material.name!r}: {exc}")
+
+
+def _update_library_theme(settings, _context) -> None:
+    settings.category = "ALL"
+
+
+class VRML2MaterialLibraryItem(bpy.types.PropertyGroup):
+    preset_index: IntProperty(options={"HIDDEN"})
+    name: StringProperty()
+    theme: StringProperty()
+    category: StringProperty()
+
+
+class VRML2MaterialLibraryProperties(bpy.types.PropertyGroup):
+    search: StringProperty(
+        name="Search",
+        description="Filter presets by name",
+        default="",
+    )
+    theme: EnumProperty(
+        name="Theme",
+        description="Show presets from this theme",
+        items=material_library.theme_items,
+        update=_update_library_theme,
+    )
+    category: EnumProperty(
+        name="Category",
+        description="Show presets in this category",
+        items=material_library.category_items,
+    )
+    active_index: IntProperty(default=0, min=0)
+    items: CollectionProperty(type=VRML2MaterialLibraryItem)
 
 
 class VRML2MaterialProperties(bpy.types.PropertyGroup):
@@ -33,7 +73,7 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
     )
     live_preview: BoolProperty(
         name="Live Preview",
-        description="Route the Blender material output through the VRML2 approximation shader",
+        description="Route the Blender material output through the generated VRML97 preview shader",
         default=True,
         update=_update_material,
     )
@@ -41,15 +81,6 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         name="DEF Name",
         description="Optional VRML DEF identifier for later DEF/USE export",
         default="",
-        update=_update_material,
-    )
-    ambient_intensity: FloatProperty(
-        name="Ambient Intensity",
-        description="VRML2 ambientIntensity; a single scalar multiplied by diffuseColor",
-        min=0.0,
-        max=1.0,
-        default=VRML_DEFAULTS["ambient_intensity"],
-        precision=4,
         update=_update_material,
     )
     diffuse_color: FloatVectorProperty(
@@ -74,15 +105,6 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         precision=4,
         update=_update_material,
     )
-    shininess: FloatProperty(
-        name="Shininess",
-        description="VRML2 shininess from 0 (broad highlight) to 1 (tight highlight)",
-        min=0.0,
-        max=1.0,
-        default=VRML_DEFAULTS["shininess"],
-        precision=4,
-        update=_update_material,
-    )
     specular_color: FloatVectorProperty(
         name="Specular Color",
         description="VRML2 specularColor RGB values",
@@ -91,6 +113,31 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         min=0.0,
         max=1.0,
         default=VRML_DEFAULTS["specular_color"],
+        precision=4,
+        update=_update_material,
+    )
+    ambient_intensity: FloatProperty(
+        name="Ambient Intensity",
+        description=(
+            "VRML2 ambientIntensity; controls how strongly the material reflects the "
+            "official item viewer's ambient light"
+        ),
+        min=0.0,
+        max=1.0,
+        default=VRML_DEFAULTS["ambient_intensity"],
+        precision=4,
+        update=_update_material,
+    )
+    shininess: FloatProperty(
+        name="Shininess",
+        description=(
+            "VRML2 shininess from 0 (broad highlight) to 1 (tight highlight); "
+            "it affects appearance only when Specular Color is nonblack and the "
+            "surface angle catches a light"
+        ),
+        min=0.0,
+        max=1.0,
+        default=VRML_DEFAULTS["shininess"],
         precision=4,
         update=_update_material,
     )
@@ -103,28 +150,8 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         precision=4,
         update=_update_material,
     )
-    preview_color_space: EnumProperty(
-        name="Color Interpretation",
-        description="How raw VRML RGB values are interpreted by the Blender preview only",
-        items=(
-            ("SRGB", "sRGB", "Treat VRML values as display RGB and convert them to Blender scene-linear color"),
-            ("DIRECT", "Direct / Scene Linear", "Pass the VRML values directly to Blender shader sockets"),
-        ),
-        default="SRGB",
-        update=_update_material,
-    )
-    preview_ambient_light: FloatProperty(
-        name="Assumed Ambient Light",
-        description=(
-            "Preview-only VRML scene ambient-light level; the displayed ambient term is "
-            "diffuseColor x ambientIntensity x this value"
-        ),
-        min=0.0,
-        soft_max=2.0,
-        default=0.25,
-        precision=3,
-        update=_update_material,
-    )
-
-
-CLASSES = (VRML2MaterialProperties,)
+CLASSES = (
+    VRML2MaterialLibraryItem,
+    VRML2MaterialLibraryProperties,
+    VRML2MaterialProperties,
+)
