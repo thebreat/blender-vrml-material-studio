@@ -1,9 +1,17 @@
 # Changelog
 
+## 0.4.0 - 2026-08-24
+
+- Added 1,200 VRML97 presets, bringing the bundled library to 1,633 entries.
+- Organized the new presets into 30 themes and 150 categories.
+- Added hierarchical Theme and Category filters so only the selected theme's five categories fill the category menu.
+- Expanded search to match preset names, themes, and categories.
+- Kept the original 433 entries together under Original Presets.
+
 ## 0.3.0 - 2026-08-23
 
 - Added a collapsed-by-default Presets library at the bottom of Material Studio.
-- Bundled all 433 Breetos presets across 13 categories.
+- Bundled 433 presets across 13 categories.
 - Added name search, category filtering, and direct one-click application to the active material.
 - Added shaded circular preview swatches inspired by the Cybertown Mall Material Previewer design.
 - Made the swatches reflect diffuse, emissive, specular, shininess, and transparency values.

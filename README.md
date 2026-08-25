@@ -15,7 +15,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
 - Calculates the VRML97 diffuse, colored specular, emissive, and transparency terms directly instead of translating them into Blender BSDF properties.
 - Uses the four-light 3DGrove Item Viewer scene used for official CTR/X_ITE checks.
 - Provides one-click VRML97 default resets for `ambientIntensity`, `emissiveColor`, and `specularColor`.
-- Includes 433 Breetos presets, with searchable categories and gloss-aware preview swatches.
+- Includes 1,633 presets with theme and category filtering, name search, and gloss-aware preview swatches.
 - Preserves the material's original node-use state, Surface shader connection, viewport color, and transparency render mode, then restores them when Live Preview is disabled or VRML2 data is removed.
 - Copies a complete `Material { ... }` block to the clipboard.
 - Pastes complete or partial VRML2 Material blocks from the clipboard.
@@ -24,7 +24,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
 
 ## Installation
 
-1. Keep `vrml2_material_studio-0.3.0.zip` compressed.
+1. Keep `vrml2_material_studio-0.4.0.zip` compressed.
 2. Open Blender 5.2 LTS.
 3. Go to **Edit > Preferences > Get Extensions**.
 4. Open the menu in the upper-right and choose **Install from Disk**.
@@ -62,7 +62,7 @@ VRML2 data belongs to the Blender Material, not to the Object. When a material h
 
 ### Preset library
 
-Expand **Presets** at the bottom of Material Studio to browse the 433-preset Breetos collection. Search by name or select one of its 13 categories. Each row includes a shaded circular swatch inspired by the [Cybertown Mall Material Previewer](https://worldcheck.ctrmall.org/materials); the swatch incorporates diffuse, emissive, specular, shininess, and transparency values instead of acting as a flat colour chip.
+Expand **Presets** at the bottom of Material Studio to browse all 1,633 presets. The original 433 presets remain available under **Original Presets**; another 1,200 are organized into 30 themes and 150 themed categories. Select a theme to reveal its five categories, or search across preset names, themes, and categories. Each row includes a shaded circular swatch inspired by the [Cybertown Mall Material Previewer](https://worldcheck.ctrmall.org/materials); the swatch incorporates diffuse, emissive, specular, shininess, and transparency values instead of acting as a flat colour chip.
 
 Click a preset name to apply all six VRML97 fields to the active material. Applying an entry does not rename the Blender material or replace its DEF name. Fifteen source entries contained an `ambientIntensity` or `shininess` above VRML97's legal range; the bundled values are clamped to 1.0 and produce a warning when applied.
 
@@ -181,9 +181,13 @@ Use the preview to tune materials interactively, then validate important assets 
 
 ## Version
 
+### 0.4.0
+
+Added 1,200 presets organized into 30 themes and 150 categories, with hierarchical Theme and Category filters.
+
 ### 0.3.0
 
-Added the collapsible Breetos preset library with 433 searchable, categorized presets and site-inspired preview swatches.
+Added the collapsible preset library with 433 searchable, categorized presets and site-inspired preview swatches.
 
 ### 0.2.0
 

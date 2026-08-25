@@ -184,29 +184,44 @@ def main() -> None:
         )
 
         library_settings = extension.material_library.ensure_items(bpy.context.window_manager)
-        assert len(library_settings.items) == 433
+        assert len(library_settings.items) == 1633
         assert library_settings.items[0].name == "Clear glass"
+        assert library_settings.items[0].theme == "Original Presets"
         assert library_settings.items[0].category == "Glass"
-        icon_id = extension.material_library.icon_id(0)
+        assert library_settings.items[433].name == "Titanium White - Traditional Oil Pigments"
+        assert library_settings.items[433].theme == "Fine-Art Paints"
+        assert library_settings.items[433].category == "Traditional Oil Pigments"
+        assert len(extension.material_library.themes()) == 31
+        library_settings.theme = "Fine-Art Paints"
+        assert library_settings.category == "ALL"
+        category_items = extension.material_library.category_items(library_settings)
+        assert len(category_items) == 6
+        assert category_items[1][0] == "Traditional Oil Pigments"
+
+        icon_id = extension.material_library.icon_id(433)
         assert icon_id >= 0
         preview_collection = bpy.app.driver_namespace[
             extension.material_library.PREVIEW_NAMESPACE_KEY
         ]
-        assert preview_collection["0"].image_size[:] == (40, 40)
-        assert len(preview_collection["0"].image_pixels_float) == 40 * 40 * 4
+        assert preview_collection["433"].image_size[:] == (40, 40)
+        assert len(preview_collection["433"].image_pixels_float) == 40 * 40 * 4
 
-        result = bpy.ops.vrml2.apply_library_material(preset_index=0)
+        result = bpy.ops.vrml2.apply_library_material(preset_index=433)
         assert result == {"FINISHED"}
-        first_preset = extension.material_library.materials()[0]
+        first_themed_preset = extension.material_library.materials()[433]
         assert all(
             math.isclose(actual, expected, abs_tol=1e-6)
             for actual, expected in zip(
                 settings.diffuse_color,
-                first_preset["diffuseColor"],
+                first_themed_preset["diffuseColor"],
                 strict=True,
             )
         )
-        assert math.isclose(settings.transparency, first_preset["transparency"], abs_tol=1e-6)
+        assert math.isclose(
+            settings.transparency,
+            first_themed_preset["transparency"],
+            abs_tol=1e-6,
+        )
 
         extension.core.remove_vrml2_data(material)
         assert not settings.initialized

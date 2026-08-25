@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Brianna O'Leary
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Breetos preset library and native Blender preview icons."""
+"""Preset library and native Blender preview icons."""
 
 from __future__ import annotations
 
@@ -13,26 +13,57 @@ from pathlib import Path
 import bpy
 
 
-DATA_PATH = Path(__file__).with_name("material_presets.json")
+ORIGINAL_DATA_PATH = Path(__file__).with_name("material_presets.json")
+THEMED_DATA_PATH = Path(__file__).with_name("vrml97_material_library.json")
+ORIGINAL_THEME = "Original Presets"
 PREVIEW_SIZE = 40
 PREVIEW_NAMESPACE_KEY = "vrml2_material_studio.material_previews"
 _PREVIEW_COLLECTION = None
 
 
-@lru_cache(maxsize=1)
-def library_data() -> dict:
-    with DATA_PATH.open(encoding="utf-8") as stream:
+def _read_json(path: Path):
+    with path.open(encoding="utf-8") as stream:
         return json.load(stream)
 
 
+@lru_cache(maxsize=1)
 def materials() -> list[dict]:
-    return library_data()["materials"]
+    original_data = _read_json(ORIGINAL_DATA_PATH)
+    original = [dict(preset, theme=ORIGINAL_THEME) for preset in original_data["materials"]]
+    themed = _read_json(THEMED_DATA_PATH)
+    return original + themed
 
 
-def category_items(_owner=None, _context=None):
+@lru_cache(maxsize=1)
+def themes() -> tuple[str, ...]:
+    ordered = []
+    for preset in materials():
+        if preset["theme"] not in ordered:
+            ordered.append(preset["theme"])
+    return tuple(ordered)
+
+
+@lru_cache(maxsize=1)
+def categories_by_theme() -> dict[str, tuple[str, ...]]:
+    grouped = {theme: [] for theme in themes()}
+    for preset in materials():
+        categories = grouped[preset["theme"]]
+        if preset["category"] not in categories:
+            categories.append(preset["category"])
+    return {theme: tuple(categories) for theme, categories in grouped.items()}
+
+
+def theme_items(_owner=None, _context=None):
+    return [("ALL", "All Themes", "Show presets from every theme")] + [
+        (theme, theme, f"Show presets from {theme}") for theme in themes()
+    ]
+
+
+def category_items(owner=None, _context=None):
+    categories = categories_by_theme().get(getattr(owner, "theme", "ALL"), ())
     return [("ALL", "All Categories", "Show every preset")] + [
         (category, category, f"Show {category} materials")
-        for category in library_data()["categories"]
+        for category in categories
     ]
 
 
@@ -45,6 +76,7 @@ def ensure_items(window_manager: bpy.types.WindowManager):
             item = settings.items.add()
             item.preset_index = index
             item.name = preset["name"]
+            item.theme = preset["theme"]
             item.category = preset["category"]
         settings.active_index = min(settings.active_index, len(settings.items) - 1)
     return settings

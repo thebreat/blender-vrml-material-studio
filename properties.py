@@ -26,9 +26,14 @@ def _update_material(properties, _context) -> None:
         print(f"VRML2 Material Studio update failed for {material.name!r}: {exc}")
 
 
+def _update_library_theme(settings, _context) -> None:
+    settings.category = "ALL"
+
+
 class VRML2MaterialLibraryItem(bpy.types.PropertyGroup):
     preset_index: IntProperty(options={"HIDDEN"})
     name: StringProperty()
+    theme: StringProperty()
     category: StringProperty()
 
 
@@ -37,6 +42,12 @@ class VRML2MaterialLibraryProperties(bpy.types.PropertyGroup):
         name="Search",
         description="Filter presets by name",
         default="",
+    )
+    theme: EnumProperty(
+        name="Theme",
+        description="Show presets from this theme",
+        items=material_library.theme_items,
+        update=_update_library_theme,
     )
     category: EnumProperty(
         name="Category",

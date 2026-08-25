@@ -37,9 +37,10 @@ def _draw_material_library(layout, context) -> None:
         return
 
     settings = material_library.ensure_items(context.window_manager)
-    body.label(text="433 presets by Breetos")
+    body.label(text=f"{len(settings.items):,} presets")
     body.prop(settings, "search", text="", icon="VIEWZOOM")
-    body.prop(settings, "category", text="")
+    body.prop(settings, "theme")
+    body.prop(settings, "category")
     body.template_list(
         "VRML2_UL_contributed_materials",
         "",
@@ -86,11 +87,19 @@ class VRML2_UL_contributed_materials(bpy.types.UIList):
     def filter_items(self, _context, data, property_name):
         items = getattr(data, property_name)
         query = data.search.strip().casefold()
+        theme = data.theme
         category = data.category
         flags = []
         for item in items:
-            visible = (category == "ALL" or item.category == category) and (
-                not query or query in item.name.casefold()
+            visible = (
+                (theme == "ALL" or item.theme == theme)
+                and (category == "ALL" or item.category == category)
+                and (
+                    not query
+                    or query in item.name.casefold()
+                    or query in item.theme.casefold()
+                    or query in item.category.casefold()
+                )
             )
             flags.append(self.bitflag_filter_item if visible else 0)
         return flags, []

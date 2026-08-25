@@ -5,28 +5,33 @@ from pathlib import Path
 import unittest
 
 
-DATA_PATH = Path(__file__).resolve().parents[1] / "material_presets.json"
+ROOT = Path(__file__).resolve().parents[1]
+ORIGINAL_DATA_PATH = ROOT / "material_presets.json"
+THEMED_DATA_PATH = ROOT / "vrml97_material_library.json"
 
 
-class ContributedMaterialLibraryTests(unittest.TestCase):
+class PresetLibraryTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+        cls.original_data = json.loads(ORIGINAL_DATA_PATH.read_text(encoding="utf-8"))
+        cls.themed_data = json.loads(THEMED_DATA_PATH.read_text(encoding="utf-8"))
+        cls.presets = cls.original_data["materials"] + cls.themed_data
 
-    def test_library_identity_and_counts(self) -> None:
-        self.assertEqual(self.data["credit"], "Breetos")
-        self.assertEqual(self.data["count"], 433)
-        self.assertEqual(len(self.data["materials"]), 433)
-        self.assertEqual(len(self.data["categories"]), 13)
+    def test_library_counts_and_hierarchy(self) -> None:
+        self.assertEqual(len(self.original_data["materials"]), 433)
+        self.assertEqual(len(self.themed_data), 1200)
+        self.assertEqual(len(self.presets), 1633)
+        self.assertEqual(len({preset["theme"] for preset in self.themed_data}), 30)
+        self.assertEqual(len({preset["category"] for preset in self.themed_data}), 150)
+        self.assertTrue(all("theme" in preset for preset in self.themed_data))
 
     def test_every_preset_is_valid_vrml97_material_data(self) -> None:
         names = set()
-        categories = set(self.data["categories"])
-        for preset in self.data["materials"]:
+        for preset in self.presets:
             self.assertTrue(preset["name"])
             self.assertNotIn(preset["name"], names)
             names.add(preset["name"])
-            self.assertIn(preset["category"], categories)
+            self.assertTrue(preset["category"])
 
             for field in ("diffuseColor", "emissiveColor", "specularColor"):
                 self.assertEqual(len(preset[field]), 3)
