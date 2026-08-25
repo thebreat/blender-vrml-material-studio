@@ -2,6 +2,16 @@
 
 VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six fields in a VRML97/VRML2 `Material` node and seeing them through a live VRML97 lighting preview before export.
 
+## Project status
+
+- **Maintainer:** Brianna O'Leary
+- **Source code:** [GitHub repository](https://github.com/thebreat/blender-vrml-material-studio)
+- **Bug reports and feature requests:** [GitHub Issues](https://github.com/thebreat/blender-vrml-material-studio/issues)
+- **Current release:** [Version 0.4.0](https://github.com/thebreat/blender-vrml-material-studio/releases/tag/v0.4.0)
+- **License:** GNU General Public License version 3 (`GPL-3.0-or-later`)
+- **Extension ID:** `vrml2_material_studio`
+- **Minimum Blender version:** `5.2.0`
+
 ## Features
 
 - Stores VRML2 material data per **Blender Material**, so shared Blender materials behave like reusable VRML appearances.
@@ -178,6 +188,57 @@ Use the preview to tune materials interactively, then validate important assets 
 - Turning off **Live Preview** restores the original node-use state, viewport color, transparency mode, and Surface shader when one existed.
 - **Remove VRML2 Data** restores the original shader, deletes generated preview nodes, and removes the flat VRML2 custom properties.
 - For a material created entirely by this extension, removing VRML2 data creates a basic Principled fallback so the material does not become blank.
+
+## Development layout
+
+```text
+blender_manifest.toml         Extension identity, compatibility, license, and permissions
+__init__.py                   Registration, reload handling, and Blender data properties
+properties.py                 VRML97 and preset-browser properties
+operators.py                  Create, copy, paste, reset, apply, assign, and remove actions
+core.py                       Material synchronization and original-shader restoration
+vrml_shader.py                Direct VRML97 preview shader and controlled reference lighting
+material_library.py           Preset loading, hierarchy, filtering data, and preview swatches
+material_presets.json         Original 433 presets
+vrml97_material_library.json  1,200 presets organized into themes and categories
+vrml_text.py                  VRML Material parsing and formatting
+ui.py                         Material Properties and 3D Viewport interfaces
+tests/                        Parser, library, Blender smoke, and render regression tests
+```
+
+## Build and validate a release
+
+Run Blender's extension commands from the source directory:
+
+```bash
+blender --command extension validate .
+blender --command extension build
+```
+
+Before a release:
+
+1. Update the version in `blender_manifest.toml` using semantic versioning.
+2. Add the release notes to `CHANGELOG.md`.
+3. Run the pure-Python and Blender 5.2 test suites.
+4. Validate the source and finished ZIP with Blender's extension command.
+5. Test installation and startup in a clean Blender user profile.
+6. Compare representative materials against the final VRML/X_ITE viewer.
+
+## Support request checklist
+
+A useful bug report should include:
+
+- Blender version and operating system.
+- Material Studio version.
+- Whether the interface is opened from Material Properties or the 3D Viewport sidebar.
+- The material values or preset name involved.
+- The complete Blender error message, if one appears.
+- A minimal `.blend` file that reproduces the issue, when licensing and privacy permit.
+- A comparison screenshot from Blender and the target VRML viewer for appearance differences.
+
+## License
+
+This extension is free software under `GPL-3.0-or-later`. See [LICENSE](LICENSE). Modified distributions must preserve the applicable copyright and license notices and provide source code under compatible GPL terms.
 
 ## Version
 
