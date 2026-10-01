@@ -3,7 +3,6 @@ from __future__ import annotations
 import importlib.util
 import json
 from pathlib import Path
-import tempfile
 import unittest
 
 
@@ -27,23 +26,23 @@ RED = dict(BLUE, diffuse_color=(0.9, 0.1, 0.1))
 
 class UserLibraryTests(unittest.TestCase):
     def setUp(self) -> None:
-        self._directory = tempfile.TemporaryDirectory()
-        self.directory = Path(self._directory.name)
-        self.path = self.directory / user_library.FILE_NAME
+        self.text = ""
+        self.write_count = 0
 
-    def tearDown(self) -> None:
-        self._directory.cleanup()
+    def write_text(self, text: str) -> None:
+        self.text = text
+        self.write_count += 1
 
     def open_library(self):
-        return user_library.UserLibrary(self.path)
+        return user_library.UserLibrary(lambda: self.text, self.write_text)
 
-    def test_missing_file_is_an_empty_library(self) -> None:
+    def test_empty_preference_is_an_empty_library(self) -> None:
         library = self.open_library()
         self.assertEqual(library.favorites, [])
         self.assertEqual(library.custom, [])
-        self.assertFalse(self.path.exists())
+        self.assertEqual(self.text, "")
 
-    def test_custom_colors_survive_a_new_session(self) -> None:
+    def test_saved_presets_survive_a_new_library_instance(self) -> None:
         entry, replaced = self.open_library().save_custom("  Deep Blue ", BLUE)
         self.assertFalse(replaced)
         self.assertEqual(entry["name"], "Deep Blue")
@@ -53,8 +52,7 @@ class UserLibraryTests(unittest.TestCase):
         stored = reopened.find_custom(entry["id"])
         self.assertEqual(stored["diffuseColor"], [0.1, 0.2, 0.9])
         self.assertEqual(user_library.entry_values(stored), dict(BLUE))
-        self.assertEqual(json.loads(self.path.read_text())["version"], user_library.SCHEMA_VERSION)
-        self.assertFalse(self.path.with_name(self.path.name + ".tmp").exists())
+        self.assertEqual(json.loads(self.text)["version"], user_library.SCHEMA_VERSION)
 
     def test_values_are_clamped_to_vrml_range(self) -> None:
         entry, _replaced = self.open_library().save_custom(
@@ -121,7 +119,7 @@ class UserLibraryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             library.set_favorite("not-a-key", True)
 
-    def test_changes_from_another_session_are_kept(self) -> None:
+    def test_changes_from_another_instance_are_reloaded(self) -> None:
         first = self.open_library()
         second = self.open_library()
         first.save_custom("Blue", BLUE)
@@ -134,13 +132,12 @@ class UserLibraryTests(unittest.TestCase):
         self.assertEqual([entry["name"] for entry in first.custom], ["Blue", "Red"])
         self.assertFalse(first.refresh())
 
-    def test_unreadable_file_is_set_aside_instead_of_overwritten(self) -> None:
-        self.path.write_text("{ not json", encoding="utf-8")
+    def test_unreadable_preference_does_not_prevent_recovery(self) -> None:
+        self.text = "{ not json"
         library = self.open_library()
         self.assertEqual(library.custom, [])
-        backups = list(self.directory.glob("user_library.unreadable-*.json"))
-        self.assertEqual(len(backups), 1)
-        self.assertEqual(backups[0].read_text(encoding="utf-8"), "{ not json")
+        library.save_custom("Recovered", BLUE)
+        self.assertEqual(json.loads(self.text)["custom"][0]["name"], "Recovered")
 
     def test_invalid_entries_are_skipped_and_unknown_data_is_kept(self) -> None:
         valid = {
@@ -154,30 +151,33 @@ class UserLibraryTests(unittest.TestCase):
             "transparency": 0,
             "note": "from a newer version",
         }
-        self.path.write_text(
-            json.dumps(
-                {
-                    "version": 99,
-                    "future": {"setting": True},
-                    "favorites": ["custom:abc", "custom:gone", "preset:Clear glass", 4, "bogus"],
-                    "custom": [
-                        valid,
-                        dict(valid),  # Duplicate id.
-                        {"id": "bad", "name": "Missing fields"},
-                        {"id": "nan", **{k: v for k, v in valid.items() if k != "id"}, "shininess": "x"},
-                    ],
-                }
-            ),
-            encoding="utf-8",
+        self.text = json.dumps(
+            {
+                "version": 99,
+                "future": {"setting": True},
+                "favorites": ["custom:abc", "custom:gone", "preset:Clear glass", 4, "bogus"],
+                "custom": [
+                    valid,
+                    dict(valid),  # Duplicate id.
+                    {"id": "bad", "name": "Missing fields"},
+                    {"id": "nan", **{key: value for key, value in valid.items() if key != "id"}, "shininess": "x"},
+                ],
+            }
         )
         library = self.open_library()
         self.assertEqual([entry["id"] for entry in library.custom], ["abc"])
         self.assertEqual(library.favorites, ["custom:abc", "preset:Clear glass"])
 
         library.save_custom("Another", BLUE)
-        saved = json.loads(self.path.read_text(encoding="utf-8"))
+        saved = json.loads(self.text)
         self.assertEqual(saved["future"], {"setting": True})
         self.assertEqual(saved["custom"][0]["note"], "from a newer version")
+
+    def test_save_and_favorite_are_one_preference_update(self) -> None:
+        library = self.open_library()
+        entry, _replaced = library.save_custom("Blue", BLUE, add_to_favorites=True)
+        self.assertEqual(self.write_count, 1)
+        self.assertEqual(library.favorites, [user_library.custom_key(entry["id"])])
 
     def test_helpers(self) -> None:
         self.assertEqual(user_library.split_key("preset:Clear glass"), ("preset", "Clear glass"))

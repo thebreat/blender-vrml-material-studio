@@ -2,12 +2,11 @@
 
 ## 0.5.0 - Unreleased
 
-- Added Favorites: star any preset or custom color to collect it in a separate Favorites list.
-- Added Custom Colors: save the active material's six VRML97 fields under a name, then apply, overwrite, rename, or delete it.
-- Stored favorites and custom colors in the extension's user folder, so they are shared by every project and kept across extension updates.
-- Re-read the saved library before each change so two open Blender windows do not discard each other's additions.
-- Set aside an unreadable library file instead of overwriting it.
-- Added the `files` permission for reading and writing the saved library.
+- Added Favorites: star any built-in or personal preset to collect it in a separate list.
+- Added My Presets: save all six active VRML97 fields under a name, then apply, overwrite, rename, or delete the preset.
+- Organized Favorites, My Presets, and Built-in Presets inside one collapsible Presets section.
+- Added explicit Apply buttons so applying a preset is separate from selecting one for management.
+- Stored favorites and personal presets in Blender's add-on preferences so they work across projects without requesting file access permission.
 
 ## 0.4.0 - 2026-08-24
 

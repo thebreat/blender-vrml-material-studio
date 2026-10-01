@@ -24,7 +24,7 @@ def _active_initialized_material(context: bpy.types.Context) -> bpy.types.Materi
 
 
 def _user_library_changed(context: bpy.types.Context) -> None:
-    """Refresh the Favorites and Custom Colors lists in every open panel."""
+    """Refresh the Favorites and My Presets lists in every open panel."""
     material_library.ensure_user_items(context.window_manager)
     for window in context.window_manager.windows:
         for area in window.screen.areas if window.screen else ():
@@ -35,7 +35,7 @@ def _user_library_changed(context: bpy.types.Context) -> None:
 def _custom_or_report(operator: bpy.types.Operator, custom_id: str) -> dict | None:
     entry = user_library.library().find_custom(custom_id)
     if entry is None:
-        operator.report({"ERROR"}, "That custom color no longer exists")
+        operator.report({"ERROR"}, "That saved preset no longer exists")
     return entry
 
 
@@ -263,9 +263,9 @@ class VRML2_OT_toggle_favorite(bpy.types.Operator):
 
 class VRML2_OT_save_custom_material(bpy.types.Operator):
     bl_idname = "vrml2.save_custom_material"
-    bl_label = "Save Custom Color"
+    bl_label = "Save to My Presets"
     bl_description = (
-        "Save the active material's six VRML2 fields as a custom color "
+        "Save the active material's six VRML2 fields as a personal preset "
         "that is available in every project"
     )
 
@@ -287,17 +287,19 @@ class VRML2_OT_save_custom_material(bpy.types.Operator):
         layout.prop(self, "add_to_favorites")
         existing = user_library.library(refresh=False).find_custom_by_name(self.name)
         if existing is not None:
-            layout.label(text=f"Replaces the saved values of {existing['name']}.", icon="ERROR")
+            layout.label(text=f"Replaces the saved preset {existing['name']}.", icon="ERROR")
 
     def execute(self, context):
         properties = getattr(_active_initialized_material(context), MATERIAL_POINTER_NAME)
         library = user_library.library()
         try:
-            entry, replaced = library.save_custom(self.name, core.property_values(properties))
-            if self.add_to_favorites:
-                library.set_favorite(user_library.custom_key(entry["id"]), True)
+            entry, replaced = library.save_custom(
+                self.name,
+                core.property_values(properties),
+                add_to_favorites=self.add_to_favorites,
+            )
         except (OSError, ValueError) as exc:
-            self.report({"ERROR"}, f"Could not save the custom color: {exc}")
+            self.report({"ERROR"}, f"Could not save the preset: {exc}")
             return {"CANCELLED"}
 
         _user_library_changed(context)
@@ -306,14 +308,14 @@ class VRML2_OT_save_custom_material(bpy.types.Operator):
             (index for index, item in enumerate(settings.custom_items) if item.custom_id == entry["id"]),
             settings.custom_index,
         )
-        self.report({"INFO"}, f"{'Updated' if replaced else 'Saved'} custom color {entry['name']}")
+        self.report({"INFO"}, f"{'Updated' if replaced else 'Saved'} preset {entry['name']}")
         return {"FINISHED"}
 
 
 class VRML2_OT_apply_custom_material(bpy.types.Operator):
     bl_idname = "vrml2.apply_custom_material"
-    bl_label = "Apply Custom Color"
-    bl_description = "Apply this custom color to the active material"
+    bl_label = "Apply Saved Preset"
+    bl_description = "Apply this saved preset to the active material"
     bl_options = {"REGISTER", "UNDO"}
 
     custom_id: StringProperty(options={"HIDDEN"})
@@ -335,8 +337,8 @@ class VRML2_OT_apply_custom_material(bpy.types.Operator):
 
 class VRML2_OT_update_custom_material(bpy.types.Operator):
     bl_idname = "vrml2.update_custom_material"
-    bl_label = "Overwrite Custom Color"
-    bl_description = "Replace this custom color's saved values with the active material's current VRML2 fields"
+    bl_label = "Overwrite Saved Preset"
+    bl_description = "Replace this preset's saved values with the active material's current VRML2 fields"
 
     custom_id: StringProperty(options={"HIDDEN"})
 
@@ -351,7 +353,7 @@ class VRML2_OT_update_custom_material(bpy.types.Operator):
         return context.window_manager.invoke_confirm(
             self,
             event,
-            title="Overwrite Custom Color",
+            title="Overwrite Saved Preset",
             message=f"Replace the saved values of {entry['name']} with the active material's fields?",
             confirm_text="Overwrite",
         )
@@ -361,18 +363,18 @@ class VRML2_OT_update_custom_material(bpy.types.Operator):
         try:
             entry = user_library.library().update_custom(self.custom_id, core.property_values(properties))
         except (OSError, ValueError) as exc:
-            self.report({"ERROR"}, f"Could not overwrite the custom color: {exc}")
+            self.report({"ERROR"}, f"Could not overwrite the saved preset: {exc}")
             return {"CANCELLED"}
 
         _user_library_changed(context)
-        self.report({"INFO"}, f"Updated custom color {entry['name']}")
+        self.report({"INFO"}, f"Updated saved preset {entry['name']}")
         return {"FINISHED"}
 
 
 class VRML2_OT_rename_custom_material(bpy.types.Operator):
     bl_idname = "vrml2.rename_custom_material"
-    bl_label = "Rename Custom Color"
-    bl_description = "Rename this custom color"
+    bl_label = "Rename Saved Preset"
+    bl_description = "Rename this saved preset"
 
     custom_id: StringProperty(options={"HIDDEN"})
     name: StringProperty(name="Name", default="", options={"SKIP_SAVE"})
@@ -389,18 +391,18 @@ class VRML2_OT_rename_custom_material(bpy.types.Operator):
         try:
             entry = user_library.library().rename_custom(self.custom_id, self.name)
         except (OSError, ValueError) as exc:
-            self.report({"ERROR"}, f"Could not rename the custom color: {exc}")
+            self.report({"ERROR"}, f"Could not rename the saved preset: {exc}")
             return {"CANCELLED"}
 
         _user_library_changed(context)
-        self.report({"INFO"}, f"Renamed custom color to {entry['name']}")
+        self.report({"INFO"}, f"Renamed saved preset to {entry['name']}")
         return {"FINISHED"}
 
 
 class VRML2_OT_delete_custom_material(bpy.types.Operator):
     bl_idname = "vrml2.delete_custom_material"
-    bl_label = "Delete Custom Color"
-    bl_description = "Delete this custom color from every project; materials that already use its values keep them"
+    bl_label = "Delete Saved Preset"
+    bl_description = "Delete this preset from every project; materials that already use its values keep them"
 
     custom_id: StringProperty(options={"HIDDEN"})
 
@@ -411,7 +413,7 @@ class VRML2_OT_delete_custom_material(bpy.types.Operator):
         return context.window_manager.invoke_confirm(
             self,
             event,
-            title="Delete Custom Color",
+            title="Delete Saved Preset",
             message=f"Delete {entry['name']}? This cannot be undone.",
             confirm_text="Delete",
             icon="WARNING",
@@ -421,11 +423,11 @@ class VRML2_OT_delete_custom_material(bpy.types.Operator):
         try:
             entry = user_library.library().delete_custom(self.custom_id)
         except (OSError, ValueError) as exc:
-            self.report({"ERROR"}, f"Could not delete the custom color: {exc}")
+            self.report({"ERROR"}, f"Could not delete the saved preset: {exc}")
             return {"CANCELLED"}
 
         _user_library_changed(context)
-        self.report({"INFO"}, f"Deleted custom color {entry['name']}")
+        self.report({"INFO"}, f"Deleted saved preset {entry['name']}")
         return {"FINISHED"}
 
 

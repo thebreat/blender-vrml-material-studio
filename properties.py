@@ -30,6 +30,18 @@ def _update_library_theme(settings, _context) -> None:
     settings.category = "ALL"
 
 
+class VRML2AddonPreferences(bpy.types.AddonPreferences):
+    bl_idname = __package__
+
+    user_library_data: StringProperty(
+        default="",
+        options={"HIDDEN"},
+    )
+
+    def draw(self, _context):
+        self.layout.label(text="Favorites and My Presets are stored in Blender preferences.")
+
+
 class VRML2MaterialLibraryItem(bpy.types.PropertyGroup):
     preset_index: IntProperty(options={"HIDDEN"})
     name: StringProperty()
@@ -164,6 +176,7 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         update=_update_material,
     )
 CLASSES = (
+    VRML2AddonPreferences,
     VRML2MaterialLibraryItem,
     VRML2UserLibraryItem,
     VRML2MaterialLibraryProperties,

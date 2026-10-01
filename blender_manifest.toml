@@ -19,7 +19,6 @@ copyright = [
 
 [permissions]
 clipboard = "Copy and paste VRML2 Material blocks"
-files = "Save favorites and custom colors for use in every project"
 
 [build]
 paths_exclude_pattern = [

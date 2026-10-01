@@ -4,7 +4,6 @@ import importlib.util
 import math
 from pathlib import Path
 import sys
-import tempfile
 
 import bpy
 
@@ -60,7 +59,7 @@ def assert_operator_error(operator, **properties) -> None:
     raise AssertionError(f"{operator.idname()} should have reported an error")
 
 
-def check_favorites_and_custom_colors(extension, settings) -> None:
+def check_favorites_and_saved_presets(extension, settings) -> None:
     user_library = extension.user_library
     material_library = extension.material_library
     window_manager = bpy.context.window_manager
@@ -78,7 +77,7 @@ def check_favorites_and_custom_colors(extension, settings) -> None:
     assert user_settings.favorite_items[0].detail == "Glass"
     assert_operator_error(bpy.ops.vrml2.toggle_favorite, key=user_library.preset_key("No Such Preset"))
 
-    # Save the active material's fields as a custom color.
+    # Save the active material's fields as a personal preset.
     extension.core.apply_values(
         bpy.context.object.active_material,
         {"diffuse_color": (0.1, 0.2, 0.9), "shininess": 0.6, "transparency": 0.25},
@@ -104,12 +103,13 @@ def check_favorites_and_custom_colors(extension, settings) -> None:
     preview_collection = bpy.app.driver_namespace[material_library.PREVIEW_NAMESPACE_KEY]
     assert f"custom:{user_library.fingerprint(entry)}" in preview_collection
 
-    # The file is what other projects read.
-    stored = user_library.UserLibrary(library.path)
+    # A fresh library instance reads the same Blender preference.
+    read_text, write_text, _preferences_id = user_library._preference_accessors()
+    stored = user_library.UserLibrary(read_text, write_text)
     assert stored.find_custom(entry["id"])["name"] == "Smoke Blue"
     assert stored.favorites == [preset_key, user_library.custom_key(entry["id"])]
 
-    # Applying a custom color restores all six fields.
+    # Applying a personal preset restores all six fields.
     extension.core.apply_values(
         bpy.context.object.active_material,
         dict(extension.constants.VRML_DEFAULTS),
@@ -145,13 +145,16 @@ def check_favorites_and_custom_colors(extension, settings) -> None:
 
 def main() -> None:
     extension = load_extension()
+    preference_store = {"text": ""}
+    extension.user_library.set_preference_accessors(
+        lambda: preference_store["text"],
+        lambda text: preference_store.__setitem__("text", text),
+    )
     active_extension = extension
     material = None
     legacy_material = None
     test_object = None
     test_mesh = None
-    user_library_directory = tempfile.TemporaryDirectory()
-    extension.user_library.set_storage_directory(user_library_directory.name)
     extension.register()
 
     try:
@@ -317,7 +320,7 @@ def main() -> None:
             abs_tol=1e-6,
         )
 
-        check_favorites_and_custom_colors(extension, settings)
+        check_favorites_and_saved_presets(extension, settings)
 
         extension.core.remove_vrml2_data(material)
         assert not settings.initialized
@@ -342,7 +345,10 @@ def main() -> None:
         # Simulate Blender loading updated Python modules while the earlier copy
         # is still registered. The replacement must evict the stale RNA classes.
         reloaded_extension = load_extension(RELOAD_PACKAGE_NAME)
-        reloaded_extension.user_library.set_storage_directory(user_library_directory.name)
+        reloaded_extension.user_library.set_preference_accessors(
+            lambda: preference_store["text"],
+            lambda text: preference_store.__setitem__("text", text),
+        )
         reloaded_extension.register()
         active_extension = reloaded_extension
         assert not bpy.app.timers.is_registered(extension._vrml2_deferred_sync)
@@ -370,7 +376,6 @@ def main() -> None:
         assert not bpy.app.timers.is_registered(active_extension._vrml2_deferred_sync)
         sys.modules.pop(PACKAGE_NAME, None)
         sys.modules.pop(RELOAD_PACKAGE_NAME, None)
-        user_library_directory.cleanup()
 
     print("VRML2 Material Studio Blender smoke test passed")
 

@@ -1,28 +1,17 @@
 # SPDX-FileCopyrightText: 2026 Brianna O'Leary
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Favorites and custom colors saved outside .blend files.
-
-The library lives in one JSON file in the extension's user directory, so the
-same favorites and custom colors are available in every project. This module
-imports ``bpy`` only to locate that directory, which keeps it testable outside
-Blender.
-"""
+"""Favorites and personal presets stored in Blender's add-on preferences."""
 
 from __future__ import annotations
 
 import json
 import math
-import os
-from pathlib import Path
-import time
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
 import uuid
 
 
 SCHEMA_VERSION = 1
-FILE_NAME = "user_library.json"
-FALLBACK_DIRECTORY_NAME = "vrml2_material_studio"
 PRESET_PREFIX = "preset:"
 CUSTOM_PREFIX = "custom:"
 
@@ -40,7 +29,8 @@ SCALAR_FIELDS = (
 )
 
 _LIBRARY: UserLibrary | None = None
-_STORAGE_DIRECTORY_OVERRIDE: Path | None = None
+_PREFERENCES_ID: int | None = None
+_PREFERENCE_ACCESSORS_OVERRIDE: tuple[Callable[[], str], Callable[[str], None]] | None = None
 
 
 def preset_key(name: str) -> str:
@@ -128,54 +118,50 @@ def _normalize_custom(raw: Any) -> dict[str, Any] | None:
 
 
 class UserLibrary:
-    """Favorites and custom colors backed by one JSON file.
+    """Favorites and personal presets backed by a JSON text property.
 
-    Every change re-reads the file first and then replaces it atomically, so
-    two open Blender sessions do not silently discard each other's additions.
+    Blender owns persistence of the property in its preferences. Keeping the
+    serializer independent from ``bpy`` makes the data rules easy to test.
     """
 
-    def __init__(self, path: Path | str):
-        self.path = Path(path)
+    def __init__(
+        self,
+        read_text: Callable[[], str],
+        write_text: Callable[[str], None],
+    ):
+        self._read_text = read_text
+        self._write_text = write_text
         self.favorites: list[str] = []
         self.custom: list[dict[str, Any]] = []
         self.revision = ""
         self._extra: dict[str, Any] = {}
-        self._stamp: tuple[int, int] | None = None
+        self._source_text = ""
         self._favorite_set: frozenset[str] = frozenset()
         self._custom_by_id: dict[str, dict[str, Any]] = {}
         self.refresh(force=True)
 
     # Reading ---------------------------------------------------------------
 
-    def _file_stamp(self) -> tuple[int, int] | None:
-        try:
-            stat = self.path.stat()
-        except FileNotFoundError:
-            return None
-        return stat.st_mtime_ns, stat.st_size
-
     def refresh(self, force: bool = False) -> bool:
-        """Reload when the file changed on disk. Returns True after a reload."""
-        stamp = self._file_stamp()
-        if not force and stamp == self._stamp:
+        """Reload when the preference text changed. Returns True after reload."""
+        text = self._read_text() or ""
+        if not force and text == self._source_text:
             return False
-        favorites, custom, extra = self._read()
-        self._stamp = self._file_stamp()
+        favorites, custom, extra = self._decode(text)
+        self._source_text = text
         self._commit(favorites, custom, extra)
         return True
 
-    def _read(self) -> tuple[list[str], list[dict[str, Any]], dict[str, Any]]:
-        try:
-            text = self.path.read_text(encoding="utf-8")
-        except FileNotFoundError:
+    @staticmethod
+    def _decode(text: str) -> tuple[list[str], list[dict[str, Any]], dict[str, Any]]:
+        if not text.strip():
             return [], [], {}
-
         try:
             data = json.loads(text)
             if not isinstance(data, dict):
                 raise ValueError("the top level is not an object")
-        except ValueError as exc:
-            self._set_aside_unreadable_file(exc)
+        except (TypeError, ValueError):
+            # A malformed preference should not prevent the extension loading.
             return [], [], {}
 
         custom = []
@@ -202,15 +188,6 @@ class UserLibrary:
         }
         return favorites, custom, extra
 
-    def _set_aside_unreadable_file(self, exc: Exception) -> None:
-        stamp = time.strftime("%Y%m%d-%H%M%S")
-        backup = self.path.with_name(f"{self.path.stem}.unreadable-{stamp}{self.path.suffix}")
-        try:
-            os.replace(self.path, backup)
-            print(f"VRML2 Material Studio: could not read {self.path} ({exc}); moved it to {backup}")
-        except OSError:
-            print(f"VRML2 Material Studio: could not read {self.path} ({exc})")
-
     def _commit(
         self,
         favorites: list[str],
@@ -229,11 +206,9 @@ class UserLibrary:
     def _write(self, favorites: list[str], custom: list[dict[str, Any]]) -> None:
         payload = dict(self._extra)
         payload.update(version=SCHEMA_VERSION, favorites=favorites, custom=custom)
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        temporary = self.path.with_name(f"{self.path.name}.tmp")
-        temporary.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-        os.replace(temporary, self.path)
-        self._stamp = self._file_stamp()
+        text = json.dumps(payload, separators=(",", ":"), ensure_ascii=False)
+        self._write_text(text)
+        self._source_text = text
         self._commit(favorites, custom, self._extra)
 
     def _working_copy(self) -> tuple[list[str], list[dict[str, Any]]]:
@@ -258,7 +233,7 @@ class UserLibrary:
         favorites, custom = self._working_copy()
         kind, identifier = split_key(key)
         if kind == "custom" and not any(entry["id"] == identifier for entry in custom):
-            raise ValueError("That custom color no longer exists")
+            raise ValueError("That saved preset no longer exists")
         if not kind:
             raise ValueError(f"Unrecognized favorite {key!r}")
         if favorite and key not in favorites:
@@ -276,14 +251,16 @@ class UserLibrary:
         self.set_favorite(key, favorite)
         return favorite
 
-    def save_custom(self, name: str, values: dict[str, Any]) -> tuple[dict[str, Any], bool]:
-        """Add a custom color, or replace the one with the same name.
-
-        Returns the stored entry and whether an existing entry was replaced.
-        """
+    def save_custom(
+        self,
+        name: str,
+        values: dict[str, Any],
+        add_to_favorites: bool = False,
+    ) -> tuple[dict[str, Any], bool]:
+        """Add a personal preset, or replace the one with the same name."""
         name = name.strip()
         if not name:
-            raise ValueError("Custom colors need a name")
+            raise ValueError("Saved presets need a name")
         fields = fields_from_values(values)
         favorites, custom = self._working_copy()
         wanted = name.casefold()
@@ -295,6 +272,10 @@ class UserLibrary:
         else:
             replaced = True
         existing.update(fields, name=name)
+        if add_to_favorites:
+            key = custom_key(existing["id"])
+            if key not in favorites:
+                favorites.append(key)
         self._write(favorites, custom)
         return self._custom_by_id[existing["id"]], replaced
 
@@ -303,7 +284,7 @@ class UserLibrary:
         favorites, custom = self._working_copy()
         entry = next((entry for entry in custom if entry["id"] == custom_id), None)
         if entry is None:
-            raise ValueError("That custom color no longer exists")
+            raise ValueError("That saved preset no longer exists")
         entry.update(fields)
         self._write(favorites, custom)
         return self._custom_by_id[custom_id]
@@ -311,16 +292,16 @@ class UserLibrary:
     def rename_custom(self, custom_id: str, name: str) -> dict[str, Any]:
         name = name.strip()
         if not name:
-            raise ValueError("Custom colors need a name")
+            raise ValueError("Saved presets need a name")
         favorites, custom = self._working_copy()
         entry = next((entry for entry in custom if entry["id"] == custom_id), None)
         if entry is None:
-            raise ValueError("That custom color no longer exists")
+            raise ValueError("That saved preset no longer exists")
         if any(
             other["id"] != custom_id and other["name"].casefold() == name.casefold()
             for other in custom
         ):
-            raise ValueError(f"A custom color named {name!r} already exists")
+            raise ValueError(f"A saved preset named {name!r} already exists")
         entry["name"] = name
         self._write(favorites, custom)
         return self._custom_by_id[custom_id]
@@ -329,7 +310,7 @@ class UserLibrary:
         favorites, custom = self._working_copy()
         entry = next((entry for entry in custom if entry["id"] == custom_id), None)
         if entry is None:
-            raise ValueError("That custom color no longer exists")
+            raise ValueError("That saved preset no longer exists")
         custom.remove(entry)
         key = custom_key(custom_id)
         if key in favorites:
@@ -338,33 +319,61 @@ class UserLibrary:
         return entry
 
 
-def set_storage_directory(directory: Path | str | None) -> None:
-    """Store the library somewhere else, or restore the default with None."""
-    global _STORAGE_DIRECTORY_OVERRIDE, _LIBRARY
-    _STORAGE_DIRECTORY_OVERRIDE = Path(directory) if directory is not None else None
+def reset() -> None:
+    """Forget the runtime cache after registration or test setup changes."""
+    global _LIBRARY, _PREFERENCES_ID
     _LIBRARY = None
+    _PREFERENCES_ID = None
 
 
-def storage_directory() -> Path:
-    if _STORAGE_DIRECTORY_OVERRIDE is not None:
-        return _STORAGE_DIRECTORY_OVERRIDE
+def set_preference_accessors(
+    read_text: Callable[[], str] | None,
+    write_text: Callable[[str], None] | None,
+) -> None:
+    """Override Blender preference access for an isolated test harness."""
+    global _PREFERENCE_ACCESSORS_OVERRIDE
+    if (read_text is None) != (write_text is None):
+        raise ValueError("Both preference accessors are required")
+    _PREFERENCE_ACCESSORS_OVERRIDE = (
+        (read_text, write_text) if read_text is not None and write_text is not None else None
+    )
+    reset()
+
+
+def _preference_accessors() -> tuple[Callable[[], str], Callable[[str], None], int]:
+    if _PREFERENCE_ACCESSORS_OVERRIDE is not None:
+        read_text, write_text = _PREFERENCE_ACCESSORS_OVERRIDE
+        return read_text, write_text, id(_PREFERENCE_ACCESSORS_OVERRIDE)
 
     import bpy
 
-    # The extension user directory is kept across extension updates and is
-    # shared by every .blend file.
-    try:
-        return Path(bpy.utils.extension_path_user(__package__, create=True))
-    except ValueError:
-        # Loaded as a legacy add-on or from a test harness.
-        return Path(bpy.utils.user_resource("CONFIG", path=FALLBACK_DIRECTORY_NAME, create=True))
+    addon = bpy.context.preferences.addons.get(__package__)
+    if addon is None:
+        raise RuntimeError("VRML2 Material Studio preferences are unavailable")
+    preferences = addon.preferences
+
+    def write_text(text: str) -> None:
+        preferences.user_library_data = text
+        # Programmatic RNA changes do not set this flag automatically. Marking
+        # the preferences dirty lets Blender's normal auto-save setting decide
+        # when to persist the update, without forcing unrelated preferences to
+        # disk when the user has disabled auto-save.
+        bpy.context.preferences.is_dirty = True
+
+    return (
+        lambda: preferences.user_library_data,
+        write_text,
+        id(preferences),
+    )
 
 
 def library(refresh: bool = True) -> UserLibrary:
-    """Return the shared library, reloading it if another session changed it."""
-    global _LIBRARY
-    if _LIBRARY is None:
-        _LIBRARY = UserLibrary(storage_directory() / FILE_NAME)
+    """Return the shared library stored in Blender's add-on preferences."""
+    global _LIBRARY, _PREFERENCES_ID
+    read_text, write_text, preferences_id = _preference_accessors()
+    if _LIBRARY is None or _PREFERENCES_ID != preferences_id:
+        _LIBRARY = UserLibrary(read_text, write_text)
+        _PREFERENCES_ID = preferences_id
     elif refresh:
         _LIBRARY.refresh()
     return _LIBRARY

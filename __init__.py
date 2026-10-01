@@ -7,7 +7,7 @@ import bpy
 from bpy.app.handlers import persistent
 from bpy.props import PointerProperty
 
-from . import core, material_library, operators, properties, ui
+from . import core, material_library, operators, properties, ui, user_library
 from .constants import MATERIAL_POINTER_NAME
 
 
@@ -63,6 +63,7 @@ def _unregister_classes(classes) -> None:
         if registered_cls is None:
             for base_type in (
                 bpy.types.PropertyGroup,
+                bpy.types.AddonPreferences,
                 bpy.types.Operator,
                 bpy.types.Menu,
                 bpy.types.Panel,
@@ -98,6 +99,7 @@ def _clear_existing_registration() -> None:
         delattr(bpy.types.WindowManager, _LIBRARY_POINTER_NAME)
 
     _unregister_classes(properties.CLASSES)
+    user_library.reset()
 
 
 def register() -> None:

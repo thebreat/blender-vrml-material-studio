@@ -89,11 +89,11 @@ def ensure_items(window_manager: bpy.types.WindowManager):
     return settings
 
 
-CUSTOM_DETAIL = "Custom Color"
+CUSTOM_DETAIL = "My Preset"
 
 
 def ensure_user_items(window_manager: bpy.types.WindowManager):
-    """Mirror the saved favorites and custom colors into the UI lists."""
+    """Mirror favorites and personal presets into the UI lists."""
     settings = window_manager.vrml2_material_library
     library = user_library.library()
     if settings.user_revision == library.revision:
@@ -107,7 +107,7 @@ def ensure_user_items(window_manager: bpy.types.WindowManager):
         if kind == "preset":
             preset_index = by_name.get(identifier)
             if preset_index is None:
-                continue  # Kept in the file in case a later version restores it.
+                continue  # Keep the key in case a later version restores the preset.
             item = settings.favorite_items.add()
             item.preset_index = preset_index
             item.name = identifier
@@ -186,7 +186,7 @@ def icon_id(preset_index: int) -> int:
 
 
 def custom_icon_id(entry: dict) -> int:
-    # The values are part of the key, so overwriting a custom color redraws it.
+    # The values are part of the key, so overwriting a saved preset redraws it.
     return _icon_id(f"custom:{user_library.fingerprint(entry)}", lambda: entry)
 
 

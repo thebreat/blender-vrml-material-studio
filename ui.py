@@ -41,14 +41,12 @@ def _draw_favorite_toggle(layout, key: str) -> None:
     operator.key = key
 
 
-def _draw_custom_row(layout, item) -> None:
+def _draw_custom_icon(layout, item) -> None:
     entry = user_library.library(refresh=False).find_custom(item.custom_id)
     layout.template_icon(
         icon_value=material_library.custom_icon_id(entry) if entry is not None else 0,
         scale=1.5,
     )
-    operator = layout.operator("vrml2.apply_custom_material", text=item.name)
-    operator.custom_id = item.custom_id
 
 
 def _draw_favorites(layout, settings) -> None:
@@ -58,7 +56,7 @@ def _draw_favorites(layout, settings) -> None:
         return
 
     if not settings.favorite_items:
-        body.label(text="Star a preset or custom color to add it here.", icon="SOLO_OFF")
+        body.label(text="Star a built-in or saved preset to add it here.", icon="SOLO_OFF")
         return
 
     body.template_list(
@@ -71,18 +69,18 @@ def _draw_favorites(layout, settings) -> None:
         rows=4,
         maxrows=10,
     )
-    body.label(text="Click a name to apply it.", icon="INFO")
+    body.label(text="Use Apply to load a favorite.", icon="INFO")
 
 
-def _draw_custom_colors(layout, settings) -> None:
-    header, body = layout.panel("vrml2_custom_colors", default_closed=True)
-    header.label(text=f"Custom Colors ({len(settings.custom_items)})", icon="COLOR")
+def _draw_my_presets(layout, settings) -> None:
+    header, body = layout.panel("vrml2_my_presets", default_closed=True)
+    header.label(text=f"My Presets ({len(settings.custom_items)})", icon="COLOR")
     if body is None:
         return
 
-    body.operator("vrml2.save_custom_material", text="Save Current as Custom Color", icon="ADD")
+    body.operator("vrml2.save_custom_material", text="Save Current to My Presets", icon="ADD")
     if not settings.custom_items:
-        body.label(text="Custom colors are available in every project.", icon="INFO")
+        body.label(text="Your presets are available in every project.", icon="INFO")
         return
 
     body.template_list(
@@ -107,17 +105,16 @@ def _draw_custom_colors(layout, settings) -> None:
         ):
             operator = buttons.operator(operator_id, text=text, icon=icon)
             operator.custom_id = selected.custom_id
-    body.label(text="Click a name to apply it.", icon="INFO")
+    body.label(text="Select a row to manage it; use Apply to load it.", icon="INFO")
 
 
-def _draw_material_library(layout, context) -> None:
-    header, body = layout.panel("vrml2_contributed_materials", default_closed=True)
-    header.label(text="Presets", icon="PRESET")
+def _draw_built_in_presets(layout, context) -> None:
+    settings = material_library.ensure_items(context.window_manager)
+    header, body = layout.panel("vrml2_built_in_presets", default_closed=True)
+    header.label(text=f"Built-in Presets ({len(settings.items):,})", icon="PRESET")
     if body is None:
         return
 
-    settings = material_library.ensure_items(context.window_manager)
-    body.label(text=f"{len(settings.items):,} presets")
     body.prop(settings, "search", text="", icon="VIEWZOOM")
     body.prop(settings, "theme")
     body.prop(settings, "category")
@@ -131,7 +128,18 @@ def _draw_material_library(layout, context) -> None:
         rows=8,
         maxrows=12,
     )
-    body.label(text="Click a preset name to apply it.", icon="INFO")
+    body.label(text="Use Apply to load a preset.", icon="INFO")
+
+
+def _draw_presets(layout, context, settings) -> None:
+    header, body = layout.panel("vrml2_presets", default_closed=True)
+    header.label(text="Presets", icon="PRESET")
+    if body is None:
+        return
+
+    _draw_favorites(body, settings)
+    _draw_my_presets(body, settings)
+    _draw_built_in_presets(body, context)
 
 
 class VRML2_UL_contributed_materials(bpy.types.UIList):
@@ -155,12 +163,10 @@ class VRML2_UL_contributed_materials(bpy.types.UIList):
                 icon_value=material_library.icon_id(item.preset_index),
                 scale=1.5,
             )
-            operator = row.operator(
-                "vrml2.apply_library_material",
-                text=item.name,
-            )
-            operator.preset_index = item.preset_index
+            row.label(text=item.name)
             row.label(text=item.category)
+            operator = row.operator("vrml2.apply_library_material", text="Apply")
+            operator.preset_index = item.preset_index
             _draw_favorite_toggle(row, user_library.preset_key(item.name))
         else:
             layout.label(text="", icon_value=material_library.icon_id(item.preset_index))
@@ -207,12 +213,18 @@ class VRML2_UL_favorites(bpy.types.UIList):
                 icon_value=material_library.icon_id(item.preset_index),
                 scale=1.5,
             )
-            operator = row.operator("vrml2.apply_library_material", text=item.name)
-            operator.preset_index = item.preset_index
+            row.label(text=item.name)
         else:
-            _draw_custom_row(row, item)
+            _draw_custom_icon(row, item)
+            row.label(text=item.name)
         if self.layout_type in {"DEFAULT", "COMPACT"}:
             row.label(text=item.detail)
+            if item.preset_index >= 0:
+                operator = row.operator("vrml2.apply_library_material", text="Apply")
+                operator.preset_index = item.preset_index
+            else:
+                operator = row.operator("vrml2.apply_custom_material", text="Apply")
+                operator.custom_id = item.custom_id
             _draw_favorite_toggle(row, item.key)
 
 
@@ -232,9 +244,12 @@ class VRML2_UL_custom_colors(bpy.types.UIList):
         _flt_flag=0,
     ):
         row = layout.row(align=True)
-        _draw_custom_row(row, item)
+        _draw_custom_icon(row, item)
         if self.layout_type in {"DEFAULT", "COMPACT"}:
+            row.label(text=item.name)
             row.label(text=item.detail)
+            operator = row.operator("vrml2.apply_custom_material", text="Apply")
+            operator.custom_id = item.custom_id
             _draw_favorite_toggle(row, item.key)
 
 
@@ -324,9 +339,7 @@ def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context)
 
     layout.separator()
     user_settings = material_library.ensure_user_items(context.window_manager)
-    _draw_favorites(layout, user_settings)
-    _draw_custom_colors(layout, user_settings)
-    _draw_material_library(layout, context)
+    _draw_presets(layout, context, user_settings)
 
 
 class VIEW3D_PT_vrml2_material_studio(bpy.types.Panel):
