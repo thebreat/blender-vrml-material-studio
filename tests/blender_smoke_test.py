@@ -82,21 +82,39 @@ def check_favorites_and_saved_presets(extension, settings) -> None:
         bpy.context.object.active_material,
         {"diffuse_color": (0.1, 0.2, 0.9), "shininess": 0.6, "transparency": 0.25},
     )
-    result = bpy.ops.vrml2.save_custom_material(name="Smoke Blue", add_to_favorites=True)
+    result = bpy.ops.vrml2.save_custom_material(
+        name="Smoke Blue",
+        theme="Testing",
+        category="Blue",
+        add_to_favorites=True,
+    )
     assert result == {"FINISHED"}
     library = user_library.library()
     assert len(library.custom) == 1
     entry = library.custom[0]
     assert entry["name"] == "Smoke Blue"
+    assert entry["theme"] == "Testing"
+    assert entry["category"] == "Blue"
     assert all(
         math.isclose(actual, expected, abs_tol=1e-6)
         for actual, expected in zip(entry["diffuseColor"], (0.1, 0.2, 0.9), strict=True)
     )
     assert [item.name for item in user_settings.custom_items] == ["Smoke Blue"]
-    assert user_settings.custom_items[0].detail == "#1A33E6"
+    assert user_settings.custom_items[0].detail == "Testing / Blue"
     assert [item.name for item in user_settings.favorite_items] == ["Clear glass", "Smoke Blue"]
     assert user_settings.favorite_items[1].preset_index == -1
     assert user_settings.favorite_items[1].custom_id == entry["id"]
+    assert user_settings.favorite_items[1].detail == "Testing / Blue"
+    assert user_settings.custom_theme == "Testing"
+    assert user_settings.custom_category == "Blue"
+    assert [item[0] for item in material_library.custom_theme_items(user_settings)] == [
+        "ALL",
+        "Testing",
+    ]
+    assert [item[0] for item in material_library.custom_category_items(user_settings)] == [
+        "ALL",
+        "Blue",
+    ]
 
     custom_icon = material_library.custom_icon_id(entry)
     assert custom_icon >= 0
@@ -127,13 +145,27 @@ def check_favorites_and_saved_presets(extension, settings) -> None:
     settings.diffuse_color = (0.9, 0.1, 0.1)
     assert bpy.ops.vrml2.update_custom_material(custom_id=entry["id"]) == {"FINISHED"}
     assert user_library.library().find_custom(entry["id"])["diffuseColor"] == [0.9, 0.1, 0.1]
-    assert user_settings.custom_items[0].detail == "#E61A1A"
-    assert bpy.ops.vrml2.save_custom_material(name="Smoke Other") == {"FINISHED"}
-    assert_operator_error(bpy.ops.vrml2.rename_custom_material, custom_id=entry["id"], name="smoke other")
+    assert user_settings.custom_items[0].detail == "Testing / Blue"
+    assert bpy.ops.vrml2.save_custom_material(
+        name="Smoke Other", theme="Testing", category="Other"
+    ) == {"FINISHED"}
+    assert_operator_error(
+        bpy.ops.vrml2.rename_custom_material,
+        custom_id=entry["id"],
+        name="smoke other",
+        theme="Testing",
+        category="Blue",
+    )
     other_id = user_library.library().find_custom_by_name("Smoke Other")["id"]
     assert bpy.ops.vrml2.delete_custom_material(custom_id=other_id) == {"FINISHED"}
-    assert bpy.ops.vrml2.rename_custom_material(custom_id=entry["id"], name="Smoke Red") == {"FINISHED"}
+    assert bpy.ops.vrml2.rename_custom_material(
+        custom_id=entry["id"],
+        name="Smoke Red",
+        theme="Testing",
+        category="Red",
+    ) == {"FINISHED"}
     assert [item.name for item in user_settings.custom_items] == ["Smoke Red"]
+    assert user_settings.custom_items[0].detail == "Testing / Red"
     assert user_settings.favorite_items[1].name == "Smoke Red"
     assert bpy.ops.vrml2.delete_custom_material(custom_id=entry["id"]) == {"FINISHED"}
     assert len(user_settings.custom_items) == 0

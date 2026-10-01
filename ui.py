@@ -49,6 +49,20 @@ def _draw_custom_icon(layout, item) -> None:
     )
 
 
+def _custom_item_visible(settings, item) -> bool:
+    query = settings.custom_search.strip().casefold()
+    return (
+        (settings.custom_theme == "ALL" or item.theme == settings.custom_theme)
+        and (settings.custom_category == "ALL" or item.category == settings.custom_category)
+        and (
+            not query
+            or query in item.name.casefold()
+            or query in item.theme.casefold()
+            or query in item.category.casefold()
+        )
+    )
+
+
 def _draw_favorites(layout, settings) -> None:
     header, body = layout.panel("vrml2_favorites", default_closed=True)
     header.label(text=f"Favorites ({len(settings.favorite_items)})", icon="SOLO_ON")
@@ -83,6 +97,9 @@ def _draw_my_presets(layout, settings) -> None:
         body.label(text="Your presets are available in every project.", icon="INFO")
         return
 
+    body.prop(settings, "custom_search", text="", icon="VIEWZOOM")
+    body.prop(settings, "custom_theme")
+    body.prop(settings, "custom_category")
     body.template_list(
         "VRML2_UL_custom_colors",
         "",
@@ -93,14 +110,18 @@ def _draw_my_presets(layout, settings) -> None:
         rows=4,
         maxrows=10,
     )
-    if 0 <= settings.custom_index < len(settings.custom_items):
+    if (
+        0 <= settings.custom_index < len(settings.custom_items)
+        and _custom_item_visible(settings, settings.custom_items[settings.custom_index])
+    ):
         selected = settings.custom_items[settings.custom_index]
         manage = body.box()
         manage.label(text=f"Selected: {selected.name}")
+        manage.label(text=f"{selected.theme} / {selected.category}")
         buttons = manage.row(align=True)
         for operator_id, text, icon in (
             ("vrml2.update_custom_material", "Overwrite", "FILE_REFRESH"),
-            ("vrml2.rename_custom_material", "Rename", "GREASEPENCIL"),
+            ("vrml2.rename_custom_material", "Edit", "GREASEPENCIL"),
             ("vrml2.delete_custom_material", "Delete", "TRASH"),
         ):
             operator = buttons.operator(operator_id, text=text, icon=icon)
@@ -251,6 +272,13 @@ class VRML2_UL_custom_colors(bpy.types.UIList):
             operator = row.operator("vrml2.apply_custom_material", text="Apply")
             operator.custom_id = item.custom_id
             _draw_favorite_toggle(row, item.key)
+
+    def filter_items(self, _context, data, property_name):
+        items = getattr(data, property_name)
+        return [
+            self.bitflag_filter_item if _custom_item_visible(data, item) else 0
+            for item in items
+        ], []
 
 
 def draw_material_studio(layout: bpy.types.UILayout, context: bpy.types.Context) -> None:

@@ -3,7 +3,9 @@
 ## 0.5.0 - Unreleased
 
 - Added Favorites: star any built-in or personal preset to collect it in a separate list.
-- Added My Presets: save all six active VRML97 fields under a name, then apply, overwrite, rename, or delete the preset.
+- Added My Presets: save all six active VRML97 fields under a name, then apply, overwrite, edit, or delete the preset.
+- Added personal Theme and Category organization with name search and hierarchical filters.
+- Added an Edit action that moves or renames a personal preset without changing its material values.
 - Organized Favorites, My Presets, and Built-in Presets inside one collapsible Presets section.
 - Added explicit Apply buttons so applying a preset is separate from selecting one for management.
 - Stored favorites and personal presets in Blender's add-on preferences so they work across projects without requesting file access permission.

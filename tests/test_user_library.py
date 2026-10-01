@@ -51,6 +51,8 @@ class UserLibraryTests(unittest.TestCase):
         self.assertEqual(len(reopened.custom), 1)
         stored = reopened.find_custom(entry["id"])
         self.assertEqual(stored["diffuseColor"], [0.1, 0.2, 0.9])
+        self.assertEqual(stored["theme"], user_library.UNCATEGORIZED)
+        self.assertEqual(stored["category"], user_library.UNCATEGORIZED)
         self.assertEqual(user_library.entry_values(stored), dict(BLUE))
         self.assertEqual(json.loads(self.text)["version"], user_library.SCHEMA_VERSION)
 
@@ -74,6 +76,27 @@ class UserLibraryTests(unittest.TestCase):
         self.assertEqual(second["diffuseColor"], [0.9, 0.1, 0.1])
         self.assertEqual(len(library.custom), 1)
         self.assertTrue(library.is_favorite(user_library.custom_key(first["id"])))
+
+    def test_theme_and_category_can_be_organized_without_changing_values(self) -> None:
+        library = self.open_library()
+        entry, _replaced = library.save_custom(
+            "Ocean Blue",
+            BLUE,
+            theme="Nature",
+            category="Water",
+        )
+        original_values = user_library.entry_values(entry)
+
+        edited = library.update_custom_details(
+            entry["id"],
+            "Deep Ocean",
+            "Environment",
+            "Sea",
+        )
+        self.assertEqual(edited["name"], "Deep Ocean")
+        self.assertEqual(edited["theme"], "Environment")
+        self.assertEqual(edited["category"], "Sea")
+        self.assertEqual(user_library.entry_values(edited), original_values)
 
     def test_update_rename_and_delete(self) -> None:
         library = self.open_library()
@@ -166,6 +189,8 @@ class UserLibraryTests(unittest.TestCase):
         )
         library = self.open_library()
         self.assertEqual([entry["id"] for entry in library.custom], ["abc"])
+        self.assertEqual(library.custom[0]["theme"], user_library.UNCATEGORIZED)
+        self.assertEqual(library.custom[0]["category"], user_library.UNCATEGORIZED)
         self.assertEqual(library.favorites, ["custom:abc", "preset:Clear glass"])
 
         library.save_custom("Another", BLUE)

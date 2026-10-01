@@ -270,6 +270,8 @@ class VRML2_OT_save_custom_material(bpy.types.Operator):
     )
 
     name: StringProperty(name="Name", default="", options={"SKIP_SAVE"})
+    theme: StringProperty(name="Theme", default="", options={"SKIP_SAVE"})
+    category: StringProperty(name="Category", default="", options={"SKIP_SAVE"})
     add_to_favorites: BoolProperty(name="Add to Favorites", default=False, options={"SKIP_SAVE"})
 
     @classmethod
@@ -279,11 +281,28 @@ class VRML2_OT_save_custom_material(bpy.types.Operator):
     def invoke(self, context, _event):
         if not self.name:
             self.name = _active_initialized_material(context).name
+        settings = context.window_manager.vrml2_material_library
+        if not self.theme:
+            selected_theme = settings.custom_theme
+            self.theme = (
+                selected_theme
+                if selected_theme and selected_theme != "ALL"
+                else user_library.UNCATEGORIZED
+            )
+        if not self.category:
+            selected_category = settings.custom_category
+            self.category = (
+                selected_category
+                if selected_category and selected_category != "ALL"
+                else user_library.UNCATEGORIZED
+            )
         return context.window_manager.invoke_props_dialog(self, confirm_text="Save")
 
     def draw(self, _context):
         layout = self.layout
         layout.prop(self, "name")
+        layout.prop(self, "theme")
+        layout.prop(self, "category")
         layout.prop(self, "add_to_favorites")
         existing = user_library.library(refresh=False).find_custom_by_name(self.name)
         if existing is not None:
@@ -297,6 +316,8 @@ class VRML2_OT_save_custom_material(bpy.types.Operator):
                 self.name,
                 core.property_values(properties),
                 add_to_favorites=self.add_to_favorites,
+                theme=self.theme,
+                category=self.category,
             )
         except (OSError, ValueError) as exc:
             self.report({"ERROR"}, f"Could not save the preset: {exc}")
@@ -304,6 +325,8 @@ class VRML2_OT_save_custom_material(bpy.types.Operator):
 
         _user_library_changed(context)
         settings = context.window_manager.vrml2_material_library
+        settings.custom_theme = entry["theme"]
+        settings.custom_category = entry["category"]
         settings.custom_index = next(
             (index for index, item in enumerate(settings.custom_items) if item.custom_id == entry["id"]),
             settings.custom_index,
@@ -373,11 +396,13 @@ class VRML2_OT_update_custom_material(bpy.types.Operator):
 
 class VRML2_OT_rename_custom_material(bpy.types.Operator):
     bl_idname = "vrml2.rename_custom_material"
-    bl_label = "Rename Saved Preset"
-    bl_description = "Rename this saved preset"
+    bl_label = "Edit Saved Preset"
+    bl_description = "Rename or reorganize this saved preset"
 
     custom_id: StringProperty(options={"HIDDEN"})
     name: StringProperty(name="Name", default="", options={"SKIP_SAVE"})
+    theme: StringProperty(name="Theme", default="", options={"SKIP_SAVE"})
+    category: StringProperty(name="Category", default="", options={"SKIP_SAVE"})
 
     def invoke(self, context, _event):
         entry = _custom_or_report(self, self.custom_id)
@@ -385,17 +410,35 @@ class VRML2_OT_rename_custom_material(bpy.types.Operator):
             return {"CANCELLED"}
         if not self.name:
             self.name = entry["name"]
-        return context.window_manager.invoke_props_dialog(self, confirm_text="Rename")
+        if not self.theme:
+            self.theme = entry["theme"]
+        if not self.category:
+            self.category = entry["category"]
+        return context.window_manager.invoke_props_dialog(self, confirm_text="Save")
+
+    def draw(self, _context):
+        layout = self.layout
+        layout.prop(self, "name")
+        layout.prop(self, "theme")
+        layout.prop(self, "category")
 
     def execute(self, context):
         try:
-            entry = user_library.library().rename_custom(self.custom_id, self.name)
+            entry = user_library.library().update_custom_details(
+                self.custom_id,
+                self.name,
+                self.theme,
+                self.category,
+            )
         except (OSError, ValueError) as exc:
-            self.report({"ERROR"}, f"Could not rename the saved preset: {exc}")
+            self.report({"ERROR"}, f"Could not edit the saved preset: {exc}")
             return {"CANCELLED"}
 
         _user_library_changed(context)
-        self.report({"INFO"}, f"Renamed saved preset to {entry['name']}")
+        settings = context.window_manager.vrml2_material_library
+        settings.custom_theme = entry["theme"]
+        settings.custom_category = entry["category"]
+        self.report({"INFO"}, f"Updated saved preset {entry['name']}")
         return {"FINISHED"}
 
 

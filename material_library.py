@@ -21,6 +21,8 @@ ORIGINAL_THEME = "Original Presets"
 PREVIEW_SIZE = 40
 PREVIEW_NAMESPACE_KEY = "vrml2_material_studio.material_previews"
 _PREVIEW_COLLECTION = None
+_CUSTOM_THEME_ITEMS = []
+_CUSTOM_CATEGORY_ITEMS = []
 
 
 def _read_json(path: Path):
@@ -74,6 +76,33 @@ def category_items(owner=None, _context=None):
     ]
 
 
+def custom_theme_items(_owner=None, _context=None):
+    global _CUSTOM_THEME_ITEMS
+    ordered = []
+    for entry in user_library.library().custom:
+        if entry["theme"] not in ordered:
+            ordered.append(entry["theme"])
+    _CUSTOM_THEME_ITEMS = [("ALL", "All Themes", "Show personal presets from every theme")] + [
+        (theme, theme, f"Show personal presets from {theme}") for theme in ordered
+    ]
+    return _CUSTOM_THEME_ITEMS
+
+
+def custom_category_items(owner=None, _context=None):
+    global _CUSTOM_CATEGORY_ITEMS
+    selected_theme = getattr(owner, "custom_theme", "ALL")
+    ordered = []
+    for entry in user_library.library().custom:
+        if selected_theme != "ALL" and entry["theme"] != selected_theme:
+            continue
+        if entry["category"] not in ordered:
+            ordered.append(entry["category"])
+    _CUSTOM_CATEGORY_ITEMS = [
+        ("ALL", "All Categories", "Show personal presets from every category")
+    ] + [(category, category, f"Show personal presets from {category}") for category in ordered]
+    return _CUSTOM_CATEGORY_ITEMS
+
+
 def ensure_items(window_manager: bpy.types.WindowManager):
     settings = window_manager.vrml2_material_library
     source = materials()
@@ -87,9 +116,6 @@ def ensure_items(window_manager: bpy.types.WindowManager):
             item.category = preset["category"]
         settings.active_index = min(settings.active_index, len(settings.items) - 1)
     return settings
-
-
-CUSTOM_DETAIL = "My Preset"
 
 
 def ensure_user_items(window_manager: bpy.types.WindowManager):
@@ -119,7 +145,9 @@ def ensure_user_items(window_manager: bpy.types.WindowManager):
             item = settings.favorite_items.add()
             item.custom_id = entry["id"]
             item.name = entry["name"]
-            item.detail = CUSTOM_DETAIL
+            item.theme = entry["theme"]
+            item.category = entry["category"]
+            item.detail = f"{entry['theme']} / {entry['category']}"
         item.key = key
 
     settings.custom_items.clear()
@@ -128,7 +156,9 @@ def ensure_user_items(window_manager: bpy.types.WindowManager):
         item.key = user_library.custom_key(entry["id"])
         item.custom_id = entry["id"]
         item.name = entry["name"]
-        item.detail = user_library.color_hex(entry["diffuseColor"])
+        item.theme = entry["theme"]
+        item.category = entry["category"]
+        item.detail = f"{entry['theme']} / {entry['category']}"
 
     settings.favorite_index = min(settings.favorite_index, max(len(settings.favorite_items) - 1, 0))
     settings.custom_index = min(settings.custom_index, max(len(settings.custom_items) - 1, 0))

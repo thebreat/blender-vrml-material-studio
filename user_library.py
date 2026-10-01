@@ -11,9 +11,10 @@ from typing import Any, Callable, Iterable
 import uuid
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 PRESET_PREFIX = "preset:"
 CUSTOM_PREFIX = "custom:"
+UNCATEGORIZED = "Uncategorized"
 
 # Stored entries use the same camelCase field names as the bundled presets so
 # both can share the preset helpers and preview swatches.
@@ -61,6 +62,10 @@ def _color(value: Any) -> list[float]:
     if len(components) != 3:
         raise ValueError("colors need three components")
     return components
+
+
+def _group_name(value: Any) -> str:
+    return value.strip() if isinstance(value, str) and value.strip() else UNCATEGORIZED
 
 
 def fields_from_values(values: dict[str, Any]) -> dict[str, Any]:
@@ -113,7 +118,13 @@ def _normalize_custom(raw: Any) -> dict[str, Any] | None:
         return None
     # Keep unknown keys so a newer version's extra data survives a save.
     entry = dict(raw)
-    entry.update(fields, id=custom_id, name=name.strip())
+    entry.update(
+        fields,
+        id=custom_id,
+        name=name.strip(),
+        theme=_group_name(raw.get("theme")),
+        category=_group_name(raw.get("category")),
+    )
     return entry
 
 
@@ -256,6 +267,8 @@ class UserLibrary:
         name: str,
         values: dict[str, Any],
         add_to_favorites: bool = False,
+        theme: str | None = None,
+        category: str | None = None,
     ) -> tuple[dict[str, Any], bool]:
         """Add a personal preset, or replace the one with the same name."""
         name = name.strip()
@@ -266,11 +279,20 @@ class UserLibrary:
         wanted = name.casefold()
         existing = next((entry for entry in custom if entry["name"].casefold() == wanted), None)
         if existing is None:
-            existing = {"id": uuid.uuid4().hex, "name": name}
+            existing = {
+                "id": uuid.uuid4().hex,
+                "name": name,
+                "theme": _group_name(theme),
+                "category": _group_name(category),
+            }
             custom.append(existing)
             replaced = False
         else:
             replaced = True
+            if theme is not None:
+                existing["theme"] = _group_name(theme)
+            if category is not None:
+                existing["category"] = _group_name(category)
         existing.update(fields, name=name)
         if add_to_favorites:
             key = custom_key(existing["id"])
@@ -290,6 +312,24 @@ class UserLibrary:
         return self._custom_by_id[custom_id]
 
     def rename_custom(self, custom_id: str, name: str) -> dict[str, Any]:
+        entry = self.find_custom(custom_id)
+        if entry is None:
+            raise ValueError("That saved preset no longer exists")
+        return self.update_custom_details(
+            custom_id,
+            name,
+            entry["theme"],
+            entry["category"],
+        )
+
+    def update_custom_details(
+        self,
+        custom_id: str,
+        name: str,
+        theme: str,
+        category: str,
+    ) -> dict[str, Any]:
+        """Rename or reorganize a personal preset without changing its material values."""
         name = name.strip()
         if not name:
             raise ValueError("Saved presets need a name")
@@ -302,7 +342,11 @@ class UserLibrary:
             for other in custom
         ):
             raise ValueError(f"A saved preset named {name!r} already exists")
-        entry["name"] = name
+        entry.update(
+            name=name,
+            theme=_group_name(theme),
+            category=_group_name(category),
+        )
         self._write(favorites, custom)
         return self._custom_by_id[custom_id]
 

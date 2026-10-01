@@ -86,13 +86,15 @@ Expand **Presets** to find three organized sections: **Favorites**, **My Presets
 **My Presets.** When you create a material you like:
 
 1. Expand **My Presets** and click **Save Current to My Presets**.
-2. Enter a name. Tick **Add to Favorites** to star it at the same time.
+2. Enter a name, theme, and category. Tick **Add to Favorites** to star it at the same time.
 3. Click **Save**.
 
-A personal preset stores all six VRML97 fields. Use its separate **Apply** button to load it into the active material, or click anywhere else on its row to select it for management. Then use:
+A personal preset stores all six VRML97 fields. Search by name, theme, or category, or use the Theme and Category filters to narrow the list. Presets without an organization are placed in **Uncategorized**.
+
+Use a preset's separate **Apply** button to load it into the active material, or click anywhere else on its row to select it for management. Then use:
 
 - **Overwrite** to replace its saved values with the active material's current fields.
-- **Rename** to give it a new name.
+- **Edit** to change its name, theme, or category without changing its material values.
 - **Delete** to remove it from the library. Materials that already use its values keep them.
 
 Saving with the name of an existing personal preset replaces its values; the dialog warns you before this happens. Names are not case sensitive. Blender owns persistence of this library as part of its preferences, including preference backup and synchronization behavior.
