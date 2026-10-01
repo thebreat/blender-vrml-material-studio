@@ -26,6 +26,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
 - Uses the four-light 3DGrove Item Viewer scene used for official CTR/X_ITE checks.
 - Provides one-click VRML97 default resets for `ambientIntensity`, `emissiveColor`, and `specularColor`.
 - Includes 1,633 presets with theme and category filtering, name search, and gloss-aware preview swatches.
+- Saves favorite presets and your own custom colors in a library that is available in every project.
 - Preserves the material's original node-use state, Surface shader connection, viewport color, and transparency render mode, then restores them when Live Preview is disabled or VRML2 data is removed.
 - Copies a complete `Material { ... }` block to the clipboard.
 - Pastes complete or partial VRML2 Material blocks from the clipboard.
@@ -75,6 +76,28 @@ VRML2 data belongs to the Blender Material, not to the Object. When a material h
 Expand **Presets** at the bottom of Material Studio to browse all 1,633 presets. The original 433 presets remain available under **Original Presets**; another 1,200 are organized into 30 themes and 150 themed categories. Select a theme to reveal its five categories, or search across preset names, themes, and categories. Each row includes a shaded circular swatch inspired by the [Cybertown Mall Material Previewer](https://worldcheck.ctrmall.org/materials); the swatch incorporates diffuse, emissive, specular, shininess, and transparency values instead of acting as a flat colour chip.
 
 Click a preset name to apply all six VRML97 fields to the active material. Applying an entry does not rename the Blender material or replace its DEF name. Fifteen source entries contained an `ambientIntensity` or `shininess` above VRML97's legal range; the bundled values are clamped to 1.0 and produce a warning when applied.
+
+### Favorites and custom colors
+
+Favorites and custom colors are saved outside the `.blend` file, so they are available in every project you open.
+
+**Favorites.** Click the star at the end of any preset or custom color row to add it to **Favorites**; click the filled star to remove it. Expand **Favorites** to see your starred presets and custom colors together in one list, and click a name to apply it.
+
+**Custom colors.** When you create a material you like:
+
+1. Expand **Custom Colors** and click **Save Current as Custom Color**.
+2. Enter a name. Tick **Add to Favorites** to star it at the same time.
+3. Click **Save**.
+
+A custom color stores all six VRML97 fields, just like a preset. Click its name in any project to apply it to the active material. To change a saved custom color, select its row (click the hex value next to the name), then use:
+
+- **Overwrite** to replace its saved values with the active material's current fields.
+- **Rename** to give it a new name.
+- **Delete** to remove it from the library. Materials that already use its values keep them.
+
+Saving with the name of an existing custom color replaces that color's values; the dialog warns you before this happens. Names are not case sensitive.
+
+The library is one JSON file, `user_library.json`, in Blender's extension user folder (`extensions/.user/<repository>/vrml2_material_studio/` inside Blender's user configuration folder). That folder is kept when you update the extension. Copy the file to back up your library or move it to another computer. If two Blender windows are open, each change re-reads the file first, so neither window discards the other's additions.
 
 ## VRML2 field notes
 
@@ -199,11 +222,12 @@ operators.py                  Create, copy, paste, reset, apply, assign, and rem
 core.py                       Material synchronization and original-shader restoration
 vrml_shader.py                Direct VRML97 preview shader and controlled reference lighting
 material_library.py           Preset loading, hierarchy, filtering data, and preview swatches
+user_library.py               Favorites and custom colors saved across projects
 material_presets.json         Original 433 presets
 vrml97_material_library.json  1,200 presets organized into themes and categories
 vrml_text.py                  VRML Material parsing and formatting
 ui.py                         Material Properties and 3D Viewport interfaces
-tests/                        Parser, library, Blender smoke, and render regression tests
+tests/                        Parser, library, user-library, Blender smoke, and render regression tests
 ```
 
 ## Build and validate a release
@@ -241,6 +265,10 @@ A useful bug report should include:
 This extension is free software under `GPL-3.0-or-later`. See [LICENSE](LICENSE). Modified distributions must preserve the applicable copyright and license notices and provide source code under compatible GPL terms.
 
 ## Version
+
+### 0.5.0
+
+Added Favorites and Custom Colors, saved outside the `.blend` file so they are available in every project.
 
 ### 0.4.0
 

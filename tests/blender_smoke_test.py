@@ -4,6 +4,7 @@ import importlib.util
 import math
 from pathlib import Path
 import sys
+import tempfile
 
 import bpy
 
@@ -51,6 +52,97 @@ def assert_preview_graph(extension, material):
     return shader
 
 
+def assert_operator_error(operator, **properties) -> None:
+    try:
+        operator(**properties)
+    except RuntimeError:
+        return
+    raise AssertionError(f"{operator.idname()} should have reported an error")
+
+
+def check_favorites_and_custom_colors(extension, settings) -> None:
+    user_library = extension.user_library
+    material_library = extension.material_library
+    window_manager = bpy.context.window_manager
+
+    user_settings = material_library.ensure_user_items(window_manager)
+    assert len(user_settings.favorite_items) == 0
+    assert len(user_settings.custom_items) == 0
+
+    # Star a preset; it appears in Favorites with its category.
+    preset_key = user_library.preset_key("Clear glass")
+    assert bpy.ops.vrml2.toggle_favorite(key=preset_key) == {"FINISHED"}
+    assert user_library.library().is_favorite(preset_key)
+    assert [item.name for item in user_settings.favorite_items] == ["Clear glass"]
+    assert user_settings.favorite_items[0].preset_index == 0
+    assert user_settings.favorite_items[0].detail == "Glass"
+    assert_operator_error(bpy.ops.vrml2.toggle_favorite, key=user_library.preset_key("No Such Preset"))
+
+    # Save the active material's fields as a custom color.
+    extension.core.apply_values(
+        bpy.context.object.active_material,
+        {"diffuse_color": (0.1, 0.2, 0.9), "shininess": 0.6, "transparency": 0.25},
+    )
+    result = bpy.ops.vrml2.save_custom_material(name="Smoke Blue", add_to_favorites=True)
+    assert result == {"FINISHED"}
+    library = user_library.library()
+    assert len(library.custom) == 1
+    entry = library.custom[0]
+    assert entry["name"] == "Smoke Blue"
+    assert all(
+        math.isclose(actual, expected, abs_tol=1e-6)
+        for actual, expected in zip(entry["diffuseColor"], (0.1, 0.2, 0.9), strict=True)
+    )
+    assert [item.name for item in user_settings.custom_items] == ["Smoke Blue"]
+    assert user_settings.custom_items[0].detail == "#1A33E6"
+    assert [item.name for item in user_settings.favorite_items] == ["Clear glass", "Smoke Blue"]
+    assert user_settings.favorite_items[1].preset_index == -1
+    assert user_settings.favorite_items[1].custom_id == entry["id"]
+
+    custom_icon = material_library.custom_icon_id(entry)
+    assert custom_icon >= 0
+    preview_collection = bpy.app.driver_namespace[material_library.PREVIEW_NAMESPACE_KEY]
+    assert f"custom:{user_library.fingerprint(entry)}" in preview_collection
+
+    # The file is what other projects read.
+    stored = user_library.UserLibrary(library.path)
+    assert stored.find_custom(entry["id"])["name"] == "Smoke Blue"
+    assert stored.favorites == [preset_key, user_library.custom_key(entry["id"])]
+
+    # Applying a custom color restores all six fields.
+    extension.core.apply_values(
+        bpy.context.object.active_material,
+        dict(extension.constants.VRML_DEFAULTS),
+    )
+    assert bpy.ops.vrml2.apply_custom_material(custom_id=entry["id"]) == {"FINISHED"}
+    assert all(
+        math.isclose(actual, expected, abs_tol=1e-6)
+        for actual, expected in zip(settings.diffuse_color, (0.1, 0.2, 0.9), strict=True)
+    )
+    assert math.isclose(settings.transparency, 0.25, abs_tol=1e-6)
+    assert_operator_error(bpy.ops.vrml2.apply_custom_material, custom_id="missing")
+    assert_operator_error(bpy.ops.vrml2.save_custom_material, name="   ")
+
+    # Overwrite and rename, then delete it from both lists.
+    settings.diffuse_color = (0.9, 0.1, 0.1)
+    assert bpy.ops.vrml2.update_custom_material(custom_id=entry["id"]) == {"FINISHED"}
+    assert user_library.library().find_custom(entry["id"])["diffuseColor"] == [0.9, 0.1, 0.1]
+    assert user_settings.custom_items[0].detail == "#E61A1A"
+    assert bpy.ops.vrml2.save_custom_material(name="Smoke Other") == {"FINISHED"}
+    assert_operator_error(bpy.ops.vrml2.rename_custom_material, custom_id=entry["id"], name="smoke other")
+    other_id = user_library.library().find_custom_by_name("Smoke Other")["id"]
+    assert bpy.ops.vrml2.delete_custom_material(custom_id=other_id) == {"FINISHED"}
+    assert bpy.ops.vrml2.rename_custom_material(custom_id=entry["id"], name="Smoke Red") == {"FINISHED"}
+    assert [item.name for item in user_settings.custom_items] == ["Smoke Red"]
+    assert user_settings.favorite_items[1].name == "Smoke Red"
+    assert bpy.ops.vrml2.delete_custom_material(custom_id=entry["id"]) == {"FINISHED"}
+    assert len(user_settings.custom_items) == 0
+    assert [item.name for item in user_settings.favorite_items] == ["Clear glass"]
+
+    assert bpy.ops.vrml2.toggle_favorite(key=preset_key) == {"FINISHED"}
+    assert len(user_settings.favorite_items) == 0
+
+
 def main() -> None:
     extension = load_extension()
     active_extension = extension
@@ -58,6 +150,8 @@ def main() -> None:
     legacy_material = None
     test_object = None
     test_mesh = None
+    user_library_directory = tempfile.TemporaryDirectory()
+    extension.user_library.set_storage_directory(user_library_directory.name)
     extension.register()
 
     try:
@@ -223,6 +317,8 @@ def main() -> None:
             abs_tol=1e-6,
         )
 
+        check_favorites_and_custom_colors(extension, settings)
+
         extension.core.remove_vrml2_data(material)
         assert not settings.initialized
         for key in extension.constants.EXPORT_KEYS.values():
@@ -246,6 +342,7 @@ def main() -> None:
         # Simulate Blender loading updated Python modules while the earlier copy
         # is still registered. The replacement must evict the stale RNA classes.
         reloaded_extension = load_extension(RELOAD_PACKAGE_NAME)
+        reloaded_extension.user_library.set_storage_directory(user_library_directory.name)
         reloaded_extension.register()
         active_extension = reloaded_extension
         assert not bpy.app.timers.is_registered(extension._vrml2_deferred_sync)
@@ -273,6 +370,7 @@ def main() -> None:
         assert not bpy.app.timers.is_registered(active_extension._vrml2_deferred_sync)
         sys.modules.pop(PACKAGE_NAME, None)
         sys.modules.pop(RELOAD_PACKAGE_NAME, None)
+        user_library_directory.cleanup()
 
     print("VRML2 Material Studio Blender smoke test passed")
 

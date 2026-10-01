@@ -37,6 +37,14 @@ class VRML2MaterialLibraryItem(bpy.types.PropertyGroup):
     category: StringProperty()
 
 
+class VRML2UserLibraryItem(bpy.types.PropertyGroup):
+    key: StringProperty(options={"HIDDEN"})
+    preset_index: IntProperty(default=-1, options={"HIDDEN"})
+    custom_id: StringProperty(options={"HIDDEN"})
+    name: StringProperty()
+    detail: StringProperty()
+
+
 class VRML2MaterialLibraryProperties(bpy.types.PropertyGroup):
     search: StringProperty(
         name="Search",
@@ -56,6 +64,11 @@ class VRML2MaterialLibraryProperties(bpy.types.PropertyGroup):
     )
     active_index: IntProperty(default=0, min=0)
     items: CollectionProperty(type=VRML2MaterialLibraryItem)
+    favorite_index: IntProperty(default=0, min=0)
+    favorite_items: CollectionProperty(type=VRML2UserLibraryItem)
+    custom_index: IntProperty(default=0, min=0)
+    custom_items: CollectionProperty(type=VRML2UserLibraryItem)
+    user_revision: StringProperty(options={"HIDDEN"})
 
 
 class VRML2MaterialProperties(bpy.types.PropertyGroup):
@@ -152,6 +165,7 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
     )
 CLASSES = (
     VRML2MaterialLibraryItem,
+    VRML2UserLibraryItem,
     VRML2MaterialLibraryProperties,
     VRML2MaterialProperties,
 )

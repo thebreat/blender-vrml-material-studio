@@ -12,6 +12,8 @@ from pathlib import Path
 
 import bpy
 
+from . import user_library
+
 
 ORIGINAL_DATA_PATH = Path(__file__).with_name("material_presets.json")
 THEMED_DATA_PATH = Path(__file__).with_name("vrml97_material_library.json")
@@ -53,6 +55,11 @@ def categories_by_theme() -> dict[str, tuple[str, ...]]:
     return {theme: tuple(categories) for theme, categories in grouped.items()}
 
 
+@lru_cache(maxsize=1)
+def preset_index_by_name() -> dict[str, int]:
+    return {preset["name"]: index for index, preset in enumerate(materials())}
+
+
 def theme_items(_owner=None, _context=None):
     return [("ALL", "All Themes", "Show presets from every theme")] + [
         (theme, theme, f"Show presets from {theme}") for theme in themes()
@@ -79,6 +86,53 @@ def ensure_items(window_manager: bpy.types.WindowManager):
             item.theme = preset["theme"]
             item.category = preset["category"]
         settings.active_index = min(settings.active_index, len(settings.items) - 1)
+    return settings
+
+
+CUSTOM_DETAIL = "Custom Color"
+
+
+def ensure_user_items(window_manager: bpy.types.WindowManager):
+    """Mirror the saved favorites and custom colors into the UI lists."""
+    settings = window_manager.vrml2_material_library
+    library = user_library.library()
+    if settings.user_revision == library.revision:
+        return settings
+
+    presets = materials()
+    by_name = preset_index_by_name()
+    settings.favorite_items.clear()
+    for key in library.favorites:
+        kind, identifier = user_library.split_key(key)
+        if kind == "preset":
+            preset_index = by_name.get(identifier)
+            if preset_index is None:
+                continue  # Kept in the file in case a later version restores it.
+            item = settings.favorite_items.add()
+            item.preset_index = preset_index
+            item.name = identifier
+            item.detail = presets[preset_index]["category"]
+        else:
+            entry = library.find_custom(identifier)
+            if entry is None:
+                continue
+            item = settings.favorite_items.add()
+            item.custom_id = entry["id"]
+            item.name = entry["name"]
+            item.detail = CUSTOM_DETAIL
+        item.key = key
+
+    settings.custom_items.clear()
+    for entry in library.custom:
+        item = settings.custom_items.add()
+        item.key = user_library.custom_key(entry["id"])
+        item.custom_id = entry["id"]
+        item.name = entry["name"]
+        item.detail = user_library.color_hex(entry["diffuseColor"])
+
+    settings.favorite_index = min(settings.favorite_index, max(len(settings.favorite_items) - 1, 0))
+    settings.custom_index = min(settings.custom_index, max(len(settings.custom_items) - 1, 0))
+    settings.user_revision = library.revision
     return settings
 
 
@@ -114,18 +168,26 @@ def unregister_previews() -> None:
     _PREVIEW_COLLECTION = None
 
 
-def icon_id(preset_index: int) -> int:
+def _icon_id(key: str, preset) -> int:
     """Create a site-inspired shaded material ball only when Blender displays it."""
     if _PREVIEW_COLLECTION is None:
         return 0
 
-    key = str(preset_index)
     preview = _PREVIEW_COLLECTION.get(key)
     if preview is None:
         preview = _PREVIEW_COLLECTION.new(key)
         preview.image_size = (PREVIEW_SIZE, PREVIEW_SIZE)
-        preview.image_pixels_float = _preview_pixels(materials()[preset_index], PREVIEW_SIZE)
+        preview.image_pixels_float = _preview_pixels(preset(), PREVIEW_SIZE)
     return preview.icon_id
+
+
+def icon_id(preset_index: int) -> int:
+    return _icon_id(str(preset_index), lambda: materials()[preset_index])
+
+
+def custom_icon_id(entry: dict) -> int:
+    # The values are part of the key, so overwriting a custom color redraws it.
+    return _icon_id(f"custom:{user_library.fingerprint(entry)}", lambda: entry)
 
 
 def _luminance(color) -> float:

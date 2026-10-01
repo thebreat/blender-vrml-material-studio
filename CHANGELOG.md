@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 - Unreleased
+
+- Added Favorites: star any preset or custom color to collect it in a separate Favorites list.
+- Added Custom Colors: save the active material's six VRML97 fields under a name, then apply, overwrite, rename, or delete it.
+- Stored favorites and custom colors in the extension's user folder, so they are shared by every project and kept across extension updates.
+- Re-read the saved library before each change so two open Blender windows do not discard each other's additions.
+- Set aside an unreadable library file instead of overwriting it.
+- Added the `files` permission for reading and writing the saved library.
+
 ## 0.4.0 - 2026-08-24
 
 - Added 1,200 VRML97 presets, bringing the bundled library to 1,633 entries.
