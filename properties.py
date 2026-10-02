@@ -30,11 +30,37 @@ def _update_library_theme(settings, _context) -> None:
     settings.category = "ALL"
 
 
+def _update_custom_theme(settings, _context) -> None:
+    settings.custom_category = "ALL"
+
+
+class VRML2AddonPreferences(bpy.types.AddonPreferences):
+    bl_idname = __package__
+
+    user_library_data: StringProperty(
+        default="",
+        options={"HIDDEN"},
+    )
+
+    def draw(self, _context):
+        self.layout.label(text="Favorites and My Presets are stored in Blender preferences.")
+
+
 class VRML2MaterialLibraryItem(bpy.types.PropertyGroup):
     preset_index: IntProperty(options={"HIDDEN"})
     name: StringProperty()
     theme: StringProperty()
     category: StringProperty()
+
+
+class VRML2UserLibraryItem(bpy.types.PropertyGroup):
+    key: StringProperty(options={"HIDDEN"})
+    preset_index: IntProperty(default=-1, options={"HIDDEN"})
+    custom_id: StringProperty(options={"HIDDEN"})
+    name: StringProperty()
+    theme: StringProperty()
+    category: StringProperty()
+    detail: StringProperty()
 
 
 class VRML2MaterialLibraryProperties(bpy.types.PropertyGroup):
@@ -56,6 +82,27 @@ class VRML2MaterialLibraryProperties(bpy.types.PropertyGroup):
     )
     active_index: IntProperty(default=0, min=0)
     items: CollectionProperty(type=VRML2MaterialLibraryItem)
+    favorite_index: IntProperty(default=0, min=0)
+    favorite_items: CollectionProperty(type=VRML2UserLibraryItem)
+    custom_index: IntProperty(default=0, min=0)
+    custom_items: CollectionProperty(type=VRML2UserLibraryItem)
+    custom_search: StringProperty(
+        name="Search",
+        description="Filter My Presets by name, theme, or category",
+        default="",
+    )
+    custom_theme: EnumProperty(
+        name="Theme",
+        description="Show personal presets from this theme",
+        items=material_library.custom_theme_items,
+        update=_update_custom_theme,
+    )
+    custom_category: EnumProperty(
+        name="Category",
+        description="Show personal presets from this category",
+        items=material_library.custom_category_items,
+    )
+    user_revision: StringProperty(options={"HIDDEN"})
 
 
 class VRML2MaterialProperties(bpy.types.PropertyGroup):
@@ -151,7 +198,9 @@ class VRML2MaterialProperties(bpy.types.PropertyGroup):
         update=_update_material,
     )
 CLASSES = (
+    VRML2AddonPreferences,
     VRML2MaterialLibraryItem,
+    VRML2UserLibraryItem,
     VRML2MaterialLibraryProperties,
     VRML2MaterialProperties,
 )

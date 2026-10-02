@@ -12,6 +12,8 @@ from pathlib import Path
 
 import bpy
 
+from . import user_library
+
 
 ORIGINAL_DATA_PATH = Path(__file__).with_name("material_presets.json")
 THEMED_DATA_PATH = Path(__file__).with_name("vrml97_material_library.json")
@@ -19,6 +21,8 @@ ORIGINAL_THEME = "Original Presets"
 PREVIEW_SIZE = 40
 PREVIEW_NAMESPACE_KEY = "vrml2_material_studio.material_previews"
 _PREVIEW_COLLECTION = None
+_CUSTOM_THEME_ITEMS = []
+_CUSTOM_CATEGORY_ITEMS = []
 
 
 def _read_json(path: Path):
@@ -53,6 +57,11 @@ def categories_by_theme() -> dict[str, tuple[str, ...]]:
     return {theme: tuple(categories) for theme, categories in grouped.items()}
 
 
+@lru_cache(maxsize=1)
+def preset_index_by_name() -> dict[str, int]:
+    return {preset["name"]: index for index, preset in enumerate(materials())}
+
+
 def theme_items(_owner=None, _context=None):
     return [("ALL", "All Themes", "Show presets from every theme")] + [
         (theme, theme, f"Show presets from {theme}") for theme in themes()
@@ -67,6 +76,33 @@ def category_items(owner=None, _context=None):
     ]
 
 
+def custom_theme_items(_owner=None, _context=None):
+    global _CUSTOM_THEME_ITEMS
+    ordered = []
+    for entry in user_library.library().custom:
+        if entry["theme"] not in ordered:
+            ordered.append(entry["theme"])
+    _CUSTOM_THEME_ITEMS = [("ALL", "All Themes", "Show personal presets from every theme")] + [
+        (theme, theme, f"Show personal presets from {theme}") for theme in ordered
+    ]
+    return _CUSTOM_THEME_ITEMS
+
+
+def custom_category_items(owner=None, _context=None):
+    global _CUSTOM_CATEGORY_ITEMS
+    selected_theme = getattr(owner, "custom_theme", "ALL")
+    ordered = []
+    for entry in user_library.library().custom:
+        if selected_theme != "ALL" and entry["theme"] != selected_theme:
+            continue
+        if entry["category"] not in ordered:
+            ordered.append(entry["category"])
+    _CUSTOM_CATEGORY_ITEMS = [
+        ("ALL", "All Categories", "Show personal presets from every category")
+    ] + [(category, category, f"Show personal presets from {category}") for category in ordered]
+    return _CUSTOM_CATEGORY_ITEMS
+
+
 def ensure_items(window_manager: bpy.types.WindowManager):
     settings = window_manager.vrml2_material_library
     source = materials()
@@ -79,6 +115,54 @@ def ensure_items(window_manager: bpy.types.WindowManager):
             item.theme = preset["theme"]
             item.category = preset["category"]
         settings.active_index = min(settings.active_index, len(settings.items) - 1)
+    return settings
+
+
+def ensure_user_items(window_manager: bpy.types.WindowManager):
+    """Mirror favorites and personal presets into the UI lists."""
+    settings = window_manager.vrml2_material_library
+    library = user_library.library()
+    if settings.user_revision == library.revision:
+        return settings
+
+    presets = materials()
+    by_name = preset_index_by_name()
+    settings.favorite_items.clear()
+    for key in library.favorites:
+        kind, identifier = user_library.split_key(key)
+        if kind == "preset":
+            preset_index = by_name.get(identifier)
+            if preset_index is None:
+                continue  # Keep the key in case a later version restores the preset.
+            item = settings.favorite_items.add()
+            item.preset_index = preset_index
+            item.name = identifier
+            item.detail = presets[preset_index]["category"]
+        else:
+            entry = library.find_custom(identifier)
+            if entry is None:
+                continue
+            item = settings.favorite_items.add()
+            item.custom_id = entry["id"]
+            item.name = entry["name"]
+            item.theme = entry["theme"]
+            item.category = entry["category"]
+            item.detail = f"{entry['theme']} / {entry['category']}"
+        item.key = key
+
+    settings.custom_items.clear()
+    for entry in library.custom:
+        item = settings.custom_items.add()
+        item.key = user_library.custom_key(entry["id"])
+        item.custom_id = entry["id"]
+        item.name = entry["name"]
+        item.theme = entry["theme"]
+        item.category = entry["category"]
+        item.detail = f"{entry['theme']} / {entry['category']}"
+
+    settings.favorite_index = min(settings.favorite_index, max(len(settings.favorite_items) - 1, 0))
+    settings.custom_index = min(settings.custom_index, max(len(settings.custom_items) - 1, 0))
+    settings.user_revision = library.revision
     return settings
 
 
@@ -114,18 +198,26 @@ def unregister_previews() -> None:
     _PREVIEW_COLLECTION = None
 
 
-def icon_id(preset_index: int) -> int:
+def _icon_id(key: str, preset) -> int:
     """Create a site-inspired shaded material ball only when Blender displays it."""
     if _PREVIEW_COLLECTION is None:
         return 0
 
-    key = str(preset_index)
     preview = _PREVIEW_COLLECTION.get(key)
     if preview is None:
         preview = _PREVIEW_COLLECTION.new(key)
         preview.image_size = (PREVIEW_SIZE, PREVIEW_SIZE)
-        preview.image_pixels_float = _preview_pixels(materials()[preset_index], PREVIEW_SIZE)
+        preview.image_pixels_float = _preview_pixels(preset(), PREVIEW_SIZE)
     return preview.icon_id
+
+
+def icon_id(preset_index: int) -> int:
+    return _icon_id(str(preset_index), lambda: materials()[preset_index])
+
+
+def custom_icon_id(entry: dict) -> int:
+    # The values are part of the key, so overwriting a saved preset redraws it.
+    return _icon_id(f"custom:{user_library.fingerprint(entry)}", lambda: entry)
 
 
 def _luminance(color) -> float:
