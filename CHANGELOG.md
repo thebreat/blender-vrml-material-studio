@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.5.0 - Unreleased
+## 0.5.0 - 2026-10-01
 
 - Added Favorites: star any built-in or personal preset to collect it in a separate list.
 - Added My Presets: save all six active VRML97 fields under a name, then apply, overwrite, edit, or delete the preset.

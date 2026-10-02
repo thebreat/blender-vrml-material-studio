@@ -7,7 +7,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
 - **Maintainer:** Brianna O'Leary
 - **Source code:** [GitHub repository](https://github.com/thebreat/blender-vrml-material-studio)
 - **Bug reports and feature requests:** [GitHub Issues](https://github.com/thebreat/blender-vrml-material-studio/issues)
-- **Current release:** [Version 0.4.0](https://github.com/thebreat/blender-vrml-material-studio/releases/tag/v0.4.0)
+- **Current release:** [Version 0.5.0](https://github.com/thebreat/blender-vrml-material-studio/releases/tag/v0.5.0)
 - **License:** GNU General Public License version 3 (`GPL-3.0-or-later`)
 - **Extension ID:** `vrml2_material_studio`
 - **Minimum Blender version:** `5.2.0`
