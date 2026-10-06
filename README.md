@@ -7,7 +7,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
 - **Maintainer:** Brianna O'Leary
 - **Source code:** [GitHub repository](https://github.com/thebreat/blender-vrml-material-studio)
 - **Bug reports and feature requests:** [GitHub Issues](https://github.com/thebreat/blender-vrml-material-studio/issues)
-- **Current release:** [Version 0.5.0](https://github.com/thebreat/blender-vrml-material-studio/releases/tag/v0.5.0)
+- **Current version:** 0.6.0
 - **License:** GNU General Public License version 3 (`GPL-3.0-or-later`)
 - **Extension ID:** `vrml2_material_studio`
 - **Minimum Blender version:** `5.2.0`
@@ -32,6 +32,7 @@ VRML2 Material Studio is a Blender 5.2 LTS extension for authoring the six field
 - Pastes complete or partial VRML2 Material blocks from the clipboard.
 - Mirrors every export field into simple Material custom properties so a separate exporter can read the values without importing this extension's Python package.
 - Supports an optional `DEF Name` for future `DEF`/`USE` exporter integration.
+- Refreshes the live VRML97 preview as keyframed Material Studio fields change on Blender's timeline.
 
 ## Installation
 
@@ -70,6 +71,10 @@ Initializing does not delete the original nodes. The extension adds its generate
 ### Shared materials
 
 VRML2 data belongs to the Blender Material, not to the Object. When a material has multiple users, editing it changes every object using that material. Use **Make Material Single User** when one object needs different VRML2 values.
+
+### Animate material fields
+
+Right-click any Material Studio field and choose **Insert Keyframe**, move to a different frame, change the value, and insert another keyframe. Material Preview and Rendered viewport shading follow the evaluated values as the timeline plays. Because the animation belongs to the Blender Material, every object sharing that material displays the same animation.
 
 ### Preset library
 
@@ -265,6 +270,10 @@ A useful bug report should include:
 This extension is free software under `GPL-3.0-or-later`. See [LICENSE](LICENSE). Modified distributions must preserve the applicable copyright and license notices and provide source code under compatible GPL terms.
 
 ## Version
+
+### 0.6.0
+
+Added live preview support for keyframed Material Studio fields.
 
 ### 0.5.0
 

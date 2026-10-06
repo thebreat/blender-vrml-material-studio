@@ -12,6 +12,7 @@ from .constants import MATERIAL_POINTER_NAME
 
 
 _LOAD_HANDLER_TAG = "_vrml2_material_studio_load_post"
+_FRAME_HANDLER_TAG = "_vrml2_material_studio_frame_change_post"
 _SYNC_TIMER_NAMESPACE_KEY = "vrml2_material_studio.sync_timer"
 _LIBRARY_POINTER_NAME = "vrml2_material_library"
 _REMOVED_CLASS_NAMES = (
@@ -27,6 +28,14 @@ def _vrml2_load_post(_filepath) -> None:
 
 
 setattr(_vrml2_load_post, _LOAD_HANDLER_TAG, True)
+
+
+@persistent
+def _vrml2_frame_change_post(_scene, _depsgraph=None) -> None:
+    core.refresh_animated_material_previews()
+
+
+setattr(_vrml2_frame_change_post, _FRAME_HANDLER_TAG, True)
 
 
 def _vrml2_deferred_sync() -> float | None:
@@ -85,6 +94,10 @@ def _clear_existing_registration() -> None:
         if getattr(handler, _LOAD_HANDLER_TAG, False):
             bpy.app.handlers.load_post.remove(handler)
 
+    for handler in tuple(bpy.app.handlers.frame_change_post):
+        if getattr(handler, _FRAME_HANDLER_TAG, False):
+            bpy.app.handlers.frame_change_post.remove(handler)
+
     _unregister_classes(ui.CLASSES)
     material_library.unregister_previews()
     _unregister_classes(operators.CLASSES)
@@ -127,6 +140,7 @@ def register() -> None:
             bpy.utils.register_class(cls)
 
         bpy.app.handlers.load_post.append(_vrml2_load_post)
+        bpy.app.handlers.frame_change_post.append(_vrml2_frame_change_post)
         _schedule_material_sync()
     except Exception:
         _clear_existing_registration()
