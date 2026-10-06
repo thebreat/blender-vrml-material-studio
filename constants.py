@@ -3,7 +3,7 @@
 
 EXTENSION_ID = "vrml2_material_studio"
 EXTENSION_NAME = "VRML2 Material Studio"
-EXTENSION_VERSION = (0, 2, 0)
+EXTENSION_VERSION = (0, 6, 0)
 
 MATERIAL_POINTER_NAME = "vrml2_material"
 DATA_SCHEMA_VERSION = 3

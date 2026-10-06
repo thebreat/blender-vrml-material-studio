@@ -488,6 +488,22 @@ def sync_material(material: bpy.types.Material) -> None:
         restore_original_shader(material)
 
 
+def refresh_animated_material_previews() -> None:
+    """Refresh live previews after Blender evaluates material animation."""
+    for material in bpy.data.materials:
+        if material.animation_data is None or updates_suspended(material):
+            continue
+        properties = getattr(material, MATERIAL_POINTER_NAME, None)
+        if (
+            properties is None
+            or not properties.initialized
+            or not properties.live_preview
+        ):
+            continue
+        sync_custom_properties(material)
+        update_preview(material)
+
+
 def apply_values(material: bpy.types.Material, values: dict[str, Any]) -> bool:
     """Apply parsed or preset values. Returns True when any input was clamped."""
     properties = getattr(material, MATERIAL_POINTER_NAME)

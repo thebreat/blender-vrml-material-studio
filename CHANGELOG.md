@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0 - 2026-10-05
+
+- Added live viewport-preview updates for keyframed VRML2 Material Studio fields as Blender's timeline changes.
+- Kept the portable material custom properties synchronized with evaluated animated values.
+- Added Blender regression coverage for a keyed diffuse color changing from red to blue.
+
 ## 0.5.0 - 2026-10-01
 
 - Added Favorites: star any built-in or personal preset to collect it in a separate list.

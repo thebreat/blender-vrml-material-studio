@@ -191,6 +191,7 @@ def main() -> None:
 
     try:
         assert bpy.app.timers.is_registered(extension._vrml2_deferred_sync)
+        assert extension._vrml2_frame_change_post in bpy.app.handlers.frame_change_post
 
         # Calling register twice must replace the existing registration cleanly.
         extension.register()
@@ -211,6 +212,12 @@ def main() -> None:
         stored_diffuse = material[extension.constants.EXPORT_KEYS["diffuse_color"]]
         assert all(math.isclose(value, 0.8, abs_tol=1e-6) for value in stored_diffuse)
         shader = assert_preview_graph(extension, material)
+        test_mesh = bpy.data.meshes.new("VRML2 Default Button Test Mesh")
+        test_object = bpy.data.objects.new("VRML2 Default Button Test Object", test_mesh)
+        bpy.context.scene.collection.objects.link(test_object)
+        test_mesh.materials.append(material)
+        bpy.context.view_layer.objects.active = test_object
+        test_object.select_set(True)
         assert not hasattr(settings, "preview_lighting")
         assert all(
             math.isclose(actual, expected, abs_tol=1e-6)
@@ -243,6 +250,43 @@ def main() -> None:
             settings.shininess,
             abs_tol=1e-6,
         )
+
+        # Blender evaluates keyed PropertyGroup values without calling their
+        # update callbacks. The frame handler must keep the preview and portable
+        # export snapshot synchronized with the evaluated animation value.
+        settings.diffuse_color = (1.0, 0.0, 0.0)
+        settings.keyframe_insert(data_path="diffuse_color", frame=1)
+        settings.diffuse_color = (0.0, 0.0, 1.0)
+        settings.keyframe_insert(data_path="diffuse_color", frame=2)
+        bpy.context.scene.frame_set(2)
+        bpy.context.scene.frame_set(1)
+        assert all(
+            math.isclose(actual, expected, abs_tol=1e-6)
+            for actual, expected in zip(
+                shader.inputs[extension.vrml_shader.SOCKET_DIFFUSE].default_value[:3],
+                (1.0, 0.0, 0.0),
+                strict=True,
+            )
+        )
+        bpy.context.scene.frame_set(2)
+        assert all(
+            math.isclose(actual, expected, abs_tol=1e-6)
+            for actual, expected in zip(
+                shader.inputs[extension.vrml_shader.SOCKET_DIFFUSE].default_value[:3],
+                (0.0, 0.0, 1.0),
+                strict=True,
+            )
+        )
+        assert all(
+            math.isclose(actual, expected, abs_tol=1e-6)
+            for actual, expected in zip(
+                material[extension.constants.EXPORT_KEYS["diffuse_color"]],
+                (0.0, 0.0, 1.0),
+                strict=True,
+            )
+        )
+        material.animation_data_clear()
+        settings.diffuse_color = extension.constants.VRML_DEFAULTS["diffuse_color"]
 
         was_clamped = extension.core.apply_values(
             material,
@@ -297,12 +341,6 @@ def main() -> None:
         assert "specularColor 0 0 0" in copied
         assert "emissiveColor 0 0 0" in copied
 
-        test_mesh = bpy.data.meshes.new("VRML2 Default Button Test Mesh")
-        test_object = bpy.data.objects.new("VRML2 Default Button Test Object", test_mesh)
-        bpy.context.scene.collection.objects.link(test_object)
-        test_mesh.materials.append(material)
-        bpy.context.view_layer.objects.active = test_object
-        test_object.select_set(True)
         settings.ambient_intensity = 0.91
         result = bpy.ops.vrml2.set_field_default(field="ambient_intensity")
         assert result == {"FINISHED"}
@@ -395,6 +433,12 @@ def main() -> None:
             if getattr(handler, reloaded_extension._LOAD_HANDLER_TAG, False)
         ]
         assert tagged_handlers == [reloaded_extension._vrml2_load_post]
+        tagged_frame_handlers = [
+            handler
+            for handler in bpy.app.handlers.frame_change_post
+            if getattr(handler, reloaded_extension._FRAME_HANDLER_TAG, False)
+        ]
+        assert tagged_frame_handlers == [reloaded_extension._vrml2_frame_change_post]
     finally:
         if test_object is not None:
             bpy.data.objects.remove(test_object, do_unlink=True)
@@ -406,6 +450,10 @@ def main() -> None:
             bpy.data.materials.remove(legacy_material)
         active_extension.unregister()
         assert not bpy.app.timers.is_registered(active_extension._vrml2_deferred_sync)
+        assert not any(
+            getattr(handler, active_extension._FRAME_HANDLER_TAG, False)
+            for handler in bpy.app.handlers.frame_change_post
+        )
         sys.modules.pop(PACKAGE_NAME, None)
         sys.modules.pop(RELOAD_PACKAGE_NAME, None)
 
